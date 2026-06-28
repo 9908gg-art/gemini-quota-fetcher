@@ -961,6 +961,15 @@ if __name__ == "__main__":
                 with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
                     json.dump(data, f, indent=4, ensure_ascii=False)
                 print(f"\n🎉 [CLI] 抓取完成！資料已存檔:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}")
+                
+                # Check if --push is specified to push changes to GitHub
+                if "--push" in sys.argv:
+                    print("📤 正在推送變更至 GitHub...")
+                    os.system("git add gemini_rate_limits.json gemini_rate_limits.csv")
+                    os.system('git commit -m "chore: 手動更新額度限制數據 [skip ci]"')
+                    os.system("git push origin main")
+                    print("✔️ 已成功推送到 GitHub 倉庫！")
+                
                 sys.exit(0)
             except Exception as e:
                 print(f"❌ [CLI 存檔失敗]: {e}")
