@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini API 費率限制監控面板</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-bg-gradient"></div>
+        <div class="container header-flex">
+            <div class="logo">
+                <i class="fa-solid fa-bolt logo-icon"></i>
+                <span class="logo-text">GEMINI MONITOR</span>
+            </div>
+            <h1 id="app-title">Gemini API 官方額度限制面板</h1>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <!-- Status Bar -->
+        <div class="status-download-bar">
+            <div class="status-info">
+                <span class="pulse-indicator"></span>
+                <span class="status-text">官方資料來源：<strong>Google AI Studio</strong></span>
+            </div>
+            <div class="update-time-box" id="update-time-text">最後更新時間：載入中...</div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="card filter-card">
+            <div class="filter-controls">
+                <div class="search-box-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-input" placeholder="搜尋模型名稱 (例如: flash, pro)...">
+                </div>
+                <div class="category-tabs" id="category-tabs-container">
+                    <button class="tab-btn active" data-category="all">全部模型</button>
+                    <button class="tab-btn" data-category="Text-out models">文字模型</button>
+                    <button class="tab-btn" data-category="Image/Video">影像與視覺</button>
+                    <button class="tab-btn" data-category="Live API">Live API</button>
+                    <button class="tab-btn" data-category="Other models">其他 (Embedding/Gemma)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Limits Grid / Table -->
+        <div class="card table-card">
+            <div class="table-responsive">
+                <table class="quota-table">
+                    <thead>
+                        <tr>
+                            <th>模型顯示名稱</th>
+                            <th>API 識別碼</th>
+                            <th>用途分類</th>
+                            <th>層級 (Tier)</th>
+                            <th class="text-right">RPM (每分鐘請求)</th>
+                            <th class="text-right">TPM (每分鐘 Token)</th>
+                            <th class="text-right">RPD (每日請求)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quota-tbody">
+                        <tr>
+                            <td colspan="7" class="text-center" style="padding: 30px; color: var(--text-muted);">
+                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在讀取額度資料...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Info Description -->
+        <div class="help-section-card card">
+            <div class="card-title"><i class="fa-solid fa-circle-info text-accent"></i> 額度限額名詞說明</div>
+            <div class="help-grid">
+                <div class="help-box">
+                    <div class="help-label">RPM</div>
+                    <div class="help-value">Requests Per Minute</div>
+                    <div class="help-desc">每分鐘最多可發送的 API 請求次數限制。</div>
+                </div>
+                <div class="help-box">
+                    <div class="help-label">TPM</div>
+                    <div class="help-value">Tokens Per Minute</div>
+                    <div class="help-desc">每分鐘最多可傳輸的總 Token 數限制（包含輸入與輸出）。</div>
+                </div>
+                <div class="help-box">
+                    <div class="help-label">RPD</div>
+                    <div class="help-value">Requests Per Day</div>
+                    <div class="help-desc">每日最多可發送的 API 總請求次數上限。</div>
+                </div>
+                <div class="help-box">
+                    <div class="help-label">Free vs Paid</div>
+                    <div class="help-value">Free / Pay-as-you-go</div>
+                    <div class="help-desc">免費層級具有每日限制；付費層級依量計費，限額較高。</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">
+            <p>© 2026 Gemini API Monitor. 基於 Playwright 雲端無頭抓取技術自動生成。</p>
+            <p class="github-badge">本頁面定時自動爬取並重新發布於 GitHub Pages | 100% 免費且公開存取</p>
+        </div>
+    </footer>
+
+    <script src="app.js?v=1.0.0"></script>
+</body>
+</html>
