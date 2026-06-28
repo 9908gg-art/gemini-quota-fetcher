@@ -955,8 +955,16 @@ class AppGUI:
                 json.dump(self.scraped_data, f, indent=4, ensure_ascii=False)
                 
             self.write_log(f"💾 數據已自動存檔至:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}\n")
+
+            # Check if --push is specified to push changes to GitHub in GUI mode
+            if "--push" in sys.argv:
+                self.write_log("📤 正在推送變更至 GitHub...\n")
+                os.system("git add gemini_rate_limits.json gemini_rate_limits.csv")
+                os.system('git commit -m "chore: 自動更新額度限制數據 [skip ci]"')
+                os.system("git push origin main")
+                self.write_log("✔️ 已成功推送到 GitHub 倉庫！\n")
         except Exception as e:
-            self.write_log(f"⚠️ 自動存檔時發生錯誤: {str(e)}\n")
+            self.write_log(f"⚠️ 自動存檔與推送時發生錯誤: {str(e)}\n")
 
     def export_csv(self):
         if not self.scraped_data:
