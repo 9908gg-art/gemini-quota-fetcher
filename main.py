@@ -571,6 +571,113 @@ def clean_limit_val(val, unit):
     return val_clean if val_clean else "N/A"
 
 
+def push_to_github(log_func=print):
+    log_func("📤 正在推送變更至 GitHub...")
+    import shutil
+    import subprocess
+    import urllib.request
+    import base64
+    import json
+    
+    # 1. Try standard Git command line
+    git_installed = shutil.which("git") is not None
+    success = False
+    if git_installed:
+        try:
+            # We run git commands
+            subprocess.check_call(["git", "add", "gemini_rate_limits.json", "gemini_rate_limits.csv"])
+            status_out = subprocess.check_output(["git", "status", "--porcelain"])
+            if not status_out.strip():
+                log_func("✔️ 數據無任何變更，無須推送。")
+                return True
+            subprocess.check_call(["git", "commit", "-m", "chore: 自動更新額度限制數據 [skip ci]"])
+            subprocess.check_call(["git", "push", "origin", "main"])
+            log_func("✔️ 使用 Git 工具成功推送！")
+            success = True
+        except Exception as e:
+            log_func(f"⚠️ Git 工具推送失敗: {e}，切換至 API 備份模式...")
+            
+    if not success:
+        log_func("📡 偵測到本機未安裝 Git 或推送失敗，正在啟用 GitHub REST API 自動上傳...")
+        try:
+            git_config_path = os.path.join(os.path.dirname(__file__), ".git", "config")
+            if not os.path.exists(git_config_path):
+                log_func("❌ 找不到 .git/config 檔案，無法解析 Token。")
+                return False
+                
+            with open(git_config_path, "r", encoding="utf-8") as f:
+                config_content = f.read()
+                
+            url_match = re.search(r"url\s*=\s*(https://\S+)", config_content)
+            if not url_match:
+                log_func("❌ 無法在 .git/config 中解析出 remote url。")
+                return False
+                
+            url = url_match.group(1)
+            match = re.search(r"https://([^@]+)@github\.com/([^/]+)/([^.]+)\.git", url)
+            if not match:
+                log_func("❌ 無法解析 GitHub Token，請確認您已正確設定 Remote 憑證。")
+                return False
+                
+            token = match.group(1)
+            owner = match.group(2)
+            repo = match.group(3)
+            
+            def upload_file(file_path, repo_path):
+                if not os.path.exists(file_path):
+                    return False
+                with open(file_path, "rb") as f:
+                    file_bytes = f.read()
+                content_b64 = base64.b64encode(file_bytes).decode("utf-8")
+                
+                api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{repo_path}"
+                req = urllib.request.Request(api_url)
+                req.add_header("Authorization", f"token {token}")
+                req.add_header("Accept", "application/vnd.github.v3+json")
+                req.add_header("User-Agent", "Gemini-Quota-Fetcher")
+                
+                sha = None
+                try:
+                    with urllib.request.urlopen(req) as response:
+                        res_data = json.loads(response.read().decode("utf-8"))
+                        sha = res_data.get("sha")
+                except urllib.error.HTTPError as e:
+                    if e.code != 404:
+                        log_func(f"⚠️ 檢查 {repo_path} SHA 失敗: {e}")
+                        
+                payload = {
+                    "message": "chore: 自動更新額度限制數據 (REST API) [skip ci]",
+                    "content": content_b64
+                }
+                if sha:
+                    payload["sha"] = sha
+                    
+                payload_bytes = json.dumps(payload).encode("utf-8")
+                put_req = urllib.request.Request(api_url, data=payload_bytes, method="PUT")
+                put_req.add_header("Authorization", f"token {token}")
+                put_req.add_header("Content-Type", "application/json")
+                put_req.add_header("Accept", "application/vnd.github.v3+json")
+                put_req.add_header("User-Agent", "Gemini-Quota-Fetcher")
+                
+                with urllib.request.urlopen(put_req) as response:
+                    if response.status in [200, 201]:
+                        return True
+                return False
+
+            ok_json = upload_file(JSON_OUTPUT, "gemini_rate_limits.json")
+            ok_csv = upload_file(CSV_OUTPUT, "gemini_rate_limits.csv")
+            
+            if ok_json and ok_csv:
+                log_func("🎉 經由 GitHub API 成功上傳資料！網頁已完成同步！")
+                return True
+            else:
+                log_func("❌ 透過 API 上傳檔案失敗。")
+        except Exception as e:
+            log_func(f"❌ API 上傳發生異常錯誤: {e}")
+            
+    return success
+
+
 def check_and_notify_changes(old_file_path, new_data):
     import os
     import json
@@ -958,11 +1065,7 @@ class AppGUI:
 
             # Check if --push is specified to push changes to GitHub in GUI mode
             if "--push" in sys.argv:
-                self.write_log("📤 正在推送變更至 GitHub...\n")
-                os.system("git add gemini_rate_limits.json gemini_rate_limits.csv")
-                os.system('git commit -m "chore: 自動更新額度限制數據 [skip ci]"')
-                os.system("git push origin main")
-                self.write_log("✔️ 已成功推送到 GitHub 倉庫！\n")
+                push_to_github(lambda msg: self.write_log(msg + "\n"))
         except Exception as e:
             self.write_log(f"⚠️ 自動存檔與推送時發生錯誤: {str(e)}\n")
 
@@ -1086,11 +1189,7 @@ if __name__ == "__main__":
                 
                 # Check if --push is specified to push changes to GitHub
                 if "--push" in sys.argv:
-                    print("📤 正在推送變更至 GitHub...")
-                    os.system("git add gemini_rate_limits.json gemini_rate_limits.csv")
-                    os.system('git commit -m "chore: 手動更新額度限制數據 [skip ci]"')
-                    os.system("git push origin main")
-                    print("✔️ 已成功推送到 GitHub 倉庫！")
+                    push_to_github(print)
                 
                 sys.exit(0)
             except Exception as e:
