@@ -25,7 +25,7 @@ except ImportError:
     import subprocess
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "--user", "playwright", "beautifulsoup4"])
-        subprocess.check_call([sys.executable, "-m", "playwright", "install", "firefox"])
+        subprocess.check_call([sys.executable, "-m", "playwright", "install", "chromium"])
         from bs4 import BeautifulSoup
         from playwright.sync_api import sync_playwright
         print("✔️ 套件安裝成功！")
@@ -158,13 +158,33 @@ class ScraperThread(threading.Thread):
             os.makedirs(PROFILE_DIR, exist_ok=True)
             self.log(f"📂 使用瀏覽器設定檔目錄: {PROFILE_DIR}")
 
-            # Launch Firefox with persistent context to keep login cookies
-            self.browser_context = self.playwright.firefox.launch_persistent_context(
-                user_data_dir=PROFILE_DIR,
-                headless=self.headless,
-                viewport={'width': 1280, 'height': 800},
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0"
-            )
+            # Launch persistent context using real Chrome/Edge/Chromium channel to bypass Google login block
+            try:
+                self.browser_context = self.playwright.chromium.launch_persistent_context(
+                    user_data_dir=PROFILE_DIR,
+                    channel="chrome",
+                    headless=self.headless,
+                    viewport={'width': 1280, 'height': 800}
+                )
+                self.log("🌐 已成功啟動您的 Google Chrome 瀏覽器。")
+            except Exception as e_chrome:
+                self.log(f"⚠️ 無法啟動 Chrome ({e_chrome})，嘗試啟動 Microsoft Edge...")
+                try:
+                    self.browser_context = self.playwright.chromium.launch_persistent_context(
+                        user_data_dir=PROFILE_DIR,
+                        channel="msedge",
+                        headless=self.headless,
+                        viewport={'width': 1280, 'height': 800}
+                    )
+                    self.log("🌐 已成功啟動您的 Microsoft Edge 瀏覽器。")
+                except Exception as e_edge:
+                    self.log(f"⚠️ 無法啟動 Edge ({e_edge})，使用預設 Chromium 核心...")
+                    self.browser_context = self.playwright.chromium.launch_persistent_context(
+                        user_data_dir=PROFILE_DIR,
+                        headless=self.headless,
+                        viewport={'width': 1280, 'height': 800}
+                    )
+                    self.log("🌐 已成功啟動 Chromium 瀏覽器核心。")
             
             # Load cookies from environment variable or local JSON if available
             cookies = None

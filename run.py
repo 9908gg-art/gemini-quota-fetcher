@@ -27,13 +27,13 @@ def main():
             input("\n❌ 安裝 Python 套件失敗。請按 [Enter] 鍵退出...")
             sys.exit(1)
 
-    # 2. 安裝/更新 Playwright 瀏覽器核心 (Firefox)
-    print("\n🔍 [2/3] 正在確認 Playwright 瀏覽器核心 (Firefox)...")
-    run_cmd([sys.executable, "-m", "playwright", "install", "firefox"])
+    # 2. 安裝/更新 Playwright 瀏覽器核心 (Chromium)
+    print("\n🔍 [2/3] 正在確認 Playwright 瀏覽器核心 (Chromium)...")
+    run_cmd([sys.executable, "-m", "playwright", "install", "chromium"])
 
     # 3. 執行抓取與推送
     print("\n🚀 [3/3] 正在啟動瀏覽器進行抓取並上傳...")
-    print("👉 請注意：如果彈出的 Firefox 視窗要求登入，請在視窗內完成 Google 登入。")
+    print("👉 請注意：我們將優先使用您本機的 Google Chrome 或 Edge 瀏覽器，請在彈出的視窗內完成 Google 登入。")
     
     # 執行 main.py 並帶入 --headful 與 --push 參數
     success = run_cmd([sys.executable, "main.py", "--headful", "--push"])
