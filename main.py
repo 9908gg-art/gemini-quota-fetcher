@@ -176,8 +176,11 @@ class ScraperThread(threading.Thread):
                     
             if cookies:
                 # 確保 cookies 內部的 sameSite 符合 Playwright 大小寫要求 (Strict, Lax, None)
+                # 並移除不支援的 partitionKey
                 cleaned_cookies = []
                 for c in cookies:
+                    if "partitionKey" in c:
+                        del c["partitionKey"]
                     if "sameSite" in c:
                         ss = str(c["sameSite"]).lower().strip()
                         if ss in ["lax", "strict", "none"]:
