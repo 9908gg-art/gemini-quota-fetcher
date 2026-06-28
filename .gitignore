@@ -5,3 +5,14 @@ debug_page_source.html
 debug_page_text.txt
 screenshot.png
 raw_limits.json
+
+# Node.js
+node_modules/
+package-lock.json
+package.json
+
+# Local scraped results
+aistudio_limits.html
+aistudio_limits.txt
+screenshot.png
+screenshot2.png

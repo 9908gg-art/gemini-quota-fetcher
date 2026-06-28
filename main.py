@@ -147,13 +147,12 @@ class ScraperThread(threading.Thread):
             os.makedirs(PROFILE_DIR, exist_ok=True)
             self.log(f"📂 使用瀏覽器設定檔目錄: {PROFILE_DIR}")
 
-            # Launch Chromium with persistent context to keep login cookies
-            self.browser_context = self.playwright.chromium.launch_persistent_context(
+            # Launch Firefox with persistent context to keep login cookies
+            self.browser_context = self.playwright.firefox.launch_persistent_context(
                 user_data_dir=PROFILE_DIR,
                 headless=self.headless,
                 viewport={'width': 1280, 'height': 800},
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-                args=["--disable-blink-features=AutomationControlled"]
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0"
             )
             
             # Load cookies from environment variable or local JSON if available
@@ -876,6 +875,37 @@ class AppGUI:
 
 
 if __name__ == "__main__":
+    # Check if offline parsing is requested
+    if "--parse-offline" in sys.argv:
+        print("📦 [Offline Parsing] 正在從本地 HTML 檔案解析數據...")
+        html_file = "aistudio_limits.html"
+        txt_file = "aistudio_limits.txt"
+        if not os.path.exists(html_file) or not os.path.exists(txt_file):
+            print(f"❌ [錯誤] 找不到本地檔案 {html_file} 或 {txt_file}，請先執行 node fetch_quotas.js 抓取網頁。")
+            sys.exit(1)
+            
+        with open(html_file, "r", encoding="utf-8") as f:
+            html_content = f.read()
+        with open(txt_file, "r", encoding="utf-8") as f:
+            text_content = f.read()
+            
+        data = parse_rate_limits(html_content, text_content, print)
+        if data:
+            # Save CSV
+            with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
+                writer = csv.writer(f)
+                writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)"])
+                for row in data:
+                    writer.writerow([row["api_name"], row["display_name"], row["category"], row["tier"], row["rpm"], row["tpm"], row["rpd"]])
+            # Save JSON
+            with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
+            print(f"\n🎉 [Offline] 數據解析成功並存檔:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}")
+            sys.exit(0)
+        else:
+            print("❌ [Offline] 無法從本地檔案中解析出任何模型費率限制數據。")
+            sys.exit(1)
+
     # Check if CLI mode or Auto mode is requested
     if "--cli" in sys.argv or "--auto" in sys.argv:
         print("🚀 [CLI] 啟動 Gemini API Rate Limit 自動抓取任務...")

@@ -27,9 +27,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install playwright beautifulsoup4
 
-    - name: 安裝 Playwright 瀏覽器核心 (Chromium)
+    - name: 安裝 Playwright 瀏覽器核心 (Firefox)
       run: |
-        playwright install chromium
+        playwright install firefox
 
     - name: 執行 Playwright 爬蟲抓取額度數據
       env:
