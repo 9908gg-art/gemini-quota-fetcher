@@ -175,8 +175,21 @@ class ScraperThread(threading.Thread):
                     self.log(f"⚠️ 讀取 cookies.json 失敗: {e}")
                     
             if cookies:
+                # 確保 cookies 內部的 sameSite 符合 Playwright 大小寫要求 (Strict, Lax, None)
+                cleaned_cookies = []
+                for c in cookies:
+                    if "sameSite" in c:
+                        ss = str(c["sameSite"]).lower().strip()
+                        if ss in ["lax", "strict", "none"]:
+                            # 將首字母大寫以符合要求 (Lax, Strict, None)
+                            c["sameSite"] = ss.capitalize()
+                        else:
+                            # 如果是其它不合規字串，刪除該欄位讓 Playwright 走預設值
+                            del c["sameSite"]
+                    cleaned_cookies.append(c)
+                
                 try:
-                    self.browser_context.add_cookies(cookies)
+                    self.browser_context.add_cookies(cleaned_cookies)
                     self.log("✔️ 成功注入 Google 登入狀態 Cookies！")
                 except Exception as e:
                     self.log(f"⚠️ 注入 Cookies 失敗: {e}")

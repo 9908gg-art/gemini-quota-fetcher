@@ -1,0 +1,7 @@
+# Ignore sensitive Google cookies and chromium browser profiles
+cookies.json
+aistudio_profile/
+debug_page_source.html
+debug_page_text.txt
+screenshot.png
+raw_limits.json
