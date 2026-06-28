@@ -15,18 +15,29 @@ try:
     HAS_TKINTER = True
 except ImportError:
     HAS_TKINTER = False
-from bs4 import BeautifulSoup
 
-# Try importing Playwright
+# Auto-dependency check and installation
 try:
+    from bs4 import BeautifulSoup
     from playwright.sync_api import sync_playwright
 except ImportError:
-    msg = "偵測到未安裝 playwright，請先在終端機運行:\npip install playwright\nplaywright install"
-    if HAS_TKINTER:
-        messagebox.showerror("缺少依賴庫", msg)
-    else:
-        print("❌ 缺少依賴庫:", msg)
-    sys.exit(1)
+    print("📦 正在自動安裝必要套件 (playwright, beautifulsoup4)...")
+    import subprocess
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "--user", "playwright", "beautifulsoup4"])
+        subprocess.check_call([sys.executable, "-m", "playwright", "install", "firefox"])
+        from bs4 import BeautifulSoup
+        from playwright.sync_api import sync_playwright
+        print("✔️ 套件安裝成功！")
+    except Exception as e:
+        msg = f"自動安裝套件失敗。請手動在終端機運行以下指令：\npip install playwright beautifulsoup4\nplaywright install\n\n錯誤資訊: {e}"
+        if HAS_TKINTER:
+            root = tk.Tk()
+            root.withdraw()
+            messagebox.showerror("缺少依賴庫", msg)
+        else:
+            print("❌ 缺少依賴庫:", msg)
+        sys.exit(1)
 
 # Application Configuration
 DEFAULT_URL = "https://aistudio.google.com/rate-limit?timeRange=last-28-days&project=gen-lang-client-0286062465"
