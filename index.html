@@ -49,8 +49,42 @@
             </div>
         </div>
 
-        <!-- Limits Grid / Table -->
-        <div class="card table-card">
+        <!-- Free Tier Highlights & Explanation -->
+        <div class="card help-section-card" style="margin-bottom: 25px; border-left: 5px solid var(--color-green);">
+            <div class="card-title" style="color: var(--color-green);">
+                <i class="fa-solid fa-gift"></i> 🎁 免費模型特別說明 (Free Tier)
+            </div>
+            <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
+                Google AI Studio 提供了非常佛心的<strong>免費額度層級 (Free Tier)</strong>，適合個人開發者、學生或做為產品雛形測試。以下是熱門免費模型的特點：
+            </p>
+            <ul style="list-style-type: none; padding-left: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                <li style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong style="color: var(--color-blue);"><i class="fa-solid fa-bolt"></i> Gemini 2.5/1.5 Flash</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">
+                        • <strong>免費額度高</strong>：高達 15 RPM / 1,500 RPD<br>
+                        • <strong>極速輕量</strong>：支援多模態輸入，最適合語音輸入、翻譯與日常快速問答。
+                    </span>
+                </li>
+                <li style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong style="color: var(--color-purple);"><i class="fa-solid fa-brain"></i> Gemini 2.5/1.5 Pro</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">
+                        • <strong>最強理解力</strong>：免費支援 200 萬 Token 長上下文！<br>
+                        • <strong>低頻率限制</strong>：限制為 2 RPM / 50 RPD，適合複雜推理與程式碼生成。
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Free Tier Card -->
+        <div class="card table-card" style="margin-bottom: 30px; border-top: 3px solid var(--color-green);">
+            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                <h2 class="section-title" style="margin: 0; font-size: 1.25rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--color-green);">
+                    <i class="fa-solid fa-gift"></i> 免費模型額度限制 (Free Tier)
+                </h2>
+                <span class="badge badge-free" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 20px; background: rgba(52, 211, 153, 0.15); color: #34d399;">
+                    免費層級 (有每日限額)
+                </span>
+            </div>
             <div class="table-responsive">
                 <table class="quota-table">
                     <thead>
@@ -58,16 +92,48 @@
                             <th>模型顯示名稱</th>
                             <th>API 識別碼</th>
                             <th>用途分類</th>
-                            <th>層級 (Tier)</th>
                             <th class="text-right">RPM (每分鐘請求)</th>
                             <th class="text-right">TPM (每分鐘 Token)</th>
                             <th class="text-right">RPD (每日請求)</th>
                         </tr>
                     </thead>
-                    <tbody id="quota-tbody">
+                    <tbody id="free-quota-tbody">
                         <tr>
-                            <td colspan="7" class="text-center" style="padding: 30px; color: var(--text-muted);">
-                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在讀取額度資料...
+                            <td colspan="6" class="text-center" style="padding: 30px; color: var(--text-muted);">
+                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在讀取免費模型資料...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Paid Tier Card -->
+        <div class="card table-card" style="border-top: 3px solid var(--color-blue);">
+            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                <h2 class="section-title" style="margin: 0; font-size: 1.25rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--color-blue);">
+                    <i class="fa-solid fa-credit-card"></i> 付費隨用隨付模型額度限制 (Pay-as-you-go Tier)
+                </h2>
+                <span class="badge badge-paid" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 20px; background: rgba(96, 165, 250, 0.15); color: #60a5fa;">
+                    付費層級 (無每日限制)
+                </span>
+            </div>
+            <div class="table-responsive">
+                <table class="quota-table">
+                    <thead>
+                        <tr>
+                            <th>模型顯示名稱</th>
+                            <th>API 識別碼</th>
+                            <th>用途分類</th>
+                            <th class="text-right">RPM (每分鐘請求)</th>
+                            <th class="text-right">TPM (每分鐘 Token)</th>
+                            <th class="text-right">RPD (每日請求)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paid-quota-tbody">
+                        <tr>
+                            <td colspan="6" class="text-center" style="padding: 30px; color: var(--text-muted);">
+                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在讀取付費模型資料...
                             </td>
                         </tr>
                     </tbody>

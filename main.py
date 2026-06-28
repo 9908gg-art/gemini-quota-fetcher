@@ -559,6 +559,105 @@ def clean_limit_val(val, unit):
     return val_clean if val_clean else "N/A"
 
 
+def check_and_notify_changes(old_file_path, new_data):
+    import os
+    import json
+    import urllib.request
+
+    if not os.path.exists(old_file_path):
+        print("ℹ️ 本地無舊版數據檔案，跳過差異比較。")
+        return
+        
+    try:
+        with open(old_file_path, "r", encoding="utf-8") as f:
+            old_data = json.load(f)
+    except Exception as e:
+        print(f"⚠️ 讀取舊版數據失敗，跳過比較: {e}")
+        return
+
+    # Convert list of dicts to dict keyed by (api_name, tier)
+    old_dict = {}
+    for item in old_data:
+        key = (item.get("api_name", ""), item.get("tier", "Free tier"))
+        old_dict[key] = item
+
+    new_dict = {}
+    for item in new_data:
+        key = (item.get("api_name", ""), item.get("tier", "Free tier"))
+        new_dict[key] = item
+
+    changes = []
+    added = []
+    removed = []
+
+    for key, new_item in new_dict.items():
+        api_name, tier = key
+        if key not in old_dict:
+            added.append(f"• <b>{new_item.get('display_name')}</b> ({api_name}) [{tier}]\n  RPM: {new_item.get('rpm')}, TPM: {new_item.get('tpm')}, RPD: {new_item.get('rpd')}")
+        else:
+            old_item = old_dict[key]
+            rpm_diff = old_item.get("rpm") != new_item.get("rpm")
+            tpm_diff = old_item.get("tpm") != new_item.get("tpm")
+            rpd_diff = old_item.get("rpd") != new_item.get("rpd")
+            
+            if rpm_diff or tpm_diff or rpd_diff:
+                diff_parts = []
+                if rpm_diff:
+                    diff_parts.append(f"RPM: {old_item.get('rpm')} ➔ {new_item.get('rpm')}")
+                if tpm_diff:
+                    diff_parts.append(f"TPM: {old_item.get('tpm')} ➔ {new_item.get('tpm')}")
+                if rpd_diff:
+                    diff_parts.append(f"RPD: {old_item.get('rpd')} ➔ {new_item.get('rpd')}")
+                
+                changes.append(f"• <b>{new_item.get('display_name')}</b> ({api_name}) [{tier}]:\n  " + ", ".join(diff_parts))
+
+    for key, old_item in old_dict.items():
+        if key not in new_dict:
+            api_name, tier = key
+            removed.append(f"• <b>{old_item.get('display_name')}</b> ({api_name}) [{tier}]")
+
+    if added or removed or changes:
+        msg_lines = ["🔔 <b>Gemini API 額度限制發生變動通知！</b>"]
+        if added:
+            msg_lines.append("\n🆕 <b>新增模型：</b>")
+            msg_lines.extend(added)
+        if removed:
+            msg_lines.append("\n❌ <b>移除模型：</b>")
+            msg_lines.extend(removed)
+        if changes:
+            msg_lines.append("\n🔄 <b>額度變更：</b>")
+            msg_lines.extend(changes)
+            
+        message = "\n".join(msg_lines)
+        print("📢 偵測到資料變更，正在發送 Telegram 通知...")
+        
+        token = os.environ.get("tg_token")
+        user_id = os.environ.get("TG_USER_ID")
+        if token and user_id:
+            url = f"https://api.telegram.org/bot{token}/sendMessage"
+            payload = {
+                "chat_id": user_id,
+                "text": message,
+                "parse_mode": "HTML"
+            }
+            try:
+                req = urllib.request.Request(
+                    url,
+                    data=json.dumps(payload).encode("utf-8"),
+                    headers={"Content-Type": "application/json"}
+                )
+                with urllib.request.urlopen(req) as resp:
+                    print("✔️ Telegram 通知發送成功！")
+            except Exception as e:
+                print(f"❌ 發送 Telegram 通知失敗: {e}")
+        else:
+            print("⚠️ 未檢測到 tg_token 或 TG_USER_ID 環境變數，跳過發送。")
+    else:
+        print("✔️ 經比對，模型額度資料與上次相同，無任何變更。")
+
+
+
+
 class AppGUI:
     def __init__(self, root):
         self.root = root
@@ -833,6 +932,7 @@ class AppGUI:
 
     def auto_save_files(self):
         try:
+            check_and_notify_changes(JSON_OUTPUT, self.scraped_data)
             with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
                 writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)"])
@@ -891,6 +991,7 @@ if __name__ == "__main__":
             
         data = parse_rate_limits(html_content, text_content, print)
         if data:
+            check_and_notify_changes(JSON_OUTPUT, data)
             # Save CSV
             with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
@@ -951,6 +1052,7 @@ if __name__ == "__main__":
         if not result_queue.empty():
             data = result_queue.get()
             try:
+                check_and_notify_changes(JSON_OUTPUT, data)
                 # Save CSV
                 with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                     writer = csv.writer(f)

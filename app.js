@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeCategory = "all";
     let searchQuery = "";
 
-    const tbody = document.getElementById("quota-tbody");
+    const freeTbody = document.getElementById("free-quota-tbody");
+    const paidTbody = document.getElementById("paid-quota-tbody");
     const searchInput = document.getElementById("search-input");
     const updateTimeText = document.getElementById("update-time-text");
     const tabContainer = document.getElementById("category-tabs-container");
@@ -29,19 +30,22 @@ document.addEventListener("DOMContentLoaded", () => {
             renderTable();
         } catch (error) {
             console.error("載入數據錯誤：", error);
-            tbody.innerHTML = `
+            const errMsg = `
                 <tr>
-                    <td colspan="7" class="text-center" style="padding: 30px; color: var(--color-red);">
-                        <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i> 載入資料失敗。請確認是否已生成 gemini_rate_limits.json。
+                    <td colspan="6" class="text-center" style="padding: 30px; color: var(--color-red);">
+                        <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i> 載入資料失敗。
                     </td>
                 </tr>
             `;
+            freeTbody.innerHTML = errMsg;
+            paidTbody.innerHTML = errMsg;
         }
     }
 
     // Render table rows
     function renderTable() {
-        tbody.innerHTML = "";
+        freeTbody.innerHTML = "";
+        paidTbody.innerHTML = "";
 
         // Filter models
         const filtered = allModels.filter(model => {
@@ -53,51 +57,56 @@ document.addEventListener("DOMContentLoaded", () => {
             const matchesSearch = !term || 
                 model.display_name.toLowerCase().includes(term) || 
                 model.api_name.toLowerCase().includes(term) || 
-                model.category.toLowerCase().includes(term);
+                (model.category && model.category.toLowerCase().includes(term));
 
             return matchesCategory && matchesSearch;
         });
 
-        if (filtered.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center" style="padding: 30px; color: var(--text-muted);">
-                        找不到符合條件的 API 模型
-                    </td>
-                </tr>
-            `;
-            return;
+        // Split into Free and Paid
+        const freeModels = filtered.filter(m => !m.tier || !m.tier.toLowerCase().includes("pay"));
+        const paidModels = filtered.filter(m => m.tier && m.tier.toLowerCase().includes("pay"));
+
+        // Helper to populate a table body
+        function populateTbody(tbodyElement, modelsList, emptyMsg) {
+            if (modelsList.length === 0) {
+                tbodyElement.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center" style="padding: 30px; color: var(--text-muted);">
+                            ${emptyMsg}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            modelsList.forEach(model => {
+                const tr = document.createElement("tr");
+
+                // Category badge mapping
+                let catBadge = "badge-other";
+                if (model.category === "Text-out models") catBadge = "badge-text";
+                else if (model.category === "Image/Video") catBadge = "badge-video";
+                else if (model.category === "Live API") catBadge = "badge-live";
+
+                // Format limits values
+                const rpmHtml = formatLimitValue(model.rpm, "RPM");
+                const tpmHtml = formatLimitValue(model.tpm, "TPM");
+                const rpdHtml = formatLimitValue(model.rpd, "RPD");
+
+                tr.innerHTML = `
+                    <td style="font-weight: 600; color: var(--text-primary);">${model.display_name}</td>
+                    <td class="model-api-name">${model.api_name}</td>
+                    <td><span class="badge ${catBadge}">${model.category || "其他模型"}</span></td>
+                    <td class="text-right">${rpmHtml}</td>
+                    <td class="text-right">${tpmHtml}</td>
+                    <td class="text-right">${rpdHtml}</td>
+                `;
+                tbodyElement.appendChild(tr);
+            });
         }
 
-        filtered.forEach(model => {
-            const tr = document.createElement("tr");
-
-            // Category badge mapping
-            let catBadge = "badge-other";
-            if (model.category === "Text-out models") catBadge = "badge-text";
-            else if (model.category === "Image/Video") catBadge = "badge-video";
-            else if (model.category === "Live API") catBadge = "badge-live";
-
-            // Tier badge mapping
-            const isPaid = model.tier && model.tier.toLowerCase().includes("pay");
-            const tierBadge = isPaid ? "badge-paid" : "badge-free";
-
-            // Format limits values (e.g. highlight high limit numbers)
-            const rpmHtml = formatLimitValue(model.rpm, "RPM");
-            const tpmHtml = formatLimitValue(model.tpm, "TPM");
-            const rpdHtml = formatLimitValue(model.rpd, "RPD");
-
-            tr.innerHTML = `
-                <td style="font-weight: 600; color: var(--text-primary);">${model.display_name}</td>
-                <td class="model-api-name">${model.api_name}</td>
-                <td><span class="badge ${catBadge}">${model.category || "其他模型"}</span></td>
-                <td><span class="badge ${tierBadge}">${model.tier || "Free tier"}</span></td>
-                <td class="text-right">${rpmHtml}</td>
-                <td class="text-right">${tpmHtml}</td>
-                <td class="text-right">${rpdHtml}</td>
-            `;
-            tbody.appendChild(tr);
-        });
+        populateTbody(freeTbody, freeModels, "找不到符合條件的免費 API 模型");
+        populateTbody(paidTbody, paidModels, "找不到符合條件的付費 API 模型");
     }
 
     // Helper to format limits values
