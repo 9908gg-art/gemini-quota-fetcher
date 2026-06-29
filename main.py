@@ -772,6 +772,36 @@ def push_to_github(log_func=print):
     return success
 
 
+def send_telegram_status(message):
+    import os
+    import json
+    import urllib.request
+    
+    token = os.environ.get("tg_token")
+    user_id = os.environ.get("TG_USER_ID")
+    if token and user_id:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        payload = {
+            "chat_id": user_id,
+            "text": message,
+            "parse_mode": "HTML"
+        }
+        try:
+            req = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            with urllib.request.urlopen(req) as resp:
+                print("✔️ Telegram 狀態通知發送成功！")
+                return True
+        except Exception as e:
+            print(f"❌ 發送 Telegram 狀態通知失敗: {e}")
+    else:
+        print("⚠️ 未檢測到 tg_token 或 TG_USER_ID，無法發送狀態通知。")
+    return False
+
+
 def check_and_notify_changes(old_file_path, new_data):
     import os
     import json
@@ -843,30 +873,12 @@ def check_and_notify_changes(old_file_path, new_data):
             
         message = "\n".join(msg_lines)
         print("📢 偵測到資料變更，正在發送 Telegram 通知...")
-        
-        token = os.environ.get("tg_token")
-        user_id = os.environ.get("TG_USER_ID")
-        if token and user_id:
-            url = f"https://api.telegram.org/bot{token}/sendMessage"
-            payload = {
-                "chat_id": user_id,
-                "text": message,
-                "parse_mode": "HTML"
-            }
-            try:
-                req = urllib.request.Request(
-                    url,
-                    data=json.dumps(payload).encode("utf-8"),
-                    headers={"Content-Type": "application/json"}
-                )
-                with urllib.request.urlopen(req) as resp:
-                    print("✔️ Telegram 通知發送成功！")
-            except Exception as e:
-                print(f"❌ 發送 Telegram 通知失敗: {e}")
-        else:
-            print("⚠️ 未檢測到 tg_token 或 TG_USER_ID 環境變數，跳過發送。")
+        send_telegram_status(message)
     else:
         print("✔️ 經比對，模型額度資料與上次相同，無任何變更。")
+        import sys
+        if "--cli" in sys.argv or "--auto" in sys.argv:
+            send_telegram_status("🟢 <b>Gemini API 額度定時任務執行成功！</b>\n經比對，官方模型額度與上次相同，無任何變更。")
 
 
 
@@ -1255,6 +1267,7 @@ if __name__ == "__main__":
             
         def cli_error(err):
             print(f"❌ [CLI 錯誤]: {err}")
+            send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{err}")
             sys.exit(1)
             
         def cli_manual_prompt():
@@ -1278,6 +1291,7 @@ if __name__ == "__main__":
             scraper.scrape()
         except Exception as e:
             print(f"❌ [CLI 致命錯誤]: {e}")
+            send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{e}")
             sys.exit(1)
             
         # Handle Output
@@ -1306,14 +1320,17 @@ if __name__ == "__main__":
                     push_success = push_to_github(print)
                     if not push_success:
                         print("❌ [CLI] 上傳推送失敗，請檢查上述錯誤訊息！")
+                        send_telegram_status("🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：Git 推送更新失敗，請檢查雲端網路或授權憑證。")
                         sys.exit(1)
                 
                 sys.exit(0)
             except Exception as e:
                 print(f"❌ [CLI 存檔失敗]: {e}")
+                send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：資料存檔或推送程序出錯: {e}")
                 sys.exit(1)
         else:
             print("❌ [CLI] 未取得抓取結果。")
+            send_telegram_status("🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：未取得網頁數據抓取結果。")
             sys.exit(1)
 
     if not HAS_TKINTER:
