@@ -1,57 +1,52 @@
 ﻿API Model Name,Display Name,Category/Purpose,Tier,RPM (Requests/Min),TPM (Tokens/Min),RPD (Requests/Day),RPM Limit,TPM Limit,RPD Limit,RPM Current,TPM Current,RPD Current
-antigravity-agents,Antigravity,Agents,Free tier,0 / 60,0 / 100K,0 / 100,60,100000,100,0,0,0
-deep-research-pro-preview-agents,Deep Research Pro Preview,Agents,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-2-flash,Gemini 2 Flash,Text-out models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-2-flash-lite,Gemini 2 Flash Lite,Text-out models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-computer-use-preview,Computer Use Preview,Other models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-2.5-flash,Gemini 2.5 Flash,Text-out models,Free tier,0 / 5,0 / 250K,0 / 20,5,250000,20,0,0,0
-gemini-2.5-flash,Nano Banana (Gemini 2.5 Flash Preview Image),Multi-modal generative models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-2.5-flash-lite,Gemini 2.5 Flash Lite,Text-out models,Free tier,0 / 10,0 / 250K,0 / 20,10,250000,20,0,0,0
-gemini-2.5-flash-tts,Gemini 2.5 Flash TTS,Multi-modal generative models,Free tier,0 / 3,0 / 10K,0 / 10,3,10000,10,0,0,0
-gemini-2.5-pro,Gemini 2.5 Pro,Text-out models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-2.5-pro,Gemini 2.5 Pro TTS,Multi-modal generative models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-3.0-flash,Gemini 3 Flash,Text-out models,Free tier,0 / 5,0 / 250K,0 / 20,5,250000,20,0,0,0
-nano-banana-pro-(gemini-3-pro-image),Nano Banana Pro (Gemini 3 Pro Image),Multi-modal generative models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-3.1-pro,Gemini 3.1 Pro,Text-out models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-nano-banana-2-(gemini-3.1-flash-image),Nano Banana 2 (Gemini 3.1 Flash Image),Multi-modal generative models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-gemini-3.1-flash-lite,Gemini 3.1 Flash Lite,Text-out models,Free tier,0 / 15,0 / 250K,0 / 500,15,250000,500,0,0,0
-gemini-3.1-flash-tts,Gemini 3.1 Flash TTS,Multi-modal generative models,Free tier,0 / 3,0 / 10K,0 / 10,3,10000,10,0,0,0
-gemini-3.5-flash,Gemini 3.5 Flash,Text-out models,Free tier,0 / 5,0 / 250K,0 / 20,5,250000,20,0,0,0
-text-embedding-004,Gemini Embedding 1,Other models,Free tier,0 / 100,0 / 30K,0 / 1K,100,30000,1000,0,0,0
-text-embedding-005,Gemini Embedding 2,Other models,Free tier,0 / 100,0 / 30K,0 / 1K,100,30000,1000,0,0,0
-gemini-robotics-er-1.5-preview,Gemini Robotics ER 1.5 Preview,Other models,Free tier,0 / 10,0 / 250K,0 / 20,10,250000,20,0,0,0
-gemini-robotics-er-1.6-preview,Gemini Robotics ER 1.6 Preview,Other models,Free tier,0 / 5,0 / 250K,0 / 20,5,250000,20,0,0,0
-gemma-4-26b,Gemma 4 26B,Other models,Free tier,0 / 15,0 / Unlimited,0 / 1.5K,15,-1,1500,0,0,0
-gemma-4-31b,Gemma 4 31B,Other models,Free tier,0 / 15,0 / Unlimited,0 / 1.5K,15,-1,1500,0,0,0
-imagen-3.0-fast-generate-002,Imagen 4 Fast Generate,Multi-modal generative models,Free tier,-,-,0 / 25,,,25,0,0,0
-imagen-3.0-generate-002,Imagen 4 Generate,Multi-modal generative models,Free tier,-,-,0 / 25,,,25,0,0,0
-imagen-3.0-ultra-generate-002,Imagen 4 Ultra Generate,Multi-modal generative models,Free tier,-,-,0 / 25,,,25,0,0,0
-lyria-3-clip,Lyria 3 Clip,Multi-modal generative models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-lyria-3-pro,Lyria 3 Pro,Multi-modal generative models,Free tier,0 / 0,0 / 0,0 / 0,0,0,0,0,0,0
-veo-3.0-fast-generate,Veo 3 Fast Generate,Multi-modal generative models,Free tier,0 / 0,-,0 / 0,0,,0,0,0,0
-veo-3.0-generate,Veo 3 Generate,Multi-modal generative models,Free tier,0 / 0,-,0 / 0,0,,0,0,0,0
-veo-3.0-lite-generate,Veo 3 Lite Generate,Multi-modal generative models,Free tier,0 / 0,-,0 / 0,0,,0,0,0,0
-gemini-2.5-flash-native-audio,Gemini 2.5 Flash Native Audio Dialog,Live API,Free tier,0 / Unlimited,0 / 1M,0 / Unlimited,-1,1000000,-1,0,0,0
-gemini-3.0-flash-live,Gemini 3 Flash Live,Live API,Free tier,0 / Unlimited,0 / 65K,0 / Unlimited,-1,65000,-1,0,0,0
-gemini-3.5-live-translate,Gemini 3.5 Live Translate,Live API,Free tier,0 / Unlimited,0 / 20K,0 / Unlimited,-1,20000,-1,0,0,0
-deep-research-pro-preview-map-grounding,Deep Research Pro Preview,Map grounding,Free tier,N/A,N/A,Unpinning the X axis cursor allows the cursor to follow the mouse while hovering over the chart. The X axis cursor will always be pinned while using keyboard navigation to indicate that the values reflected in the tooltip or the legend are associated with the position of the X axis cursor.,,,,0,0,0
-gemini-2-flash-map-grounding,Gemini 2 Flash,Map grounding,Free tier,N/A,N/A,0 / 500,,,500,0,0,0
-computer-use-preview-map-grounding,Computer Use Preview,Map grounding,Free tier,N/A,N/A,0 / 500,,,500,0,0,0
-gemini-2.5-flash-map-grounding,Gemini 2.5 Flash,Map grounding,Free tier,N/A,N/A,0 / 500,,,500,0,0,0
-gemini-2.5-flash-lite-map-grounding,Gemini 2.5 Flash Lite,Map grounding,Free tier,N/A,N/A,0 / 500,,,500,0,0,0
-gemini-2.5-pro-map-grounding,Gemini 2.5 Pro,Map grounding,Free tier,N/A,N/A,0 / 0,,,0,0,0,0
-gemini-3.0-flash-map-grounding,Gemini 3 Flash,Map grounding,Free tier,N/A,N/A,0 / 0,,,0,0,0,0
-gemini-3.1-pro-map-grounding,Gemini 3.1 Pro,Map grounding,Free tier,N/A,N/A,0 / 0,,,0,0,0,0
-gemini-3.1-flash-lite-map-grounding,Gemini 3.1 Flash Lite,Map grounding,Free tier,N/A,N/A,0 / 500,,,500,0,0,0
-gemini-3.1-flash-tts-map-grounding,Gemini 3.1 Flash TTS,Map grounding,Free tier,N/A,N/A,0 / 500,,,500,0,0,0
-gemini-3.5-flash-map-grounding,Gemini 3.5 Flash,Map grounding,Free tier,N/A,N/A,0 / 0,,,0,0,0,0
-gemini-robotics-er-1.6-preview-map-grounding,Gemini Robotics ER 1.6 Preview,Map grounding,Free tier,N/A,N/A,0 / 500,,,500,0,0,0
-gemini-2-search-grounding,Gemini 2,Search grounding,Free tier,N/A,N/A,Unpinning the X axis cursor allows the cursor to follow the mouse while hovering over the chart. The X axis cursor will always be pinned while using keyboard navigation to indicate that the values reflected in the tooltip or the legend are associated with the position of the X axis cursor.,,,,0,0,0
-gemini-2.5-search-grounding,Gemini 2.5,Search grounding,Free tier,N/A,N/A,0 / 1.5K,,,1500,0,0,0
-gemini-3-search-grounding,Gemini 3,Search grounding,Free tier,N/A,N/A,0 / 0,,,0,0,0,0
-default-search-grounding,Default,Search grounding,Free tier,N/A,N/A,0 / 1.5K,,,1500,0,0,0
-data-values-on-this-chart-range-from-a-minimum-of-1.5k-to-a-maximum-of-1.5k.-search-grounding,Data values on this chart range from a minimum of 1.5k to a maximum of 1.5k.,Search grounding,Free tier,N/A,N/A,N/A,,,,0,0,0
-audio-search-grounding,Audio,Search grounding,Free tier,N/A,N/A,"If subsequent rows are omitted, activating a row header will reveal all subsequent rows up to the next revealed row.",,,,0,0,0
-activating-a-grid-cell-will-open-the-tooltip-at-this-data-point.-map-grounding,Activating a grid cell will open the tooltip at this data point.,Map grounding,Free tier,N/A,N/A,N/A,,,,0,0,0
-data-values-on-this-chart-range-from-a-minimum-of-500-to-a-maximum-of-500.-map-grounding,Data values on this chart range from a minimum of 500 to a maximum of 500.,Map grounding,Free tier,N/A,N/A,N/A,,,,0,0,0
-audio-map-grounding,Audio,Map grounding,Free tier,N/A,N/A,Activating a grid cell will open the tooltip at this data point.,,,,0,0,0
+antigravity-agents,Antigravity,Agents,Free tier,0 /  60,0 /  100K,0 /  100,60,100000,100,0,0,0
+deep-research-pro-preview-agents,Deep Research Pro Preview,Agents,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-2-flash,Gemini 2 Flash,Text-out models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-2-flash-lite,Gemini 2 Flash Lite,Text-out models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+computer-use-preview,Computer Use Preview,Other models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-2.5-flash,Gemini 2.5 Flash,Text-out models,Free tier,0 /  5,0 /  250K,0 /  20,5,250000,20,0,0,0
+gemini-2.5-flash,Nano Banana (Gemini 2.5 Flash Preview Image),Multi-modal generative models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-2.5-flash-lite,Gemini 2.5 Flash Lite,Text-out models,Free tier,0 /  10,0 /  250K,0 /  20,10,250000,20,0,0,0
+gemini-2.5-flash-tts,Gemini 2.5 Flash TTS,Multi-modal generative models,Free tier,0 /  3,0 /  10K,0 /  10,3,10000,10,0,0,0
+gemini-2.5-pro,Gemini 2.5 Pro,Text-out models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-2.5-pro,Gemini 2.5 Pro TTS,Multi-modal generative models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-3.0-flash,Gemini 3 Flash,Text-out models,Free tier,0 /  5,0 /  250K,0 /  20,5,250000,20,0,0,0
+nano-banana-pro-(gemini-3-pro-image),Nano Banana Pro (Gemini 3 Pro Image),Multi-modal generative models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-3.1-pro,Gemini 3.1 Pro,Text-out models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+nano-banana-2-(gemini-3.1-flash-image),Nano Banana 2 (Gemini 3.1 Flash Image),Multi-modal generative models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+gemini-3.1-flash-lite,Gemini 3.1 Flash Lite,Text-out models,Free tier,0 /  15,0 /  250K,0 /  500,15,250000,500,0,0,0
+gemini-3.1-flash-tts,Gemini 3.1 Flash TTS,Multi-modal generative models,Free tier,0 /  3,0 /  10K,0 /  10,3,10000,10,0,0,0
+gemini-3.5-flash,Gemini 3.5 Flash,Text-out models,Free tier,0 /  5,0 /  250K,0 /  20,5,250000,20,0,0,0
+text-embedding-004,Gemini Embedding 1,Other models,Free tier,0 /  100,0 /  30K,0 /  1K,100,30000,1000,0,0,0
+text-embedding-005,Gemini Embedding 2,Other models,Free tier,0 /  100,0 /  30K,0 /  1K,100,30000,1000,0,0,0
+gemini-robotics-er-1.5-preview,Gemini Robotics ER 1.5 Preview,Other models,Free tier,0 /  10,0 /  250K,0 /  20,10,250000,20,0,0,0
+gemini-robotics-er-1.6-preview,Gemini Robotics ER 1.6 Preview,Other models,Free tier,0 /  5,0 /  250K,0 /  20,5,250000,20,0,0,0
+gemma-4-26b,Gemma 4 26B,Other models,Free tier,0 /  15,0 / Unlimited,0 /  1.5K,15,-1,1500,0,0,0
+gemma-4-31b,Gemma 4 31B,Other models,Free tier,0 /  15,0 / Unlimited,0 /  1.5K,15,-1,1500,0,0,0
+imagen-3.0-fast-generate-002,Imagen 4 Fast Generate,Multi-modal generative models,Free tier,-,-,0 /  25,,,25,0,0,0
+imagen-3.0-generate-002,Imagen 4 Generate,Multi-modal generative models,Free tier,-,-,0 /  25,,,25,0,0,0
+imagen-3.0-ultra-generate-002,Imagen 4 Ultra Generate,Multi-modal generative models,Free tier,-,-,0 /  25,,,25,0,0,0
+lyria-3-clip,Lyria 3 Clip,Multi-modal generative models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+lyria-3-pro,Lyria 3 Pro,Multi-modal generative models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
+veo-3.0-fast-generate,Veo 3 Fast Generate,Multi-modal generative models,Free tier,0 /  0,-,0 /  0,0,,0,0,0,0
+veo-3.0-generate,Veo 3 Generate,Multi-modal generative models,Free tier,0 /  0,-,0 /  0,0,,0,0,0,0
+veo-3.0-lite-generate,Veo 3 Lite Generate,Multi-modal generative models,Free tier,0 /  0,-,0 /  0,0,,0,0,0,0
+gemini-2.5-flash-native-audio,Gemini 2.5 Flash Native Audio Dialog,Live API,Free tier,0 / Unlimited,0 /  1M,0 / Unlimited,-1,1000000,-1,0,0,0
+gemini-3.0-flash-live,Gemini 3 Flash Live,Live API,Free tier,0 / Unlimited,0 /  65K,0 / Unlimited,-1,65000,-1,0,0,0
+gemini-3.5-live-translate,Gemini 3.5 Live Translate,Live API,Free tier,0 / Unlimited,0 /  20K,0 / Unlimited,-1,20000,-1,0,0,0
+deep-research-pro-preview-map-grounding,Deep Research Pro Preview,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+gemini-2-flash-map-grounding,Gemini 2 Flash,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+computer-use-preview-map-grounding,Computer Use Preview,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+gemini-2.5-flash-map-grounding,Gemini 2.5 Flash,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+gemini-2.5-flash-lite-map-grounding,Gemini 2.5 Flash Lite,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+gemini-2.5-pro-map-grounding,Gemini 2.5 Pro,Map grounding,Free tier,-,-,0 /  0,,,0,0,0,0
+gemini-3.0-flash-map-grounding,Gemini 3 Flash,Map grounding,Free tier,-,-,0 /  0,,,0,0,0,0
+gemini-3.1-pro-map-grounding,Gemini 3.1 Pro,Map grounding,Free tier,-,-,0 /  0,,,0,0,0,0
+gemini-3.1-flash-lite-map-grounding,Gemini 3.1 Flash Lite,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+gemini-3.1-flash-tts-map-grounding,Gemini 3.1 Flash TTS,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+gemini-3.5-flash-map-grounding,Gemini 3.5 Flash,Map grounding,Free tier,-,-,0 /  0,,,0,0,0,0
+gemini-robotics-er-1.6-preview-map-grounding,Gemini Robotics ER 1.6 Preview,Map grounding,Free tier,-,-,0 /  500,,,500,0,0,0
+gemini-2-search-grounding,Gemini 2,Search grounding,Free tier,-,-,0 /  1.5K,,,1500,0,0,0
+gemini-2.5-search-grounding,Gemini 2.5,Search grounding,Free tier,-,-,0 /  1.5K,,,1500,0,0,0
+gemini-3-search-grounding,Gemini 3,Search grounding,Free tier,-,-,0 /  0,,,0,0,0,0
+default-search-grounding,Default,Search grounding,Free tier,-,-,0 /  1.5K,,,1500,0,0,0
