@@ -52,55 +52,6 @@
         </div>
 
         <!-- Purpose & Developer Benefits Section -->
-        <div class="card help-section-card" style="margin-bottom: 25px; border-left: 5px solid var(--color-blue);">
-            <div class="card-title" style="color: var(--color-blue);">
-                <i class="fa-solid fa-circle-question"></i> 面板用途與第三方工具串接優勢
-            </div>
-            <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
-                本面板即時同步 Google AI Studio 官方的速率限制規格（Rate Limits），特別為開發者提供以下兩大核心優勢：
-            </p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
-                <div style="background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
-                    <strong style="color: var(--color-blue);"><i class="fa-solid fa-plug"></i> 免費模型配置 API</strong><br>
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">
-                        提供純數字格式的 <strong>JSON 數據接口</strong>，您的語音輸入工具、AI 助手或本機腳本可直接遠端獲取最新的免費模型名單與規範（RPM/TPM/RPD），省去手動維護代碼的成本。
-                    </span>
-                </div>
-                <div style="background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
-                    <strong style="color: var(--color-green);"><i class="fa-solid fa-shield-halved"></i> 故障切換與自動降級 (Failover)</strong><br>
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">
-                        當您的工具呼叫單一免費模型（例如 Gemini 2.5 Flash）觸發 <strong>HTTP 429 額度超限</strong>時，可透過讀取本站接口，在背景自動切換到其他健康的備用免費模型，確保您的工具運作永不中斷。
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Free Tier Highlights & Explanation -->
-        <div class="card help-section-card" style="margin-bottom: 25px; border-left: 5px solid var(--color-green);">
-            <div class="card-title" style="color: var(--color-green);">
-                <i class="fa-solid fa-gift"></i> 🎁 免費模型特別說明 (Free Tier)
-            </div>
-            <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
-                Google AI Studio 提供了非常佛心的<strong>免費額度層級 (Free Tier)</strong>，適合個人開發者、學生或做為產品雛形測試。以下是熱門免費模型的特點：
-            </p>
-            <ul style="list-style-type: none; padding-left: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
-                <li style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                    <strong style="color: var(--color-blue);"><i class="fa-solid fa-bolt"></i> Gemini 2.5/1.5 Flash</strong><br>
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">
-                        • <strong>免費額度高</strong>：高達 15 RPM / 1,500 RPD<br>
-                        • <strong>極速輕量</strong>：支援多模態輸入，最適合語音輸入、翻譯與日常快速問答。
-                    </span>
-                </li>
-                <li style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                    <strong style="color: var(--color-purple);"><i class="fa-solid fa-brain"></i> Gemini 2.5/1.5 Pro</strong><br>
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">
-                        • <strong>最強理解力</strong>：免費支援 200 萬 Token 長上下文！<br>
-                        • <strong>低頻率限制</strong>：限制為 2 RPM / 50 RPD，適合複雜推理與程式碼生成。
-                    </span>
-                </li>
-            </ul>
-        </div>
-
         <!-- Free Tier Card -->
         <div class="card table-card" style="margin-bottom: 30px; border-top: 3px solid var(--color-green);">
             <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
