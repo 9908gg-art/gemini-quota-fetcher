@@ -840,6 +840,7 @@ def check_and_notify_changes(old_file_path, new_data):
     import os
     import json
     import urllib.request
+    import html
 
     if not os.path.exists(old_file_path):
         print("ℹ️ 本地無舊版數據檔案，跳過差異比較。")
@@ -867,10 +868,22 @@ def check_and_notify_changes(old_file_path, new_data):
     added = []
     removed = []
 
+    def esc(s):
+        if not s:
+            return ""
+        return html.escape(str(s))
+
     for key, new_item in new_dict.items():
         api_name, tier = key
+        disp = esc(new_item.get('display_name'))
+        api_id = esc(api_name)
+        tr = esc(tier)
+        rpm_val = esc(new_item.get('rpm'))
+        tpm_val = esc(new_item.get('tpm'))
+        rpd_val = esc(new_item.get('rpd'))
+        
         if key not in old_dict:
-            added.append(f"• <b>{new_item.get('display_name')}</b> ({api_name}) [{tier}]\n  RPM: {new_item.get('rpm')}, TPM: {new_item.get('tpm')}, RPD: {new_item.get('rpd')}")
+            added.append(f"• <b>{disp}</b> ({api_id}) [{tr}]\n  RPM: {rpm_val}, TPM: {tpm_val}, RPD: {rpd_val}")
         else:
             old_item = old_dict[key]
             rpm_diff = old_item.get("rpm") != new_item.get("rpm")
@@ -880,18 +893,21 @@ def check_and_notify_changes(old_file_path, new_data):
             if rpm_diff or tpm_diff or rpd_diff:
                 diff_parts = []
                 if rpm_diff:
-                    diff_parts.append(f"RPM: {old_item.get('rpm')} ➔ {new_item.get('rpm')}")
+                    diff_parts.append(f"RPM: {esc(old_item.get('rpm'))} ➔ {rpm_val}")
                 if tpm_diff:
-                    diff_parts.append(f"TPM: {old_item.get('tpm')} ➔ {new_item.get('tpm')}")
+                    diff_parts.append(f"TPM: {esc(old_item.get('tpm'))} ➔ {tpm_val}")
                 if rpd_diff:
-                    diff_parts.append(f"RPD: {old_item.get('rpd')} ➔ {new_item.get('rpd')}")
+                    diff_parts.append(f"RPD: {esc(old_item.get('rpd'))} ➔ {rpd_val}")
                 
-                changes.append(f"• <b>{new_item.get('display_name')}</b> ({api_name}) [{tier}]:\n  " + ", ".join(diff_parts))
+                changes.append(f"• <b>{disp}</b> ({api_id}) [{tr}]:\n  " + ", ".join(diff_parts))
 
     for key, old_item in old_dict.items():
         if key not in new_dict:
             api_name, tier = key
-            removed.append(f"• <b>{old_item.get('display_name')}</b> ({api_name}) [{tier}]")
+            disp = esc(old_item.get('display_name'))
+            api_id = esc(api_name)
+            tr = esc(tier)
+            removed.append(f"• <b>{disp}</b> ({api_id}) [{tr}]")
 
     if added or removed or changes:
         msg_lines = ["🔔 <b>Gemini API 額度限制發生變動通知！</b>"]
