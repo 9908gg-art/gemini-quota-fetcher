@@ -825,6 +825,8 @@ def send_telegram_status(message):
                     print(f"🔍 [Telegram API 錯誤詳情]: {error_detail}")
                 except Exception:
                     pass
+            # 印出發送失敗的訊息內容，方便找出哪裡包含不合規的 HTML 標籤
+            print(f"🔍 [發送失敗的訊息內容]:\n{message}\n--------------------------------")
             # 列印長度與首尾以便比對是不是引號解析問題
             try:
                 print(f"🔍 [偵測金鑰資訊] 長度: {len(token)} 字元 | 首三位: '{token[:3]}' | 尾三位: '{token[-3:]}'")
