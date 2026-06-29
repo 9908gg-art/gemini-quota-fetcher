@@ -50,7 +50,32 @@ document.addEventListener("DOMContentLoaded", () => {
         // Filter models
         const filtered = allModels.filter(model => {
             // Category filter
-            const matchesCategory = activeCategory === "all" || model.category === activeCategory;
+            let matchesCategory = false;
+            const categoryClean = (model.category || "").toLowerCase();
+            const nameClean = (model.display_name || "").toLowerCase();
+            
+            if (activeCategory === "all") {
+                matchesCategory = true;
+            } else if (activeCategory === "text") {
+                matchesCategory = categoryClean === "text-out models" || categoryClean === "agents";
+            } else if (activeCategory === "image_video") {
+                matchesCategory = categoryClean === "multi-modal generative models" && 
+                                  (nameClean.includes("imagen") || nameClean.includes("veo"));
+            } else if (activeCategory === "speech") {
+                matchesCategory = (categoryClean === "multi-modal generative models" || categoryClean.includes("audio") || categoryClean.includes("speech") || categoryClean.includes("tts")) && 
+                                  (nameClean.includes("tts") || nameClean.includes("audio") || nameClean.includes("lyria"));
+            } else if (activeCategory === "live") {
+                matchesCategory = categoryClean === "live api";
+            } else if (activeCategory === "other") {
+                // Grounding, embedding, gemma and other models that are not image or speech
+                const isImage = nameClean.includes("imagen") || nameClean.includes("veo");
+                const isSpeech = nameClean.includes("tts") || nameClean.includes("audio") || nameClean.includes("lyria");
+                matchesCategory = categoryClean.includes("grounding") || 
+                                  categoryClean.includes("other") || 
+                                  nameClean.includes("embedding") || 
+                                  nameClean.includes("gemma") ||
+                                  (categoryClean === "multi-modal generative models" && !isImage && !isSpeech);
+            }
             
             // Search filter
             const term = searchQuery.toLowerCase().trim();
@@ -63,7 +88,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Split into Free and Paid
-        const freeModels = filtered.filter(m => !m.tier || !m.tier.toLowerCase().includes("pay"));
+        const freeModels = filtered.filter(m => {
+            const isPay = m.tier && m.tier.toLowerCase().includes("pay");
+            if (isPay) return false;
+            
+            // Filter out models where rpm_limit, tpm_limit, and rpd_limit are all explicitly 0
+            const hasRpm = m.rpm_limit !== 0;
+            const hasTpm = m.tpm_limit !== 0;
+            const hasRpd = m.rpd_limit !== 0;
+            return hasRpm || hasTpm || hasRpd;
+        });
         const paidModels = filtered.filter(m => m.tier && m.tier.toLowerCase().includes("pay"));
 
         // Helper to populate a table body
@@ -84,9 +118,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Category badge mapping
                 let catBadge = "badge-other";
-                if (model.category === "Text-out models") catBadge = "badge-text";
-                else if (model.category === "Image/Video") catBadge = "badge-video";
-                else if (model.category === "Live API") catBadge = "badge-live";
+                const catLower = (model.category || "").toLowerCase();
+                const nameLower = (model.display_name || "").toLowerCase();
+                
+                if (catLower === "text-out models" || catLower === "agents") {
+                    catBadge = "badge-text";
+                } else if (catLower === "multi-modal generative models" && (nameLower.includes("imagen") || nameLower.includes("veo"))) {
+                    catBadge = "badge-video";
+                } else if ((catLower === "multi-modal generative models" || catLower.includes("audio") || catLower.includes("speech") || catLower.includes("tts")) && (nameLower.includes("tts") || nameLower.includes("audio") || nameLower.includes("lyria"))) {
+                    catBadge = "badge-speech";
+                } else if (catLower === "live api") {
+                    catBadge = "badge-live";
+                } else if (catLower.includes("grounding")) {
+                    catBadge = "badge-grounding";
+                }
 
                 // Format limits values
                 const rpmHtml = formatLimitValue(model.rpm, "RPM");

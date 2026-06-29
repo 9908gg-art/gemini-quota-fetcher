@@ -338,6 +338,16 @@ body {
     color: #fbbf24;
 }
 
+.badge-speech {
+    background: rgba(236, 72, 153, 0.1);
+    color: #f472b6;
+}
+
+.badge-grounding {
+    background: rgba(20, 184, 166, 0.1);
+    color: #2dd4bf;
+}
+
 .badge-free {
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-secondary);
