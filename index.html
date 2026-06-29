@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Busuanzi View Counter -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <link rel="stylesheet" href="style.css?v=1.0.0">
 </head>
 <body>
@@ -45,6 +47,30 @@
                     <button class="tab-btn" data-category="Image/Video">影像與視覺</button>
                     <button class="tab-btn" data-category="Live API">Live API</button>
                     <button class="tab-btn" data-category="Other models">其他 (Embedding/Gemma)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purpose & Developer Benefits Section -->
+        <div class="card help-section-card" style="margin-bottom: 25px; border-left: 5px solid var(--color-blue);">
+            <div class="card-title" style="color: var(--color-blue);">
+                <i class="fa-solid fa-circle-question"></i> 面板用途與第三方工具串接優勢
+            </div>
+            <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
+                本面板即時同步 Google AI Studio 官方的速率限制規格（Rate Limits），特別為開發者提供以下兩大核心優勢：
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
+                <div style="background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                    <strong style="color: var(--color-blue);"><i class="fa-solid fa-plug"></i> 免費模型配置 API</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">
+                        提供純數字格式的 <strong>JSON 數據接口</strong>，您的語音輸入工具、AI 助手或本機腳本可直接遠端獲取最新的免費模型名單與規範（RPM/TPM/RPD），省去手動維護代碼的成本。
+                    </span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                    <strong style="color: var(--color-green);"><i class="fa-solid fa-shield-halved"></i> 故障切換與自動降級 (Failover)</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">
+                        當您的工具呼叫單一免費模型（例如 Gemini 2.5 Flash）觸發 <strong>HTTP 429 額度超限</strong>時，可透過讀取本站接口，在背景自動切換到其他健康的備用免費模型，確保您的工具運作永不中斷。
+                    </span>
                 </div>
             </div>
         </div>
@@ -172,6 +198,12 @@
     <footer class="app-footer">
         <div class="container">
             <p>© 2026 Gemini API Monitor. 基於 Playwright 雲端無頭抓取技術自動生成。</p>
+            <p class="view-counter-box" id="busuanzi_container_site_pv" style="display:none; font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; margin-bottom: 10px;">
+                <i class="fa-solid fa-eye" style="margin-right: 5px; color: var(--color-blue);"></i> 
+                本站總瀏覽量：<span id="busuanzi_value_site_pv" style="font-weight: 600; color: var(--color-blue);">...</span> 次 | 
+                <i class="fa-solid fa-user" style="margin-right: 5px; color: var(--color-green);"></i> 
+                訪客數：<span id="busuanzi_value_site_uv" style="font-weight: 600; color: var(--color-green);">...</span> 人
+            </p>
             <p class="github-badge">本頁面定時自動爬取並重新發布於 GitHub Pages | 100% 免費且公開存取</p>
         </div>
     </footer>
