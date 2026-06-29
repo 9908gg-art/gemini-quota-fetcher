@@ -1318,8 +1318,9 @@ if __name__ == "__main__":
             print(msg.strip())
             
         def cli_error(err):
+            import html
             print(f"❌ [CLI 錯誤]: {err}")
-            send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{err}")
+            send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{html.escape(str(err))}")
             sys.exit(1)
             
         def cli_manual_prompt():
@@ -1342,8 +1343,9 @@ if __name__ == "__main__":
         try:
             scraper.scrape()
         except Exception as e:
+            import html
             print(f"❌ [CLI 致命錯誤]: {e}")
-            send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{e}")
+            send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{html.escape(str(e))}")
             sys.exit(1)
             
         # Handle Output
@@ -1377,8 +1379,9 @@ if __name__ == "__main__":
                 
                 sys.exit(0)
             except Exception as e:
+                import html
                 print(f"❌ [CLI 存檔失敗]: {e}")
-                send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：資料存檔或推送程序出錯: {e}")
+                send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：資料存檔或推送程序出錯: {html.escape(str(e))}")
                 sys.exit(1)
         else:
             print("❌ [CLI] 未取得抓取結果。")
