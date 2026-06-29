@@ -278,6 +278,13 @@ class ScraperThread(threading.Thread):
             if data:
                 self.log(f"✅ 解析完成！共取得 {len(data)} 個模型的資料。")
                 self.result_queue.put(data)
+                try:
+                    cookies = self.browser_context.cookies()
+                    with open("cookies.json", "w", encoding="utf-8") as f:
+                        json.dump(cookies, f, indent=4, ensure_ascii=False)
+                    self.log("💾 已成功將最新的 Google 登入會話 Cookies 匯出至 cookies.json。")
+                except Exception as ce:
+                    self.log(f"⚠️ 匯出 cookies.json 失敗: {ce}")
             else:
                 self.log("❌ 無法從頁面中解析出任何模型費率限制數據。")
                 # Save source files for debugging
