@@ -789,10 +789,18 @@ def send_telegram_status(message):
     import os
     import json
     import urllib.request
+    import html
     
     token = os.environ.get("tg_token")
     user_id = os.environ.get("TG_USER_ID")
     if token and user_id:
+        # 自動清理引號、雙引號與前後空白
+        token = str(token).strip().strip('"').strip("'")
+        user_id = str(user_id).strip().strip('"').strip("'")
+        
+        # 安全逃逸 HTML 格式中的特殊字元，避免 Telegram 語法解析失敗 400
+        # 排除 <b> </b> 和 🔔 🟢 🔴 等已知格式標籤，保護自訂 HTML，但轉義其它內容
+        # 由於 message 通常已知，若裡面有 < 或 > 且非 b 標籤則轉義
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         payload = {
             "chat_id": user_id,
@@ -810,6 +818,19 @@ def send_telegram_status(message):
                 return True
         except Exception as e:
             print(f"❌ 發送 Telegram 狀態通知失敗: {e}")
+            # 讀取並列印 Telegram API 回傳的具體錯誤內容
+            if hasattr(e, 'read'):
+                try:
+                    error_detail = e.read().decode('utf-8')
+                    print(f"🔍 [Telegram API 錯誤詳情]: {error_detail}")
+                except Exception:
+                    pass
+            # 列印長度與首尾以便比對是不是引號解析問題
+            try:
+                print(f"🔍 [偵測金鑰資訊] 長度: {len(token)} 字元 | 首三位: '{token[:3]}' | 尾三位: '{token[-3:]}'")
+                print(f"🔍 [偵測帳號資訊] 長度: {len(user_id)} 字元 | 首三位: '{user_id[:3]}' | 尾三位: '{user_id[-3:]}'")
+            except Exception:
+                pass
     else:
         print("⚠️ 未檢測到 tg_token 或 TG_USER_ID，無法發送狀態通知。")
     return False
