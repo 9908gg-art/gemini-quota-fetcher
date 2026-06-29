@@ -388,6 +388,48 @@ class ScraperThread(threading.Thread):
         return False
 
 
+def parse_numeric_limit(val):
+    """
+    Parse a rate limit string like "0 / 250K", "0 / Unlimited", "-" into (current_usage, limit_integer).
+    Returns (current, limit) where:
+      - limit is an integer (e.g. 250000, or -1 for Unlimited) or None if N/A.
+      - current is an integer representing current usage.
+    """
+    if not val or val == "N/A" or val == "-":
+        return 0, None
+        
+    current_str = "0"
+    limit_str = val
+    if "/" in val:
+        parts = val.split("/")
+        current_str = parts[0].strip()
+        limit_str = parts[1].strip()
+        
+    # Parse current
+    try:
+        current_val = int(current_str.replace(",", "").strip())
+    except ValueError:
+        current_val = 0
+        
+    # Parse limit
+    limit_clean = limit_str.lower().strip()
+    if limit_clean in ["-", "n/a", ""]:
+        return current_val, None
+    if "unlimited" in limit_clean:
+        return current_val, -1
+        
+    # Check suffixes
+    try:
+        if limit_clean.endswith("k"):
+            return current_val, int(float(limit_clean[:-1]) * 1000)
+        elif limit_clean.endswith("m"):
+            return current_val, int(float(limit_clean[:-1]) * 1000000)
+        else:
+            return current_val, int(limit_clean.replace(",", ""))
+    except ValueError:
+        return current_val, None
+
+
 def parse_rate_limits(html_content, text_content, log_func=print):
     results = []
     
@@ -459,14 +501,28 @@ def parse_rate_limits(html_content, text_content, log_func=print):
             if "pay-as-you-go" in text_content.lower() or "billing set up" in text_content.lower():
                 tier = "Pay-as-you-go"
                 
+            rpm_str = clean_limit_val(rpm, "RPM")
+            tpm_str = clean_limit_val(tpm, "TPM")
+            rpd_str = clean_limit_val(rpd, "RPD")
+            
+            rpm_curr, rpm_lim = parse_numeric_limit(rpm_str)
+            tpm_curr, tpm_lim = parse_numeric_limit(tpm_str)
+            rpd_curr, rpd_lim = parse_numeric_limit(rpd_str)
+            
             results.append({
                 "api_name": api_name,
                 "display_name": clean_display_name,
                 "category": category,
                 "tier": tier,
-                "rpm": clean_limit_val(rpm, "RPM"),
-                "tpm": clean_limit_val(tpm, "TPM"),
-                "rpd": clean_limit_val(rpd, "RPD")
+                "rpm": rpm_str,
+                "tpm": tpm_str,
+                "rpd": rpd_str,
+                "rpm_limit": rpm_lim,
+                "tpm_limit": tpm_lim,
+                "rpd_limit": rpd_lim,
+                "rpm_current": rpm_curr,
+                "tpm_current": tpm_curr,
+                "rpd_current": rpd_curr
             })
 
     # Method 2: Text Blocks Parsing (Fallback/Validation)
@@ -527,14 +583,28 @@ def parse_rate_limits(html_content, text_content, log_func=print):
                 
             api_name = get_api_model_id(clean_display_name, category)
             
+            rpm_str = clean_limit_val(rpm, "RPM")
+            tpm_str = clean_limit_val(tpm, "TPM")
+            rpd_str = clean_limit_val(rpd, "RPD")
+            
+            rpm_curr, rpm_lim = parse_numeric_limit(rpm_str)
+            tpm_curr, tpm_lim = parse_numeric_limit(tpm_str)
+            rpd_curr, rpd_lim = parse_numeric_limit(rpd_str)
+            
             text_results.append({
                 "api_name": api_name,
                 "display_name": clean_display_name,
                 "category": category,
                 "tier": tier,
-                "rpm": clean_limit_val(rpm, "RPM"),
-                "tpm": clean_limit_val(tpm, "TPM"),
-                "rpd": clean_limit_val(rpd, "RPD")
+                "rpm": rpm_str,
+                "tpm": tpm_str,
+                "rpd": rpd_str,
+                "rpm_limit": rpm_lim,
+                "tpm_limit": tpm_lim,
+                "rpd_limit": rpd_lim,
+                "rpm_current": rpm_curr,
+                "tpm_current": tpm_curr,
+                "rpd_current": rpd_curr
             })
 
     # Merge Results
@@ -553,10 +623,16 @@ def parse_rate_limits(html_content, text_content, log_func=print):
         else:
             if merged[key]["rpm"] == "N/A" and item["rpm"] != "N/A":
                 merged[key]["rpm"] = item["rpm"]
+                merged[key]["rpm_limit"] = item["rpm_limit"]
+                merged[key]["rpm_current"] = item["rpm_current"]
             if merged[key]["tpm"] == "N/A" and item["tpm"] != "N/A":
                 merged[key]["tpm"] = item["tpm"]
+                merged[key]["tpm_limit"] = item["tpm_limit"]
+                merged[key]["tpm_current"] = item["tpm_current"]
             if merged[key]["rpd"] == "N/A" and item["rpd"] != "N/A":
                 merged[key]["rpd"] = item["rpd"]
+                merged[key]["rpd_limit"] = item["rpd_limit"]
+                merged[key]["rpd_current"] = item["rpd_current"]
 
     # Filter system labels
     final_list = []
@@ -1065,9 +1141,14 @@ class AppGUI:
             check_and_notify_changes(JSON_OUTPUT, self.scraped_data)
             with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
-                writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)"])
+                writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "RPM Limit", "TPM Limit", "RPD Limit", "RPM Current", "TPM Current", "RPD Current"])
                 for row in self.scraped_data:
-                    writer.writerow([row["api_name"], row["display_name"], row["category"], row["tier"], row["rpm"], row["tpm"], row["rpd"]])
+                    writer.writerow([
+                        row["api_name"], row["display_name"], row["category"], row["tier"],
+                        row["rpm"], row["tpm"], row["rpd"],
+                        row.get("rpm_limit"), row.get("tpm_limit"), row.get("rpd_limit"),
+                        row.get("rpm_current"), row.get("tpm_current"), row.get("rpd_current")
+                    ])
                     
             with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
                 json.dump(self.scraped_data, f, indent=4, ensure_ascii=False)
@@ -1088,9 +1169,14 @@ class AppGUI:
             try:
                 with open(file_path, "w", newline="", encoding="utf-8-sig") as f:
                     writer = csv.writer(f)
-                    writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)"])
+                    writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "RPM Limit", "TPM Limit", "RPD Limit", "RPM Current", "TPM Current", "RPD Current"])
                     for row in self.scraped_data:
-                        writer.writerow([row["api_name"], row["display_name"], row["category"], row["tier"], row["rpm"], row["tpm"], row["rpd"]])
+                        writer.writerow([
+                            row["api_name"], row["display_name"], row["category"], row["tier"],
+                            row["rpm"], row["tpm"], row["rpd"],
+                            row.get("rpm_limit"), row.get("tpm_limit"), row.get("rpd_limit"),
+                            row.get("rpm_current"), row.get("tpm_current"), row.get("rpd_current")
+                        ])
                 messagebox.showinfo("匯出成功", f"成功存檔至: {file_path}")
             except Exception as e:
                 messagebox.showerror("匯出失敗", f"寫入檔案時出錯: {str(e)}")
@@ -1129,9 +1215,14 @@ if __name__ == "__main__":
             # Save CSV
             with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
-                writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)"])
+                writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "RPM Limit", "TPM Limit", "RPD Limit", "RPM Current", "TPM Current", "RPD Current"])
                 for row in data:
-                    writer.writerow([row["api_name"], row["display_name"], row["category"], row["tier"], row["rpm"], row["tpm"], row["rpd"]])
+                    writer.writerow([
+                        row["api_name"], row["display_name"], row["category"], row["tier"],
+                        row["rpm"], row["tpm"], row["rpd"],
+                        row.get("rpm_limit"), row.get("tpm_limit"), row.get("rpd_limit"),
+                        row.get("rpm_current"), row.get("tpm_current"), row.get("rpd_current")
+                    ])
             # Save JSON
             with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
@@ -1190,9 +1281,14 @@ if __name__ == "__main__":
                 # Save CSV
                 with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                     writer = csv.writer(f)
-                    writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)"])
+                    writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "RPM Limit", "TPM Limit", "RPD Limit", "RPM Current", "TPM Current", "RPD Current"])
                     for row in data:
-                        writer.writerow([row["api_name"], row["display_name"], row["category"], row["tier"], row["rpm"], row["tpm"], row["rpd"]])
+                        writer.writerow([
+                            row["api_name"], row["display_name"], row["category"], row["tier"],
+                            row["rpm"], row["tpm"], row["rpd"],
+                            row.get("rpm_limit"), row.get("tpm_limit"), row.get("rpd_limit"),
+                            row.get("rpm_current"), row.get("tpm_current"), row.get("rpd_current")
+                        ])
                 # Save JSON
                 with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
                     json.dump(data, f, indent=4, ensure_ascii=False)
