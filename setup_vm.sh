@@ -29,10 +29,22 @@ echo -e "\n🌐 [4/6] 正在下載 Playwright 瀏覽器核心 (Chromium)..."
 playwright install chromium
 sudo playwright install-deps
 
-echo -e "\n🤖 [5/6] 正在確認環境設定..."
-# Make sure we are in the correct repo directory
+echo -e "\n🤖 [5/6] 正在確認環境與設定 Telegram 通知..."
 REPO_DIR=$(pwd)
 echo "目前工作目錄: $REPO_DIR"
+
+read -p "❓ 是否要設定 Telegram 機器人通知？(y/n): " set_tg
+if [[ "$set_tg" =~ ^[Yy]$ ]]; then
+    read -p "➡️  請輸入您的 Telegram Bot Token (tg_token): " user_token
+    read -p "➡️  請輸入您的 Telegram 個人 ID (TG_USER_ID): " user_chat_id
+    
+    # Save to .env file
+    echo "tg_token=\"$user_token\"" > .env
+    echo "TG_USER_ID=\"$user_chat_id\"" >> .env
+    echo "✔️ 成功建立 .env 設定檔並寫入 Telegram 憑證！"
+else
+    echo "⚠️ 跳過 Telegram 憑證設定。若日後需要，可手動建立 .env 檔案並寫入。"
+fi
 
 # Print instruction for cookies
 echo -e "\n=================================================================="

@@ -16,6 +16,19 @@ try:
 except ImportError:
     HAS_TKINTER = False
 
+# Load .env file for environment variables if it exists (very useful for Cron jobs)
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(env_path):
+    try:
+        with open(env_path, "r", encoding="utf-8") as f_env:
+            for env_line in f_env:
+                env_line = env_line.strip()
+                if env_line and not env_line.startswith("#") and "=" in env_line:
+                    k, v = env_line.split("=", 1)
+                    os.environ[k.strip()] = v.strip().strip('"').strip("'")
+    except Exception as env_err:
+        print(f"⚠️ 讀取 .env 檔案失敗: {env_err}")
+
 # Auto-dependency check and installation
 try:
     from bs4 import BeautifulSoup

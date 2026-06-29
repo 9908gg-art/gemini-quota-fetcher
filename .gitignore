@@ -1,5 +1,6 @@
 # Ignore sensitive Google cookies and chromium browser profiles
 cookies.json
+.env
 aistudio_profile/
 debug_page_source.html
 debug_page_text.txt
