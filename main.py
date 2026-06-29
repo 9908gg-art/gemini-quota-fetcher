@@ -89,28 +89,30 @@ def get_api_model_id(display_name, category=""):
     if name_clean.endswith("info"):
         name_clean = name_clean[:-4].strip()
         
-    # Check direct mapping
+    # Check direct mapping or substring matches
+    val = None
     if name_clean in MODEL_NAME_TO_API_ID:
-        return MODEL_NAME_TO_API_ID[name_clean]
+        val = MODEL_NAME_TO_API_ID[name_clean]
+    else:
+        for friendly, api_id in MODEL_NAME_TO_API_ID.items():
+            if friendly in name_clean:
+                val = api_id
+                break
         
-    # Check substring matches
-    for friendly, api_id in MODEL_NAME_TO_API_ID.items():
-        if friendly in name_clean:
-            return api_id
-            
-    # Auto-generate kebab-case name if unknown
-    val = name_clean.replace(" ", "-").replace("/", "-")
-    # Clean redundant dashes
-    while "--" in val:
-        val = val.replace("--", "-")
+        if val is None:
+            # Auto-generate kebab-case name if unknown
+            val = name_clean.replace(" ", "-").replace("/", "-")
+            # Clean redundant dashes
+            while "--" in val:
+                val = val.replace("--", "-")
     
-    # Append category context to distinguish grounding or agents
+    # Append category context to distinguish grounding or agents if not already present
     cat_clean = category.lower().strip()
-    if "map grounding" in cat_clean:
+    if "map grounding" in cat_clean and not val.endswith("-map-grounding"):
         val = f"{val}-map-grounding"
-    elif "search grounding" in cat_clean:
+    elif "search grounding" in cat_clean and not val.endswith("-search-grounding"):
         val = f"{val}-search-grounding"
-    elif "agents" in cat_clean:
+    elif "agents" in cat_clean and not val.endswith("-agents"):
         val = f"{val}-agents"
         
     return val.strip("-")
@@ -540,24 +542,26 @@ def parse_rate_limits(html_content, text_content, log_func=print):
     
     # Load Table parsing first
     for item in results:
-        merged[item["api_name"]] = item
+        key = f"{item['api_name']}|{item['category']}"
+        merged[key] = item
         
     # Supplement from Text parsing
     for item in text_results:
-        m = item["api_name"]
-        if m not in merged:
-            merged[m] = item
+        key = f"{item['api_name']}|{item['category']}"
+        if key not in merged:
+            merged[key] = item
         else:
-            if merged[m]["rpm"] == "N/A" and item["rpm"] != "N/A":
-                merged[m]["rpm"] = item["rpm"]
-            if merged[m]["tpm"] == "N/A" and item["tpm"] != "N/A":
-                merged[m]["tpm"] = item["tpm"]
-            if merged[m]["rpd"] == "N/A" and item["rpd"] != "N/A":
-                merged[m]["rpd"] = item["rpd"]
+            if merged[key]["rpm"] == "N/A" and item["rpm"] != "N/A":
+                merged[key]["rpm"] = item["rpm"]
+            if merged[key]["tpm"] == "N/A" and item["tpm"] != "N/A":
+                merged[key]["tpm"] = item["tpm"]
+            if merged[key]["rpd"] == "N/A" and item["rpd"] != "N/A":
+                merged[key]["rpd"] = item["rpd"]
 
     # Filter system labels
     final_list = []
-    for api_name, data in merged.items():
+    for key, data in merged.items():
+        api_name = data["api_name"]
         if api_name.lower() in ["model", "models", "rate-limits-by-model", "free-tier", "project", "time-range", "limit"]:
             continue
         final_list.append(data)
