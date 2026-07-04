@@ -293,8 +293,17 @@ class ScraperThread(threading.Thread):
             # Smart search and click for "See more" button if it exists
             self.log("🔘 正在檢查是否有「See more」(展開更多) 按鈕...")
             try:
-                see_more = page.locator("button.see-more-button, text=See more").first
-                if see_more.is_visible(timeout=2000):
+                see_more = None
+                for selector in ["button.see-more-button", "text=See more", "text=顯示更多"]:
+                    loc = page.locator(selector).first
+                    try:
+                        if loc.count() > 0 and loc.is_visible(timeout=1000):
+                            see_more = loc
+                            break
+                    except Exception:
+                        pass
+                        
+                if see_more:
                     self.log("找到「See more」按鈕，正在點擊以展開所有模型...")
                     see_more.scroll_into_view_if_needed()
                     see_more.click(force=True)
