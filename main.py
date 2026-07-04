@@ -826,7 +826,6 @@ def send_telegram_status(message):
     import os
     import json
     import urllib.request
-    import html
     
     token = os.environ.get("tg_token")
     user_id = os.environ.get("TG_USER_ID")
@@ -835,41 +834,54 @@ def send_telegram_status(message):
         token = str(token).strip().strip('"').strip("'")
         user_id = str(user_id).strip().strip('"').strip("'")
         
-        # 安全逃逸 HTML 格式中的特殊字元，避免 Telegram 語法解析失敗 400
-        # 排除 <b> </b> 和 🔔 🟢 🔴 等已知格式標籤，保護自訂 HTML，但轉義其它內容
-        # 由於 message 通常已知，若裡面有 < 或 > 且非 b 標籤則轉義
+        # 為了防止 Message Too Long (4096 字元限制)
+        # 我們將長訊息以行(\n)為單位分割，組合成多個小於 4000 字元的區塊分開發送
+        lines = message.split("\n")
+        chunks = []
+        current_chunk = []
+        current_len = 0
+        
+        for line in lines:
+            if current_len + len(line) + 1 > 4000:
+                chunks.append("\n".join(current_chunk))
+                current_chunk = [line]
+                current_len = len(line)
+            else:
+                current_chunk.append(line)
+                current_len += len(line) + 1
+                
+        if current_chunk:
+            chunks.append("\n".join(current_chunk))
+            
+        success_all = True
         url = f"https://api.telegram.org/bot{token}/sendMessage"
-        payload = {
-            "chat_id": user_id,
-            "text": message,
-            "parse_mode": "HTML"
-        }
-        try:
-            req = urllib.request.Request(
-                url,
-                data=json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"}
-            )
-            with urllib.request.urlopen(req) as resp:
-                print("✔️ Telegram 狀態通知發送成功！")
-                return True
-        except Exception as e:
-            print(f"❌ 發送 Telegram 狀態通知失敗: {e}")
-            # 讀取並列印 Telegram API 回傳的具體錯誤內容
-            if hasattr(e, 'read'):
-                try:
-                    error_detail = e.read().decode('utf-8')
-                    print(f"🔍 [Telegram API 錯誤詳情]: {error_detail}")
-                except Exception:
-                    pass
-            # 印出發送失敗的訊息內容，方便找出哪裡包含不合規的 HTML 標籤
-            print(f"🔍 [發送失敗的訊息內容]:\n{message}\n--------------------------------")
-            # 列印長度與首尾以便比對是不是引號解析問題
+        
+        for idx, chunk in enumerate(chunks):
+            payload = {
+                "chat_id": user_id,
+                "text": chunk,
+                "parse_mode": "HTML"
+            }
             try:
-                print(f"🔍 [偵測金鑰資訊] 長度: {len(token)} 字元 | 首三位: '{token[:3]}' | 尾三位: '{token[-3:]}'")
-                print(f"🔍 [偵測帳號資訊] 長度: {len(user_id)} 字元 | 首三位: '{user_id[:3]}' | 尾三位: '{user_id[-3:]}'")
-            except Exception:
-                pass
+                req = urllib.request.Request(
+                    url,
+                    data=json.dumps(payload).encode("utf-8"),
+                    headers={"Content-Type": "application/json"}
+                )
+                with urllib.request.urlopen(req) as resp:
+                    if idx == len(chunks) - 1:
+                        print(f"✔️ Telegram 狀態通知發送成功！(共分 {len(chunks)} 個區塊發送)")
+            except Exception as e:
+                print(f"❌ 發送 Telegram 區塊 {idx+1}/{len(chunks)} 失敗: {e}")
+                if hasattr(e, 'read'):
+                    try:
+                        error_detail = e.read().decode('utf-8')
+                        print(f"🔍 [Telegram API 錯誤詳情]: {error_detail}")
+                    except Exception:
+                        pass
+                success_all = False
+                
+        return success_all
     else:
         print("⚠️ 未檢測到 tg_token 或 TG_USER_ID，無法發送狀態通知。")
     return False
