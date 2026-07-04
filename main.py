@@ -1339,14 +1339,63 @@ if __name__ == "__main__":
                 
         log_queue = queue.Queue()
         result_queue = queue.Queue()
+        cli_logs = []
         
         def cli_log(msg):
-            print(msg.strip())
+            msg_str = msg.strip()
+            print(msg_str)
+            cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {msg_str}")
             
+        def save_run_log_and_push(success, err_str=None):
+            # 1. 寫入本地日誌檔案 run_log.txt
+            log_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "run_log.txt"))
+            try:
+                with open(log_file_path, "w", encoding="utf-8") as f:
+                    f.write("\n".join(cli_logs))
+                    if err_str:
+                        f.write(f"\n\n================ ERROR DETAIL ================\n{err_str}\n")
+                print("📝 成功寫入執行日誌至 run_log.txt。")
+            except Exception as le:
+                print(f"⚠️ 寫入 run_log.txt 失敗: {le}")
+                
+            # 2. 自動將日誌、截圖與數據推送至 GitHub
+            if "--push" in sys.argv:
+                import shutil
+                import subprocess
+                git_installed = shutil.which("git") is not None
+                if git_installed:
+                    try:
+                        files_to_add = ["run_log.txt"]
+                        screenshot_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "login_error_screenshot.png"))
+                        if os.path.exists(screenshot_path):
+                            files_to_add.append("login_error_screenshot.png")
+                        if success:
+                            files_to_add.extend(["gemini_rate_limits.json", "gemini_rate_limits.csv"])
+                            
+                        # 用 git add
+                        subprocess.check_call(["git", "add"] + files_to_add)
+                        
+                        # 檢查有無變更，有的話提交並推送
+                        status_out = subprocess.check_output(["git", "status", "--porcelain"])
+                        if status_out.strip():
+                            commit_msg = "chore: 自動更新執行日誌與狀態 [skip ci]" if not success else "chore: 自動更新額度限制與日誌 [skip ci]"
+                            subprocess.check_call(["git", "commit", "-m", commit_msg])
+                            subprocess.check_call(["git", "push", "origin", "main"])
+                            print("✔️ 已成功將最新執行日誌與狀態推送至 GitHub！")
+                        else:
+                            print("✔️ 資料與日誌無任何變更，無須推送。")
+                    except Exception as ge:
+                        print(f"⚠️ Git 推送日誌與資料失敗: {ge}")
+
         def cli_error(err):
             import html
             print(f"❌ [CLI 錯誤]: {err}")
             err_str = str(err)
+            cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ❌ [CLI 錯誤]: {err_str}")
+            
+            # 儲存並推送日誌
+            save_run_log_and_push(False, err_str)
+            
             if len(err_str) > 1500:
                 err_str = err_str[:1500] + "\n... (已截斷過長追蹤資訊，請至雲端主機查看完整日誌) ..."
             send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{html.escape(err_str)}")
@@ -1375,6 +1424,11 @@ if __name__ == "__main__":
             import html
             print(f"❌ [CLI 致命錯誤]: {e}")
             err_str = str(e)
+            cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ❌ [CLI 致命錯誤]: {err_str}")
+            
+            # 儲存並推送日誌
+            save_run_log_and_push(False, err_str)
+            
             if len(err_str) > 1500:
                 err_str = err_str[:1500] + "\n... (已截斷過長追蹤資訊，請至雲端主機查看完整日誌) ..."
             send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{html.escape(err_str)}")
@@ -1401,19 +1455,18 @@ if __name__ == "__main__":
                     json.dump(data, f, indent=4, ensure_ascii=False)
                 print(f"\n🎉 [CLI] 抓取完成！資料已存檔:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}")
                 
-                # Check if --push is specified to push changes to GitHub
-                if "--push" in sys.argv:
-                    push_success = push_to_github(print)
-                    if not push_success:
-                        print("❌ [CLI] 上傳推送失敗，請檢查上述錯誤訊息！")
-                        send_telegram_status("🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：Git 推送更新失敗，請檢查雲端網路或授權憑證。")
-                        sys.exit(1)
-                
+                # 儲存並推送日誌 (Success)
+                save_run_log_and_push(True)
                 sys.exit(0)
             except Exception as e:
                 import html
                 print(f"❌ [CLI 存檔失敗]: {e}")
                 err_str = str(e)
+                cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ❌ [CLI 存檔失敗]: {err_str}")
+                
+                # 儲存並推送日誌
+                save_run_log_and_push(False, err_str)
+                
                 if len(err_str) > 1500:
                     err_str = err_str[:1500] + "\n... (已截斷過長追蹤資訊，請至雲端主機查看完整日誌) ..."
                 send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：資料存檔或推送程序出錯: {html.escape(err_str)}")
