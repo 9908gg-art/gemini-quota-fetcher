@@ -290,29 +290,8 @@ class ScraperThread(threading.Thread):
                 self.log("✨ 成功開啟「All models」滑塊，所有模型已展開！")
                 page.wait_for_timeout(2000) # Wait for page structure update
                 
-            # Smart search and click for "See more" button if it exists
-            self.log("🔘 正在檢查是否有「See more」(展開更多) 按鈕...")
-            try:
-                see_more = None
-                for selector in ["button.see-more-button", "text=See more", "text=顯示更多"]:
-                    loc = page.locator(selector).first
-                    try:
-                        if loc.count() > 0 and loc.is_visible(timeout=1000):
-                            see_more = loc
-                            break
-                    except Exception:
-                        pass
-                        
-                if see_more:
-                    self.log("找到「See more」按鈕，正在點擊以展開所有模型...")
-                    see_more.scroll_into_view_if_needed()
-                    see_more.click(force=True)
-                    page.wait_for_timeout(2000) # Wait for list expansion
-                    self.log("✔️ 已點擊「See more」展開按鈕！")
-                else:
-                    self.log("沒有找到「See more」按鈕，或模型已全部顯示。")
-            except Exception as e:
-                self.log(f"檢查或點擊「See more」時出現微小異常 (可能不需點擊): {str(e)}")
+            # Skip checking "See more" as "All models" toggle is sufficient
+            self.log("🔘 跳過 See more 按鈕檢查（All models 開關已展開所有必要數據）。")
 
             # Extract Page Content
             self.log("📥 正在抓取頁面內容...")
