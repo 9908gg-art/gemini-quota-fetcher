@@ -182,7 +182,6 @@ class ScraperThread(threading.Thread):
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
                 args=["--disable-blink-features=AutomationControlled"]
             )
-            
             # Load cookies from environment variable or local JSON if available
             cookies = None
             cookies_env = os.environ.get("GOOGLE_COOKIES")
@@ -193,13 +192,17 @@ class ScraperThread(threading.Thread):
                 except Exception as e:
                     self.log(f"⚠️ 解析環境變數 GOOGLE_COOKIES 失敗: {e}")
                     
-            if not cookies and os.path.exists("cookies.json"):
-                try:
-                    with open("cookies.json", "r", encoding="utf-8") as f:
-                        cookies = json.load(f)
-                        self.log("🔑 已從本地 cookies.json 檔案載入會話 Cookies。")
-                except Exception as e:
-                    self.log(f"⚠️ 讀取 cookies.json 失敗: {e}")
+            if not cookies:
+                if os.path.exists(COOKIES_FILE):
+                    try:
+                        self.log(f"📂 正在從路徑讀取 Cookies: {COOKIES_FILE}")
+                        with open(COOKIES_FILE, "r", encoding="utf-8") as f:
+                            cookies = json.load(f)
+                            self.log(f"🔑 已從本地 cookies.json 載入 {len(cookies)} 筆會話 Cookies。")
+                    except Exception as e:
+                        self.log(f"⚠️ 讀取 cookies.json 失敗: {e}")
+                else:
+                    self.log(f"⚠️ 未在預期路徑找到 cookies.json 檔案: {COOKIES_FILE}")
                     
             if cookies:
                 # 確保 cookies 內部的 sameSite 符合 Playwright 大小寫要求 (Strict, Lax, None)
@@ -233,11 +236,33 @@ class ScraperThread(threading.Thread):
             page.wait_for_timeout(2000)
             
             # Loop check for login screen
-            while "accounts.google.com" in page.url or page.locator("text=Sign in").count() > 0:
-                self.log("⚠️ 偵測到需要登入！請在打開的瀏覽器視窗中完成 Google 登入...")
+            if "accounts.google.com" in page.url or page.locator("text=Sign in").count() > 0:
+                current_url = page.url
+                page_title = page.title()
+                self.log(f"⚠️ 偵測到需要登入！目前網址: {current_url} | 網頁標題: {page_title}")
+                
+                # 取得當前網頁的部分文字內容以供除錯
+                try:
+                    page_text = page.evaluate("() => document.body.innerText")
+                    text_snippet = page_text[:400].replace('\n', ' ').strip()
+                    self.log(f"📋 網頁當前文字片段: {text_snippet}")
+                except Exception:
+                    pass
+                
+                # 自動截圖以供可視化除錯
+                try:
+                    screenshot_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "login_error_screenshot.png"))
+                    page.screenshot(path=screenshot_path)
+                    self.log(f"📸 已將偵測到登入/錯誤的網頁畫面截圖存檔至: {screenshot_path}")
+                except Exception as se:
+                    self.log(f"⚠️ 嘗試截圖失敗: {se}")
+
                 if self.headless:
-                    raise Exception("需要登入，但目前設定為無頭模式 (Headless)。請勾選「顯示瀏覽器畫面」後重新運行以手動登入。")
-                page.wait_for_timeout(3000)
+                    raise Exception(f"需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: '{page_title}'，網址: {current_url}。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。")
+                
+                while "accounts.google.com" in page.url or page.locator("text=Sign in").count() > 0:
+                    self.log("⚠️ 請在打開的瀏覽器視窗中完成 Google 登入...")
+                    page.wait_for_timeout(3000)
 
             self.log("🟢 已登入或無需登入，正在等待 AI Studio 載入費率限制頁面...")
             
@@ -294,9 +319,9 @@ class ScraperThread(threading.Thread):
                 self.result_queue.put(data)
                 try:
                     cookies = self.browser_context.cookies()
-                    with open("cookies.json", "w", encoding="utf-8") as f:
+                    with open(COOKIES_FILE, "w", encoding="utf-8") as f:
                         json.dump(cookies, f, indent=4, ensure_ascii=False)
-                    self.log("💾 已成功將最新的 Google 登入會話 Cookies 匯出至 cookies.json。")
+                    self.log(f"💾 已成功將最新的 Google 登入會話 Cookies 匯出至: {COOKIES_FILE}")
                 except Exception as ce:
                     self.log(f"⚠️ 匯出 cookies.json 失敗: {ce}")
             else:
