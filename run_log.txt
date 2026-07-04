@@ -1,28 +1,29 @@
-[2026-07-04 08:47:25] 🚀 啟動 Playwright 瀏覽器核心 (同步安全模式)...
-[2026-07-04 08:47:28] 📂 使用瀏覽器設定檔目錄: /home/g9908qq/gemini-quota-fetcher/aistudio_profile
-[2026-07-04 08:47:34] 📂 正在從路徑讀取 Cookies: /home/g9908qq/gemini-quota-fetcher/cookies.json
-[2026-07-04 08:47:34] 🔑 已從本地 cookies.json 載入 27 筆會話 Cookies。
-[2026-07-04 08:47:34] ✔️ 成功注入 Google 登入狀態 Cookies！
-[2026-07-04 08:47:34] 🌐 正在導航至網址: https://aistudio.google.com/rate-limit?timeRange=last-28-days&project=gen-lang-client-0286062465
-[2026-07-04 08:47:40] 🔍 檢查是否需要登入 Google 帳號...
-[2026-07-04 08:47:42] 🟢 已登入或無需登入，正在等待 AI Studio 載入費率限制頁面...
-[2026-07-04 08:47:42] 🎉 成功載入費率限制頁面！
-[2026-07-04 08:47:42] 🔘 正在尋找「All models」滑動開關...
-[2026-07-04 08:47:42] 找到滑塊按鈕選擇器: button[aria-label='Toggle view all models']
-[2026-07-04 08:47:42] 目前滑塊狀態 (aria-checked): false
-[2026-07-04 08:47:42] 正在嘗試標準點擊開關...
-[2026-07-04 08:47:44] ✔️ 成功切換滑塊！(aria-checked=true)
-[2026-07-04 08:47:44] ✨ 成功開啟「All models」滑塊，所有模型已展開！
-[2026-07-04 08:47:46] 🔘 正在檢查是否有「See more」(展開更多) 按鈕...
-[2026-07-04 08:47:46] 檢查或點擊「See more」時出現微小異常 (可能不需點擊): Locator.is_visible: Unexpected token "=" while parsing css selector "button.see-more-button, text=See more". Did you mean to CSS.escape it?
-Call log:
-    - checking visibility of button.see-more-button, text=See more >> nth=0
-[2026-07-04 08:47:46] 📥 正在抓取頁面內容...
-[2026-07-04 08:47:46] 🧩 正在解析數據 (RPM, TPM, RPD)...
-[2026-07-04 08:47:46] 🔎 網頁中找到 6 個表格，正在嘗試表格欄位解析...
-[2026-07-04 08:47:46] 🎯 找到限制表格 (表格 0)，對齊索引：Model=1, RPM=3, TPM=4, RPD=5
-[2026-07-04 08:47:46] 🔎 正在進行網頁文字區塊正則與行解析...
-[2026-07-04 08:47:46] ✅ 解析完成！共取得 51 個模型的資料。
-[2026-07-04 08:47:46] 💾 已成功將最新的 Google 登入會話 Cookies 匯出至: /home/g9908qq/gemini-quota-fetcher/cookies.json
-[2026-07-04 08:47:46] 🔒 正在關閉瀏覽器...
-[2026-07-04 08:47:47] 🏁 抓取任務結束。
+[2026-07-04 09:04:12] 🚀 啟動 Playwright 瀏覽器核心 (同步安全模式)...
+[2026-07-04 09:04:15] 📂 使用瀏覽器設定檔目錄: /home/g9908qq/gemini-quota-fetcher/aistudio_profile
+[2026-07-04 09:04:21] 📂 正在從路徑讀取 Cookies: /home/g9908qq/gemini-quota-fetcher/cookies.json
+[2026-07-04 09:04:21] 🔑 已從本地 cookies.json 載入 29 筆會話 Cookies。
+[2026-07-04 09:04:21] ✔️ 成功注入 Google 登入狀態 Cookies！
+[2026-07-04 09:04:22] 🌐 正在導航至網址: https://aistudio.google.com/rate-limit?timeRange=last-28-days&project=gen-lang-client-0286062465
+[2026-07-04 09:04:24] 🔍 檢查是否需要登入 Google 帳號...
+[2026-07-04 09:04:26] ⚠️ 偵測到需要登入！目前網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S925600692%3A1783155862635719&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AcDsRvxLH7bc0Mc6spnFhyJjL0dudj5UxSK0hTlXkyi3jh6-MPDuPcEm7-9uKznzZPG8YoYCdHbvjA | 網頁標題: Sign in - Google Accounts
+[2026-07-04 09:04:26] 📋 網頁當前文字片段: Loading Sign in Use your Google Account Email or phone Forgot email? Not your computer? Use Guest mode to sign in privately. Learn more about using Guest mode Next Create account English (United States) Help Privacy Terms
+[2026-07-04 09:04:26] 📸 已將偵測到登入/錯誤的網頁畫面截圖存檔至: /home/g9908qq/gemini-quota-fetcher/login_error_screenshot.png
+[2026-07-04 09:04:26] 🔴 抓取錯誤: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S925600692%3A1783155862635719&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AcDsRvxLH7bc0Mc6spnFhyJjL0dudj5UxSK0hTlXkyi3jh6-MPDuPcEm7-9uKznzZPG8YoYCdHbvjA。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+[2026-07-04 09:04:26] ❌ [CLI 錯誤]: 抓取核心錯誤: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S925600692%3A1783155862635719&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AcDsRvxLH7bc0Mc6spnFhyJjL0dudj5UxSK0hTlXkyi3jh6-MPDuPcEm7-9uKznzZPG8YoYCdHbvjA。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+
+詳細追蹤資訊:
+Traceback (most recent call last):
+  File "/home/g9908qq/gemini-quota-fetcher/main.py", line 261, in scrape
+    raise Exception(f"需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: '{page_title}'，網址: {current_url}。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。")
+Exception: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S925600692%3A1783155862635719&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AcDsRvxLH7bc0Mc6spnFhyJjL0dudj5UxSK0hTlXkyi3jh6-MPDuPcEm7-9uKznzZPG8YoYCdHbvjA。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+
+
+================ ERROR DETAIL ================
+抓取核心錯誤: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S925600692%3A1783155862635719&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AcDsRvxLH7bc0Mc6spnFhyJjL0dudj5UxSK0hTlXkyi3jh6-MPDuPcEm7-9uKznzZPG8YoYCdHbvjA。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+
+詳細追蹤資訊:
+Traceback (most recent call last):
+  File "/home/g9908qq/gemini-quota-fetcher/main.py", line 261, in scrape
+    raise Exception(f"需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: '{page_title}'，網址: {current_url}。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。")
+Exception: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S925600692%3A1783155862635719&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AcDsRvxLH7bc0Mc6spnFhyJjL0dudj5UxSK0hTlXkyi3jh6-MPDuPcEm7-9uKznzZPG8YoYCdHbvjA。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+
