@@ -57,6 +57,7 @@ DEFAULT_URL = "https://aistudio.google.com/rate-limit?timeRange=last-28-days&pro
 PROFILE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "aistudio_profile"))
 CSV_OUTPUT = os.path.abspath(os.path.join(os.path.dirname(__file__), "gemini_rate_limits.csv"))
 JSON_OUTPUT = os.path.abspath(os.path.join(os.path.dirname(__file__), "gemini_rate_limits.json"))
+COOKIES_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "cookies.json"))
 
 # Standard Friendly Name to API ID Mapping
 MODEL_NAME_TO_API_ID = {

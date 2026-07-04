@@ -27,13 +27,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install playwright beautifulsoup4
 
-    - name: 安裝 Playwright 瀏覽器核心 (Firefox)
+    - name: 安裝 Playwright 瀏覽器核心 (Chromium)
       run: |
-        playwright install firefox
+        playwright install chromium
 
     - name: 執行 Playwright 爬蟲抓取額度數據
       env:
         GOOGLE_COOKIES: ${{ secrets.GOOGLE_COOKIES }}
+        tg_token: ${{ secrets.TG_TOKEN || secrets.tg_token }}
+        TG_USER_ID: ${{ secrets.TG_USER_ID || secrets.tg_user_id }}
       run: |
         # 執行 CLI 模式的自動爬蟲，這會自動從環境變數載入登入 Cookies
         python main.py --cli
