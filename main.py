@@ -327,10 +327,33 @@ class ScraperThread(threading.Thread):
                 self.log(f"✅ 解析完成！共取得 {len(data)} 個模型的資料。")
                 self.result_queue.put(data)
                 try:
-                    cookies = self.browser_context.cookies()
+                    # 讀取現有的舊 Cookies
+                    old_cookies = []
+                    if os.path.exists(COOKIES_FILE):
+                        try:
+                            with open(COOKIES_FILE, "r", encoding="utf-8") as f_old:
+                                old_cookies = json.load(f_old)
+                        except Exception:
+                            pass
+                    
+                    # 取得瀏覽器當前更新的 Cookies
+                    new_cookies = self.browser_context.cookies()
+                    
+                    # 進行合併，以新 Cookies 覆蓋舊的，但保留未更新的其他舊 Cookies (例如重要的 .google.com)
+                    cookie_dict = {}
+                    for c in old_cookies:
+                        if isinstance(c, dict):
+                            key = (c.get("name"), c.get("domain"), c.get("path"))
+                            cookie_dict[key] = c
+                    for c in new_cookies:
+                        if isinstance(c, dict):
+                            key = (c.get("name"), c.get("domain"), c.get("path"))
+                            cookie_dict[key] = c
+                    merged = list(cookie_dict.values())
+                    
                     with open(COOKIES_FILE, "w", encoding="utf-8") as f:
-                        json.dump(cookies, f, indent=4, ensure_ascii=False)
-                    self.log(f"💾 已成功將最新的 Google 登入會話 Cookies 匯出至: {COOKIES_FILE}")
+                        json.dump(merged, f, indent=4, ensure_ascii=False)
+                    self.log(f"💾 已成功合併並匯出最新的 Google 會話 Cookies 至: {COOKIES_FILE} (共 {len(merged)} 筆)")
                 except Exception as ce:
                     self.log(f"⚠️ 匯出 cookies.json 失敗: {ce}")
             else:
