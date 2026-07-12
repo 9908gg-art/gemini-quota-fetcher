@@ -4,6 +4,8 @@ env_paths = [
     '/home/g9908qq/taiwan-stock-chips/.env',
     '/home/g9908qq/gemini-quota-fetcher/.env',
     '/home/g9908qq/.env',
+    '/home/g9908qq/.bashrc',
+    '/home/g9908qq/.profile',
     '../taiwan-stock-chips/.env',
     '.env'
 ]
@@ -21,7 +23,10 @@ for path in env_paths:
                         continue
                     if '=' in line:
                         key = line.split('=', 1)[0].strip()
-                        print(f"  • 第 {i} 行找到設定項: '{key}'")
+                        # 對於系統設定檔，只顯示含有 pork, api, secret, key 關鍵字的行
+                        is_system_file = 'bashrc' in path or 'profile' in path
+                        if not is_system_file or any(t in key.lower() for t in ['pork', 'api', 'secret', 'key']):
+                            print(f"  • 第 {i} 行找到設定項: '{key}'")
         except Exception as e:
             print(f"  ❌ 讀取錯誤: {e}")
 
