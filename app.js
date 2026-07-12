@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "free-tier-card2-desc": "• <strong>強力な機能</strong>：非常に長いコンテキストウィンドウと強力なコード生成能力を備えています。<br>• <strong>複雑なタスク向け</strong>：レート制限は低めですが、複雑な分析と推論に最適です。",
             "free-table-title": "無料モデルのレート制限 (Free Tier)",
             "free-badge": "無料枠 (1日あたりの制限あり)",
-            "paid-table-title": "従量課金モデル의 레이트 제한 (Pay-as-you-go Tier)",
+            "paid-table-title": "従量課金モデルのレート制限 (Pay-as-you-go Tier)",
             "paid-badge": "有料枠 (1日の制限なし)",
             "col-display-name": "モデル名",
             "col-api-id": "API 識別子",
