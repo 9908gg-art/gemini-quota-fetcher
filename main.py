@@ -18,16 +18,20 @@ except ImportError:
 
 # Load .env file for environment variables if it exists (very useful for Cron jobs)
 env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-if os.path.exists(env_path):
-    try:
-        with open(env_path, "r", encoding="utf-8") as f_env:
-            for env_line in f_env:
-                env_line = env_line.strip()
-                if env_line and not env_line.startswith("#") and "=" in env_line:
-                    k, v = env_line.split("=", 1)
-                    os.environ[k.strip()] = v.strip().strip('"').strip("'")
-    except Exception as env_err:
-        print(f"⚠️ 讀取 .env 檔案失敗: {env_err}")
+fallback_env = os.path.expanduser("~/taiwan-stock-chips/.env")
+for path in [env_path, fallback_env]:
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f_env:
+                for env_line in f_env:
+                    env_line = env_line.strip()
+                    if env_line and not env_line.startswith("#") and "=" in env_line:
+                        k, v = env_line.split("=", 1)
+                        k_clean = k.strip()
+                        if k_clean not in os.environ:
+                            os.environ[k_clean] = v.strip().strip('"').strip("'")
+        except Exception as env_err:
+            print(f"⚠️ 讀取 .env 檔案失敗 ({path}): {env_err}")
 
 # Auto-dependency check and installation
 try:
@@ -887,6 +891,38 @@ def send_telegram_status(message):
     return False
 
 
+def send_email_notification(subject, body):
+    import os
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.header import Header
+
+    smtp_host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+    smtp_user = os.environ.get("SMTP_USER")
+    smtp_pass = os.environ.get("SMTP_PASSWORD")
+    to_email = os.environ.get("ALERT_TO_EMAIL") or smtp_user
+
+    if not smtp_user or not smtp_pass:
+        print("⚠️ 未設定 SMTP_USER 或 SMTP_PASSWORD，無法發送郵件通知。")
+        return
+
+    try:
+        msg = MIMEText(body, 'plain', 'utf-8')
+        msg['Subject'] = Header(subject, 'utf-8')
+        msg['From'] = smtp_user
+        msg['To'] = to_email
+
+        server = smtplib.SMTP(smtp_host, smtp_port)
+        server.starttls()
+        server.login(smtp_user, smtp_pass)
+        server.sendmail(smtp_user, [to_email], msg.as_string())
+        server.quit()
+        print("📧 已成功發送失敗通知信！")
+    except Exception as mail_err:
+        print(f"⚠️ 發送失敗通知信失敗: {mail_err}")
+
+
 def check_and_notify_changes(old_file_path, new_data):
     import os
     import json
@@ -1423,6 +1459,7 @@ if __name__ == "__main__":
             if len(err_str) > 1500:
                 err_str = err_str[:1500] + "\n... (已截斷過長追蹤資訊，請至雲端主機查看完整日誌) ..."
             send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{html.escape(err_str)}")
+            send_email_notification(f"Gemini API 額度定時任務執行失敗！", f"錯誤原因：{err_str}")
             sys.exit(1)
             
         def cli_manual_prompt():
@@ -1456,6 +1493,7 @@ if __name__ == "__main__":
             if len(err_str) > 1500:
                 err_str = err_str[:1500] + "\n... (已截斷過長追蹤資訊，請至雲端主機查看完整日誌) ..."
             send_telegram_status(f"🔴 <b>Gemini API 額度定時任務執行失敗！</b>\n錯誤原因：{html.escape(err_str)}")
+            send_email_notification(f"Gemini API 額度定時任務執行失敗！", f"錯誤原因：{err_str}")
             sys.exit(1)
             
         # Handle Output
