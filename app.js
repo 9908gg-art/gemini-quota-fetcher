@@ -68,7 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "badge-speech": "語音模型",
             "badge-live": "Live API",
             "badge-grounding": "定位與接地",
-            "badge-other": "其他模型"
+            "badge-other": "其他模型",
+            "footer-views-label": "本站總瀏覽量：",
+            "footer-views-unit": " 次",
+            "footer-users-label": "訪客數：",
+            "footer-users-unit": " 人"
         },
         "en": {
             "app-title": "Gemini API Quota & Rate Limits Monitor",
@@ -133,7 +137,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "badge-speech": "Audio & Speech",
             "badge-live": "Live API",
             "badge-grounding": "Grounding & Safety",
-            "badge-other": "Other Models"
+            "badge-other": "Other Models",
+            "footer-views-label": "Total Views: ",
+            "footer-views-unit": " times",
+            "footer-users-label": "Visitors: ",
+            "footer-users-unit": " people"
         },
         "ja": {
             "app-title": "Gemini API 公式クォータ・レート制限モニター",
@@ -198,7 +206,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "badge-speech": "音声",
             "badge-live": "Live API",
             "badge-grounding": "グラウンディング",
-            "badge-other": "その他モデル"
+            "badge-other": "その他モデル",
+            "footer-views-label": "総閲覧数：",
+            "footer-views-unit": " 回",
+            "footer-users-label": "訪問者数：",
+            "footer-users-unit": " 人"
         },
         "ko": {
             "app-title": "Gemini API 공식 쿼터 및 속도 제한 모니터",
@@ -263,7 +275,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "badge-speech": "오디오",
             "badge-live": "Live API",
             "badge-grounding": "그라운딩",
-            "badge-other": "기타 모델"
+            "badge-other": "기타 모델",
+            "footer-views-label": "총 조회수: ",
+            "footer-views-unit": " 회",
+            "footer-users-label": "방문자 수: ",
+            "footer-users-unit": " 명"
         }
     };
 
