@@ -22,7 +22,7 @@ set "today=%today: =%"
 :: 檢查今日是否已執行過
 if "%last_run%"=="%today%" (
     echo ====================================================
-    echo  [Gemini Monitor] 今日 (%today%) 已經成功更新過數據。
+    echo  [Gemini Monitor] 今日 %today% 已經成功更新過數據。
     echo  👉 不需要重複執行。視窗將於 5 秒後自動關閉...
     echo ====================================================
     timeout /t 5 >nul
