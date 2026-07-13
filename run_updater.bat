@@ -2,9 +2,9 @@
 cd /d "%~dp0"
 title Gemini API Quota Auto Updater
 
-:: 使用 WMIC 獲取標準的 YYYY-MM-DD 日期，不受 Windows 系統語系影響
-for /f "tokens=2 delims==" %%i in ('wmic os get localdatetime /value') do set datetime=%%i
-set today=%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2%
+:: 使用 PowerShell 獲取標準的 YYYY-MM-DD 日期，不受 Windows 11 移除 WMIC 的影響
+for /f %%i in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd'"') do set today=%%i
+
 
 set flag_file=last_run_date.txt
 
