@@ -34,6 +34,16 @@ echo  🚀 開始執行 Gemini API 額度更新任務 (今日首次執行)
 echo  📅 日期: %today%
 echo ====================================================
 
+:: 偵測網路狀態，確保開機後網路正常才開始執行
+:ping_loop
+ping -n 1 8.8.8.8 >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ⏳ [Gemini Monitor] 偵測到網路尚未連線，等待 5 秒後重試...
+    timeout /t 5 >nul
+    goto ping_loop
+)
+echo 🌐 [Gemini Monitor] 網路連線正常，啟動更新！
+
 python run.py
 
 if %ERRORLEVEL% EQU 0 (
