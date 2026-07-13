@@ -41,7 +41,7 @@ cname_target = "9908gg-art.github.io"
 
 print(f"🚀 [Porkbun API] 正在新增 DNS CNAME 紀錄: {subdomain}.{domain} -> {cname_target}...")
 
-url = f"https://porkbun.com/api/json/v3/dns/create/{domain}"
+url = f"https://api.porkbun.com/api/json/v3/dns/create/{domain}"
 data = {
     "apikey": apikey,
     "secretapikey": secretapikey,
