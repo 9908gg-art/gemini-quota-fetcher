@@ -240,6 +240,21 @@
         "rpd_current": 0
     },
     {
+        "api_name": "gemini-3.1-flash-lite",
+        "display_name": "Nano Banana 2 Lite (Gemini 3.1 Flash Lite Image)",
+        "category": "Multi-modal generative models",
+        "tier": "Free tier",
+        "rpm": "0 /  0",
+        "tpm": "0 /  0",
+        "rpd": "0 /  0",
+        "rpm_limit": 0,
+        "tpm_limit": 0,
+        "rpd_limit": 0,
+        "rpm_current": 0,
+        "tpm_current": 0,
+        "rpd_current": 0
+    },
+    {
         "api_name": "gemini-3.1-flash-tts",
         "display_name": "Gemini 3.1 Flash TTS",
         "category": "Multi-modal generative models",
@@ -295,6 +310,21 @@
         "rpm_limit": 100,
         "tpm_limit": 30000,
         "rpd_limit": 1000,
+        "rpm_current": 0,
+        "tpm_current": 0,
+        "rpd_current": 0
+    },
+    {
+        "api_name": "gemini-omni-flash",
+        "display_name": "Gemini Omni Flash",
+        "category": "Multi-modal generative models",
+        "tier": "Free tier",
+        "rpm": "0 /  0",
+        "tpm": "0 /  0",
+        "rpd": "0 /  0",
+        "rpm_limit": 0,
+        "tpm_limit": 0,
+        "rpd_limit": 0,
         "rpm_current": 0,
         "tpm_current": 0,
         "rpd_current": 0

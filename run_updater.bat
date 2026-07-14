@@ -44,6 +44,17 @@ if %errorlevel% neq 0 (
 )
 echo 🌐 [Gemini Monitor] 網路連線正常，啟動更新！
 
+set "git_cmd=git"
+if exist "C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe" (
+    set "git_cmd=C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe"
+) else if exist "C:\Program Files\Git\cmd\git.exe" (
+    set "git_cmd=C:\Program Files\Git\cmd\git.exe"
+)
+
+echo 🔄 [Gemini Monitor] 正在從 GitHub 強制同步最新代碼...
+"%git_cmd%" fetch origin
+"%git_cmd%" reset --hard origin/main
+
 python run.py
 
 if %ERRORLEVEL% EQU 0 (

@@ -1421,7 +1421,25 @@ if __name__ == "__main__":
             if "--push" in sys.argv:
                 import shutil
                 import subprocess
-                git_installed = shutil.which("git") is not None
+                git_bin = shutil.which("git")
+                if not git_bin:
+                    # 搜尋常見的 Visual Studio 與本機安裝路徑
+                    vs_paths = [
+                        r"C:\Program Files\Git\cmd\git.exe",
+                        r"C:\Program Files (x86)\Git\cmd\git.exe",
+                        r"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                        r"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                        r"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                        r"C:\Program Files\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                        r"C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                        r"C:\Program Files\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                    ]
+                    for path in vs_paths:
+                        if os.path.exists(path):
+                            git_bin = path
+                            break
+                
+                git_installed = git_bin is not None
                 if git_installed:
                     try:
                         files_to_add = ["run_log.txt"]
@@ -1432,20 +1450,28 @@ if __name__ == "__main__":
                             files_to_add.extend(["gemini_rate_limits.json", "gemini_rate_limits.csv"])
                             
                         # 用 git add
-                        subprocess.check_call(["git", "add"] + files_to_add)
+                        subprocess.check_call([git_bin, "add"] + files_to_add)
                         
                         # 檢查有無變更，有的話提交並推送
-                        status_out = subprocess.check_output(["git", "status", "--porcelain"])
+                        status_out = subprocess.check_output([git_bin, "status", "--porcelain"])
                         if status_out.strip():
+                            # 確保 Git 用戶名稱與信箱有被設定 (防範 Windows 排程服務帳戶環境缺失)
+                            try:
+                                subprocess.call([git_bin, "config", "user.name", "9908gg-art"])
+                                subprocess.call([git_bin, "config", "user.email", "9908qq@gmail.com"])
+                            except Exception:
+                                pass
                             commit_msg = "chore: 自動更新執行日誌與狀態 [skip ci]" if not success else "chore: 自動更新額度限制與日誌 [skip ci]"
-                            subprocess.check_call(["git", "commit", "-m", commit_msg])
+                            subprocess.check_call([git_bin, "commit", "-m", commit_msg])
                             token_url = f"https://ghp_{'7PGRDWniiUCncG95fdjZ1y3FVSyqZe4O7XFb'}@github.com/9908gg-art/gemini-quota-fetcher.git"
-                            subprocess.check_call(["git", "push", token_url, "main"])
+                            subprocess.check_call([git_bin, "push", "--force", token_url, "main"])
                             print("✔️ 已成功將最新執行日誌與狀態推送至 GitHub！")
                         else:
                             print("✔️ 資料與日誌無任何變更，無須推送。")
                     except Exception as ge:
                         print(f"⚠️ Git 推送日誌與資料失敗: {ge}")
+                else:
+                    print("⚠️ 系統未偵測到 Git 安裝 (包括 Visual Studio 內建 Git)，跳過自動推送動作。")
 
         def cli_error(err):
             import html
