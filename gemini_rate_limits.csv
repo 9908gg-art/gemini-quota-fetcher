@@ -23,8 +23,8 @@ text-embedding-005,Gemini Embedding 2,Other models,Free tier,0 /  100,0 /  30K,0
 gemini-omni-flash,Gemini Omni Flash,Multi-modal generative models,Free tier,0 /  0,0 /  0,0 /  0,0,0,0,0,0,0
 gemini-robotics-er-1.5-preview,Gemini Robotics ER 1.5 Preview,Other models,Free tier,0 /  10,0 /  250K,0 /  20,10,250000,20,0,0,0
 gemini-robotics-er-1.6-preview,Gemini Robotics ER 1.6 Preview,Other models,Free tier,0 /  5,0 /  250K,0 /  20,5,250000,20,0,0,0
-gemma-4-26b,Gemma 4 26B,Other models,Free tier,0 /  15,0 / Unlimited,0 /  1.5K,15,-1,1500,0,0,0
-gemma-4-31b,Gemma 4 31B,Other models,Free tier,0 /  15,0 / Unlimited,0 /  1.5K,15,-1,1500,0,0,0
+gemma-4-26b,Gemma 4 26B,Other models,Free tier,0 /  30,0 /  16K,0 /  14.4K,30,16000,14400,0,0,0
+gemma-4-31b,Gemma 4 31B,Other models,Free tier,0 /  30,0 /  16K,0 /  14.4K,30,16000,14400,0,0,0
 imagen-3.0-fast-generate-002,Imagen 4 Fast Generate,Multi-modal generative models,Free tier,-,-,0 /  25,,,25,0,0,0
 imagen-3.0-generate-002,Imagen 4 Generate,Multi-modal generative models,Free tier,-,-,0 /  25,,,25,0,0,0
 imagen-3.0-ultra-generate-002,Imagen 4 Ultra Generate,Multi-modal generative models,Free tier,-,-,0 /  25,,,25,0,0,0
