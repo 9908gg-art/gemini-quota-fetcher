@@ -498,3 +498,30 @@ body {
     border-color: rgba(255, 153, 0, 0.3) !important;
     box-shadow: 0 8px 30px rgba(255, 153, 0, 0.08);
 }
+
+/* 額外標籤與按鈕樣式 */
+.badge-image-gen {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.btn-dl-json:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 16px rgba(59,130,246,0.4);
+}
+
+.btn-dl-csv:hover {
+    background: rgba(255,255,255,0.15) !important;
+    border-color: rgba(255,255,255,0.3) !important;
+}
+
+code {
+    font-family: 'Outfit', monospace;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    color: var(--color-accent-light);
+}
