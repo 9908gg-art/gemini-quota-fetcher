@@ -21,12 +21,17 @@ def make_unique_display_name(api_name, raw_display_name):
 
     return disp
 
+def extract_base_api_name(api_name):
+    # Extract clean base endpoint name for Google API REST endpoint calls to prevent 404
+    base = api_name.replace("-map-grounding", "").replace("-maps-grounding", "").replace("-agents", "")
+    return base
+
 def calculate_dynamic_version_score(model):
     display_name = model.get("display_name", "")
     api_name = model.get("api_name", "")
     text = f"{display_name} {api_name}".lower()
 
-    # Dynamic Version Parsing (extracts version numbers like 1.5, 2.5, 3.0, 3.1, 3.5, 4.0, 5.0, etc.)
+    # Dynamic Version Parsing
     version_matches = re.findall(r'(\d+\.\d+|\b[2-9]\b)', text)
     ver_num = 2.5
     if version_matches:
@@ -68,6 +73,10 @@ def enrich_model(model):
     # Ensure 100% Unique Display Name
     display_name = make_unique_display_name(api_name, raw_display_name)
     model["display_name"] = display_name
+
+    # Clean Base API Name (for REST endpoint calls: models/{base_api_name}:generateContent)
+    base_api_name = extract_base_api_name(api_name)
+    model["base_api_name"] = base_api_name
 
     name_lower = display_name.lower()
     cat_lower = category.lower()
@@ -195,11 +204,16 @@ def main():
     output_obj = {
         "_developer_guide": {
             "title": "Gemini API 官方額度與模型能力 JSON 接口操作指南 (專為 AI 軟體與工具 Failover 設計)",
+            "important_api_call_notice": "⚠️ 請注意：呼叫 Google Gemini API 端點 (v1beta/models/{model}:generateContent) 時，必須使用 `api_name` 或 `base_api_name` 欄位的值，絕不能使用 `display_name`！否則 Google API 會回傳 HTTP 404 Not Found。",
             "sorting_rule": "所有模型已按動態綜合評分 `model_score` 由高至低排序，且免費模型 (is_free_tier: true) 優先排列於最前面。",
-            "recommended_usage": "當您的 AI 軟體或腳本導入此 JSON 時，可以直接讀取 `models` 陣列的第一個元素 (Index 0) 作為預設首選最佳模型。",
-            "failover_instruction": "當調用當前模型遇到 HTTP 429 Rate Limit 超限時，順序存取下一個 `is_free_tier: true` 的模型即可實現 100% 不中斷自動降級與備援。",
-            "display_name_disambiguation": "每一個模型的 `display_name` 均保證 100% 唯一且不重複 (例如區分 `Gemini 3.1 Flash Lite` 與 `Gemini 3.1 Flash Lite (Maps Grounding)`)，方便外部 AI 軟體直接識別。",
-            "rpd_unlimited_note": "RPD 顯示為 Unlimited 或 -1 代表『每日發送請求次數完全無上限』。"
+            "recommended_usage": "當您的 AI 軟體或腳本導入此 JSON 時，可以直接讀取 `models` 陣列的第一個元素 (Index 0) 的 `api_name` (或 `base_api_name`) 作為預設首選最佳模型。",
+            "failover_instruction": "當調用當前模型遇到 HTTP 429 Rate Limit 超限時，順序存取下一個 `is_free_tier: true` 的模型 `api_name` 即可實現 100% 不中斷自動降級與備援。",
+            "field_definitions": {
+                "api_name": "Google AI Studio 官方標準 API 識別碼 (用於 HTTP API 請求端點)，本站 100% 保持官方原始設定，絕無變更。",
+                "base_api_name": "簡化版基礎 API 端點名稱 (已去除 -map-grounding 等變體標籤)，適合 100% 相容 REST 請求。",
+                "display_name": "前端視覺顯示名稱 (已唯一化去重，供使用者介面 UI 展示)。",
+                "model_score": "模型動態綜合效能評分 (最高 9.9)。"
+            }
         },
         "models": sorted_data
     }
