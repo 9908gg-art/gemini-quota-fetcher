@@ -2,10 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let allModels = [];
     let activeCategory = "all";
     
-    // 1. Multi-language Translations Dictionary
+    // 1. Multi-language Translations Dictionary (zh-TW, en, ja, ko)
     const translations = {
         "zh-TW": {
-            "app-title": "Gemini API 官方額度查詢與監控 <span class='sync-daily-tag' style='background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 600;'><i class='fa-solid fa-arrows-rotate'></i> 每日更新</span>",
+            "header-main-title": "官方免費額度查詢與模型分類",
+            "sync-tag-text": "每日更新",
             "official-source": "官方來源：Google AI Studio",
             "last-updated-date": "最近更新：",
             "loading": "載入中...",
@@ -35,8 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "col-rpd": "RPD (日上限)",
             "col-action": "詳細說明",
             
-            "footer-copyright": "© 2026 Gemini API Monitor. 每日定時自動採集與重新發布。",
-            "footer-badge": "本頁面每日自動爬取並公開發布於 GitHub Pages | 100% 免費存取",
+            "footer-copyright": "© 2026 官方免費額度查詢與模型分類. 每日定時自動採集與同步更新。",
+            "sponsor-btn": "贊助開發者一杯咖啡 / Buy Me a Coffee",
             "no-free-found": "找不到符合條件的免費 API 模型",
             "no-paid-found": "找不到符合條件的付費 API 模型",
             "load-failed": "載入資料失敗。",
@@ -60,7 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "footer-users-unit": " 人"
         },
         "en": {
-            "app-title": "Gemini API Quota & Rate Limits Monitor <span class='sync-daily-tag' style='background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 600;'><i class='fa-solid fa-arrows-rotate'></i> Daily Updated</span>",
+            "header-main-title": "Official Gemini API Quotas & Model Categories",
+            "sync-tag-text": "Daily Updated",
             "official-source": "Source: Google AI Studio",
             "last-updated-date": "Updated: ",
             "loading": "Loading...",
@@ -90,36 +92,154 @@ document.addEventListener("DOMContentLoaded", () => {
             "col-rpd": "RPD (Daily Cap)",
             "col-action": "Details",
             
-            "footer-copyright": "© 2026 Gemini API Monitor. Periodically auto-scraped & published.",
-            "footer-badge": "This page is daily auto-scraped and published to GitHub Pages | 100% Free Access",
+            "footer-copyright": "© 2026 Official Gemini API Quotas. Daily auto-synced.",
+            "sponsor-btn": "Buy Me a Coffee",
             "no-free-found": "No free API models found matching criteria",
             "no-paid-found": "No paid API models found matching criteria",
             "load-failed": "Failed to load data.",
             "load-data-free": "Loading Free Tier model data...",
             "load-data-paid": "Loading Paid Tier model data...",
             
-            "amazon-title": "🛒 Amazon Influencer Recommended Deals",
-            "amazon-subtitle": "Featured Recommendations",
+            "amazon-title": "🛒 Amazon Recommended Deals",
+            "amazon-subtitle": "Featured Deals",
             "amz-bestsellers": "Bestsellers",
-            "amz-bestsellers-desc": "Explore hourly updated list of the most popular products on Amazon.",
+            "amz-bestsellers-desc": "Explore hourly updated list of popular products on Amazon.",
             "amz-new-releases": "Hot New Releases",
-            "amz-new-releases-desc": "Discover the best new and upcoming releases on Amazon.",
+            "amz-new-releases-desc": "Discover the best new releases on Amazon.",
             "amz-most-wished": "Most Wished For",
-            "amz-most-wished-desc": "See the products most often added to customer wishlists globally.",
+            "amz-most-wished-desc": "Products most added to customer wishlists.",
             "amz-most-gifted": "Best Gift Ideas",
-            "amz-most-gifted-desc": "The most popular products ordered as gifts for any occasion.",
+            "amz-most-gifted-desc": "Popular gift items for any celebration.",
             "amz-action": "Explore Now ➡️",
             "footer-views-label": "Total Views: ",
             "footer-views-unit": " times",
             "footer-users-label": "Visitors: ",
             "footer-users-unit": " people"
+        },
+        "ja": {
+            "header-main-title": "Google Gemini API 無料利用枠＆モデル分類一覧",
+            "sync-tag-text": "毎日更新",
+            "official-source": "情報元：Google AI Studio",
+            "last-updated-date": "最終更新：",
+            "loading": "読み込み中...",
+            "dl-json-btn": "JSON ダウンロード",
+            "dl-csv-btn": "CSV ダウンロード",
+            "tab-all": "🌐 すべてのモデル",
+            "tab-code": "💻 コーディング＆高度な推論",
+            "tab-chat": "💬 一般対話＆テキスト生成",
+            "tab-vision": "👁️ 画像認識＆マルチモーダル",
+            "tab-speech": "🎙️ 音声合成・TTS",
+            "tab-image-gen": "🎨 画像・動画生成 (Imagen/Veo)",
+            "tab-live": "⚡ リアルタイム対話 (Live API)",
+            "tab-grounding": "🌐 リアルタイム検索・マップ参照",
+            "tab-embedding": "🔍 ベクトル検索 (Embedding)",
+            
+            "free-table-title": "🎁 公式無料枠 Rate Limits (RPD > 0 / 無制限)",
+            "free-badge": "無料モデル (スコア順)",
+            "paid-table-title": "💳 従量課金＆有料限定モデル (RPD = 0)",
+            "paid-badge": "有料層 (クレジットカード必須)",
+            
+            "col-display-name": "モデル表示名",
+            "col-score": "スコア",
+            "col-api-id": "API 識別子",
+            "col-category": "用途分類",
+            "col-rpm": "RPM (分)",
+            "col-tpm": "TPM (分)",
+            "col-rpd": "RPD (日上限)",
+            "col-action": "詳細説明",
+            
+            "footer-copyright": "© 2026 Gemini API Quotas Monitor. 毎日自動同期更新。",
+            "sponsor-btn": "開発者をサポート / Buy Me a Coffee",
+            "no-free-found": "該当する無料モデルが見つかりません",
+            "no-paid-found": "該当する有料モデルが見つかりません",
+            "load-failed": "データの読み込みに失敗しました。",
+            "load-data-free": "無料モデルデータを読み込んでいます...",
+            "load-data-paid": "有料モデルデータを読み込んでいます...",
+            
+            "amazon-title": "🛒 Amazon おすすめ商品",
+            "amazon-subtitle": "厳選おすすめ",
+            "amz-bestsellers": "売れ筋ランキング",
+            "amz-bestsellers-desc": "Amazonで最も人気のある商品を探索。",
+            "amz-new-releases": "新着ランキング",
+            "amz-new-releases-desc": "最新の注目商品をチェック。",
+            "amz-most-wished": "ほしい物リスト",
+            "amz-most-wished-desc": "ユーザーが最も欲しがっている商品。",
+            "amz-most-gifted": "ギフト人気商品",
+            "amz-most-gifted-desc": "プレゼントに最適な人気アイテム。",
+            "amz-action": "今すぐ見る ➡️",
+            "footer-views-label": "総閲覧数：",
+            "footer-views-unit": " 回",
+            "footer-users-label": "訪問者数：",
+            "footer-users-unit": " 人"
+        },
+        "ko": {
+            "header-main-title": "공식 Gemini API 무료 한도 및 모델 분류",
+            "sync-tag-text": "매일 업데이트",
+            "official-source": "출처: Google AI Studio",
+            "last-updated-date": "최근 업데이트: ",
+            "loading": "로딩 중...",
+            "dl-json-btn": "JSON 다운로드",
+            "dl-csv-btn": "CSV 다운로드",
+            "tab-all": "🌐 전체 모델",
+            "tab-code": "💻 코딩 및 복합 추론",
+            "tab-chat": "💬 일반 대화 및 창작",
+            "tab-vision": "👁️ 비전 및 캡처 인식 (Multimodal)",
+            "tab-speech": "🎙️ 음성 합성 및 TTS",
+            "tab-image-gen": "🎨 이미지 및 비디오 생성 (Imagen/Veo)",
+            "tab-live": "⚡ 실시간 대화 (Live API)",
+            "tab-grounding": "🌐 실시간 웹 검색 및 지도 참조",
+            "tab-embedding": "🔍 임베딩 검색 (Embedding)",
+            
+            "free-table-title": "🎁 공식 무료 요금제 한도 (RPD > 0 / 무제한)",
+            "free-badge": "무료 모델 (평점순 정렬)",
+            "paid-table-title": "💳 종량제 및 유료 전용 모델 (RPD = 0)",
+            "paid-badge": "유료 계정 (신용카드 등록 필요)",
+            
+            "col-display-name": "모델 표시 이름",
+            "col-score": "평점",
+            "col-api-id": "API 식별자",
+            "col-category": "용도 분류",
+            "col-rpm": "RPM (분)",
+            "col-tpm": "TPM (분)",
+            "col-rpd": "RPD (일 한도)",
+            "col-action": "상세 설명",
+            
+            "footer-copyright": "© 2026 Gemini API Quotas Monitor. 매일 자동 동기화.",
+            "sponsor-btn": "개발자 후원하기 / Buy Me a Coffee",
+            "no-free-found": "조건에 맞는 무료 모델이 없습니다",
+            "no-paid-found": "조건에 맞는 유료 모델이 없습니다",
+            "load-failed": "데이터를 불러오지 못했습니다.",
+            "load-data-free": "무료 모델 데이터를 불러오는 중...",
+            "load-data-paid": "유료 모델 데이터를 불러오는 중...",
+            
+            "amazon-title": "🛒 아마존 추천 상품",
+            "amazon-subtitle": "엄선된 추천",
+            "amz-bestsellers": "베스트셀러",
+            "amz-bestsellers-desc": "아마존에서 가장 인기 있는 상품을 둘러보세요.",
+            "amz-new-releases": "신상품 랭킹",
+            "amz-new-releases-desc": "최신 출시 및 예정 상품을 확인하세요.",
+            "amz-most-wished": "위시리스트 인기 상품",
+            "amz-most-wished-desc": "고객들이 가장 많이 담은 상품.",
+            "amz-most-gifted": "선물 추천 상품",
+            "amz-most-gifted-desc": "선물용으로 가장 인기 있는 아이템.",
+            "amz-action": "지금 둘러보기 ➡️",
+            "footer-views-label": "총 조회수: ",
+            "footer-views-unit": " 회",
+            "footer-users-label": "방문자 수: ",
+            "footer-users-unit": " 명"
         }
     };
 
-    // 2. Language Detection
+    // 2. Automatic Browser Language Detection (zh-TW, en, ja, ko)
     let userLang = "zh-TW";
-    const browserLang = (navigator.language || navigator.userLanguage || "zh-TW").toLowerCase();
-    if (!browserLang.startsWith("zh")) {
+    const navLang = (navigator.language || navigator.userLanguage || "").toLowerCase();
+    if (navLang.startsWith("ja")) {
+        userLang = "ja";
+    } else if (navLang.startsWith("ko")) {
+        userLang = "ko";
+    } else if (navLang.startsWith("zh")) {
+        userLang = "zh-TW";
+    } else {
         userLang = "en";
     }
 
@@ -222,13 +342,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (activeCategory === "all") {
                 matchesCategory = true;
             } else if (activeCategory === "code") {
-                // Coding & Deep Reasoning models (Pro, Flash 3.5, 3.1)
                 matchesCategory = !isTTSOrAudio && !isEmbedding && !isImageGen && !isLive && (nameLower.includes("pro") || nameLower.includes("flash") || nameLower.includes("computer use"));
             } else if (activeCategory === "chat") {
-                // General Chat & Creation models
                 matchesCategory = !isTTSOrAudio && !isEmbedding && !isImageGen && !isLive && (fineCat === "text" || fineCat === "grounding" || fineCat === "vision");
             } else if (activeCategory === "vision") {
-                // STRICT VISION AUDIT: Must support Vision Multimodal AND MUST NOT be TTS/Audio/Embedding/ImageGen!
                 matchesCategory = isVisionCapable && !isTTSOrAudio && !isEmbedding && !isImageGen;
             } else if (activeCategory === "speech") {
                 matchesCategory = isTTSOrAudio;
@@ -249,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const freeModels = filtered.filter(m => m.is_free_tier || (m.rpd_limit && (m.rpd_limit > 0 || m.rpd_limit === -1)));
         const paidModels = filtered.filter(m => !m.is_free_tier && (!m.rpd_limit || m.rpd_limit === 0));
 
-        // Sort by model_score descending so high score models appear FIRST!
+        // Sort by model_score descending
         freeModels.sort((a, b) => (b.model_score || 0) - (a.model_score || 0));
         paidModels.sort((a, b) => (b.model_score || 0) - (a.model_score || 0));
 
@@ -286,11 +403,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const catText = model.fine_category_name_zh || "通用模型";
             const scoreVal = (model.model_score || 9.0).toFixed(1);
 
-            // Score Badge styling
             const scoreColor = scoreVal >= 9.5 ? "#f59e0b" : (scoreVal >= 9.0 ? "#3b82f6" : "#94a3b8");
             const scoreBadge = `<span style="display:inline-flex; align-items:center; gap:3px; background:rgba(245,158,11,0.1); color:${scoreColor}; font-weight:800; font-size:0.83rem; padding:2px 8px; border-radius:12px; border:1px solid rgba(245,158,11,0.2);"><i class="fa-solid fa-star" style="font-size:0.75rem;"></i> ${scoreVal}</span>`;
 
-            // Status tags
             let statusTag = "";
             const rpdStr = String(model.rpd || "").toLowerCase();
             if (model.is_free_tier) {

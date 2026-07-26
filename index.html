@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini API 官方額度查詢與監控 (每日更新) | Rate Limits 比較與 JSON 下載</title>
+    <title>官方免費額度查詢與模型分類 (每日更新) | Rate Limits 比較與 JSON 下載</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="全網最完整的 Google AI Studio (Gemini API) 官方模型免費與付費額度查詢終端。每日自動同步更新，支援 Gemini 3.5 Flash, Gemini 3.1 Pro, Live API, 實時網路搜尋與地圖引註模型的 RPM, TPM, RPD 極速檢視與 JSON 配置下載。">
-    <meta name="keywords" content="Gemini API 額度每日更新, Gemini API 免費額度, Gemini Rate Limits, Gemini 2.5 Flash RPM, Gemini 3 Flash 額度, Gemini Live API, Gemini 實時網路搜尋與地圖引註, Gemini API JSON 下載, Gemini 向量檢索, Gemini 故障切換">
+    <meta name="description" content="全網最完整的 Google AI Studio (Gemini API) 官方模型免費額度查詢與分類終端。每日自動同步更新，支援 Gemini 3.5 Flash, Gemini 3.1 Pro, Live API, 實時網路搜尋與地圖引註模型的 RPM, TPM, RPD 極速檢視與 JSON 配置下載。">
+    <meta name="keywords" content="官方免費額度查詢, 模型分類, Gemini API 額度每日更新, Gemini API 免費額度, Gemini Rate Limits, Gemini 2.5 Flash RPM, Gemini 3 Flash 額度, Gemini Live API, Gemini 實時網路搜尋與地圖引註, Gemini API JSON 下載">
     <meta name="author" content="GugoPro AI Team">
     <link rel="canonical" href="https://9908gg-art.github.io/gemini-quota-fetcher/">
 
     <!-- Open Graph / Facebook / Discord -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://9908gg-art.github.io/gemini-quota-fetcher/">
-    <meta property="og:title" content="Gemini API 官方額度查詢與監控 (每日更新)">
+    <meta property="og:title" content="官方免費額度查詢與模型分類 (每日更新)">
     <meta property="og:description" content="即時同步 Google AI Studio 官方 Rate Limits，精確區分免費模型 (RPD > 0 或 RPD Unlimited) 與付費模型，提供動態版本評分排序與 JSON 配置下載。">
     <meta property="og:image" content="https://9908gg-art.github.io/gemini-quota-fetcher/login_error_screenshot.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Gemini API 官方額度查詢與監控 (每日更新)">
+    <meta name="twitter:title" content="官方免費額度查詢與模型分類 (每日更新)">
     <meta name="twitter:description" content="即時同步 Rate Limits，提供動態評分排序、細項用途分類與 JSON 配置下載。">
 
     <!-- Structured Data (JSON-LD) -->
@@ -28,7 +28,7 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Gemini API Rate Limits Monitor (Daily Synced)",
+      "name": "Official Gemini API Quotas & Model Categories",
       "url": "https://9908gg-art.github.io/gemini-quota-fetcher/",
       "description": "Daily updated Google AI Studio (Gemini API) Rate Limits monitoring dashboard with model ratings and JSON configuration download.",
       "applicationCategory": "DeveloperApplication",
@@ -47,23 +47,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Busuanzi View Counter -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.0.7">
+    <link rel="stylesheet" href="style.css?v=1.0.8">
 </head>
 <body>
     <header class="app-header" style="padding: 10px 0; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid var(--border-color);">
         <div class="header-bg-gradient"></div>
         <div class="container header-flex" style="gap: 10px; flex-wrap: wrap; align-items: center;">
             <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <div class="logo">
-                    <i class="fa-solid fa-bolt logo-icon"></i>
-                    <span class="logo-text">GEMINI MONITOR</span>
-                </div>
-                <h1 id="app-title" data-i18n="app-title" style="margin: 0; font-size: 1.18rem; font-weight: 800; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    Gemini API 官方額度查詢與監控
-                    <span class="sync-daily-tag" style="background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 600;">
-                        <i class="fa-solid fa-arrows-rotate"></i> 每日更新
+                <h1 id="app-title" data-i18n="app-title" style="margin: 0; font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: #ffffff;">
+                    <i class="fa-solid fa-bolt" style="color: #3b82f6; font-size: 1.2rem;"></i>
+                    <span data-i18n="header-main-title">官方免費額度查詢與模型分類</span>
+                    <span class="sync-daily-tag" style="background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 700;">
+                        <i class="fa-solid fa-arrows-rotate"></i> <span data-i18n="sync-tag-text">每日更新</span>
                     </span>
-                    <span style="font-size: 0.78rem; color: #60a5fa; font-weight: 600; background: rgba(96,165,250,0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(96,165,250,0.2);" id="update-date-text">
+                    <span style="font-size: 0.82rem; color: #34d399; font-weight: 700; background: rgba(52,211,153,0.15); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.4);" id="update-date-text">
                         <i class="fa-regular fa-calendar-check"></i> 最近更新：載入中...
                     </span>
                     <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 400;" data-i18n="official-source">官方來源：Google AI Studio</span>
@@ -82,6 +79,8 @@
                     <select id="lang-select" class="lang-select-dropdown">
                         <option value="zh-TW">繁體中文</option>
                         <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
                     </select>
                 </div>
             </div>
@@ -331,18 +330,24 @@
     </main>
 
     <footer class="app-footer">
-        <div class="container">
-            <p data-i18n="footer-copyright">© 2026 Gemini API Monitor. 每日定時自動採集與重新發布。</p>
-            <p class="view-counter-box" id="busuanzi_container_site_pv" style="display:none; font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; margin-bottom: 8px;">
+        <div class="container" style="text-align: center;">
+            <p data-i18n="footer-copyright" style="margin-bottom: 8px;">© 2026 官方免費額度查詢與模型分類. 每日定時自動採集與同步更新。</p>
+            
+            <div class="coffee-sponsor-box" style="margin-top: 8px; margin-bottom: 12px;">
+                <a href="https://www.buymeacoffee.com" target="_blank" class="btn-coffee" style="background: #ffdd00; color: #000; font-weight: 800; padding: 7px 18px; border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; box-shadow: 0 4px 15px rgba(255,221,0,0.3); transition: transform 0.2s ease;">
+                    <i class="fa-solid fa-mug-hot" style="font-size: 1.05rem;"></i> <span data-i18n="sponsor-btn">贊助開發者一杯咖啡 / Buy Me a Coffee</span>
+                </a>
+            </div>
+
+            <p class="view-counter-box" id="busuanzi_container_site_pv" style="display:none; font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
                 <i class="fa-solid fa-eye" style="margin-right: 5px; color: var(--color-blue);"></i> 
                 <span data-i18n="footer-views-label">本站總瀏覽量：</span><span id="busuanzi_value_site_pv" style="font-weight: 600; color: var(--color-blue);">...</span> <span data-i18n="footer-views-unit">次</span> | 
                 <i class="fa-solid fa-user" style="margin-right: 5px; color: var(--color-green);"></i> 
                 <span data-i18n="footer-users-label">訪客數：</span><span id="busuanzi_value_site_uv" style="font-weight: 600; color: var(--color-green);">...</span> <span data-i18n="footer-users-unit">人</span>
             </p>
-            <p class="github-badge" data-i18n="footer-badge">本頁面每日自動爬取並公開發布於 GitHub Pages | 100% 免費存取</p>
         </div>
     </footer>
 
-    <script src="app.js?v=1.0.7"></script>
+    <script src="app.js?v=1.0.8"></script>
 </body>
 </html>
