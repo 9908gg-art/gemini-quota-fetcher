@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini API 官方額度查詢與監控 (每日自動同步更新) | Rate Limits 比較與 JSON 下載</title>
+    <title>Gemini API 官方額度查詢與監控 (每日更新) | Rate Limits 比較與 JSON 下載</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="全網最完整的 Google AI Studio (Gemini API) 官方模型免費與付費額度查詢終端。每日自動同步更新，支援 Gemini 2.5 Flash, Gemini 3 Flash, Pro, Live API, 實時網路搜尋與地圖引註模型的 RPM, TPM, RPD 極速檢視與 JSON 配置下載。">
-    <meta name="keywords" content="Gemini API 額度每日更新, Gemini API 免費額度, Gemini Rate Limits, Gemini 2.5 Flash RPM, Gemini 3 Flash 額度, Gemini Live API, Gemini 實時網路搜尋與地圖引註, Gemini API JSON 下載, Gemini 圖像生成 信用卡, Gemini 故障切換">
+    <meta name="description" content="全網最完整的 Google AI Studio (Gemini API) 官方模型免費與付費額度查詢終端。每日自動同步更新，支援 Gemini 3.5 Flash, Gemini 3.1 Pro, Live API, 實時網路搜尋與地圖引註模型的 RPM, TPM, RPD 極速檢視與 JSON 配置下載。">
+    <meta name="keywords" content="Gemini API 額度每日更新, Gemini API 免費額度, Gemini Rate Limits, Gemini 2.5 Flash RPM, Gemini 3 Flash 額度, Gemini Live API, Gemini 實時網路搜尋與地圖引註, Gemini API JSON 下載, Gemini 向量檢索, Gemini 故障切換">
     <meta name="author" content="GugoPro AI Team">
     <link rel="canonical" href="https://9908gg-art.github.io/gemini-quota-fetcher/">
 
     <!-- Open Graph / Facebook / Discord -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://9908gg-art.github.io/gemini-quota-fetcher/">
-    <meta property="og:title" content="Gemini API 官方額度查詢與監控 (每日自動同步更新)">
+    <meta property="og:title" content="Gemini API 官方額度查詢與監控 (每日更新)">
     <meta property="og:description" content="即時同步 Google AI Studio 官方 Rate Limits，精確區分免費模型 (RPD > 0 或 RPD Unlimited) 與付費模型，提供動態版本評分排序與 JSON 配置下載。">
     <meta property="og:image" content="https://9908gg-art.github.io/gemini-quota-fetcher/login_error_screenshot.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Gemini API 官方額度查詢與監控 (每日自動同步更新)">
+    <meta name="twitter:title" content="Gemini API 官方額度查詢與監控 (每日更新)">
     <meta name="twitter:description" content="即時同步 Rate Limits，提供動態評分排序、細項用途分類與 JSON 配置下載。">
 
     <!-- Structured Data (JSON-LD) -->
@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Busuanzi View Counter -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.0.6">
+    <link rel="stylesheet" href="style.css?v=1.0.7">
 </head>
 <body>
     <header class="app-header" style="padding: 10px 0; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid var(--border-color);">
@@ -61,16 +61,18 @@
                 <h1 id="app-title" data-i18n="app-title" style="margin: 0; font-size: 1.18rem; font-weight: 800; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     Gemini API 官方額度查詢與監控
                     <span class="sync-daily-tag" style="background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 600;">
-                        <i class="fa-solid fa-arrows-rotate"></i> 每日自動同步更新
+                        <i class="fa-solid fa-arrows-rotate"></i> 每日更新
+                    </span>
+                    <span style="font-size: 0.78rem; color: #60a5fa; font-weight: 600; background: rgba(96,165,250,0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(96,165,250,0.2);" id="update-date-text">
+                        <i class="fa-regular fa-calendar-check"></i> 最近更新：載入中...
                     </span>
                     <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 400;" data-i18n="official-source">官方來源：Google AI Studio</span>
-                    <span style="font-size: 0.75rem; color: #64748b; font-weight: 400;" id="update-time-text">最後更新：載入中...</span>
                 </h1>
             </div>
             
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-left: auto;">
                 <a href="gemini_rate_limits.json" download="gemini_rate_limits.json" class="btn-dl-json" style="background: var(--color-accent); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 4px 12px rgba(59,130,246,0.3);">
-                    <i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="dl-json-btn">下載 JSON 配置</span>
+                    <i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="dl-json-btn">下載 JSON</span>
                 </a>
                 <a href="gemini_rate_limits.csv" download="gemini_rate_limits.csv" class="btn-dl-csv" style="background: rgba(255,255,255,0.08); color: var(--text-primary); text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.15);">
                     <i class="fa-solid fa-file-csv"></i> <span data-i18n="dl-csv-btn">下載 CSV</span>
@@ -80,8 +82,6 @@
                     <select id="lang-select" class="lang-select-dropdown">
                         <option value="zh-TW">繁體中文</option>
                         <option value="en">English</option>
-                        <option value="ja">日本語</option>
-                        <option value="ko">한국어</option>
                     </select>
                 </div>
             </div>
@@ -93,13 +93,14 @@
         <div class="card filter-card" style="margin-bottom: 10px; padding: 10px 14px;">
             <div class="category-tabs-large" id="category-tabs-container" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start;">
                 <button class="tab-btn-lg active" data-category="all" data-i18n="tab-all">🌐 全部模型</button>
-                <button class="tab-btn-lg" data-category="text" data-i18n="tab-text">📝 文字與語言大模型</button>
+                <button class="tab-btn-lg" data-category="code" data-i18n="tab-code">💻 程式碼與複雜推理</button>
+                <button class="tab-btn-lg" data-category="chat" data-i18n="tab-chat">💬 一般對話與創作</button>
                 <button class="tab-btn-lg" data-category="vision" data-i18n="tab-vision">👁️ 視覺與截圖辨識 (Multimodal)</button>
                 <button class="tab-btn-lg" data-category="speech" data-i18n="tab-speech">🎙️ 語音合成與 TTS</button>
                 <button class="tab-btn-lg" data-category="image_gen" data-i18n="tab-image-gen">🎨 圖像與影音生成 (Imagen/Veo)</button>
                 <button class="tab-btn-lg" data-category="live_api" data-i18n="tab-live">⚡ 即時對話 (Live API)</button>
                 <button class="tab-btn-lg" data-category="grounding" data-i18n="tab-grounding">🌐 實時網路搜尋與地圖引註</button>
-                <button class="tab-btn-lg" data-category="other" data-i18n="tab-other">📦 向量與其他專用模型</button>
+                <button class="tab-btn-lg" data-category="embedding" data-i18n="tab-embedding">🔍 向量檢索 (Embedding)</button>
             </div>
         </div>
 
@@ -179,43 +180,43 @@
                 <i class="fa-solid fa-book-bookmark"></i> 全站模型詳細說明與知識庫專區
             </h2>
 
-            <!-- Rating Standard Explanation (Dynamic Version-Aware Formula) -->
+            <!-- Rating Standard Explanation -->
             <div class="card help-section-card" style="border-left: 5px solid #f59e0b; padding: 16px 18px; margin-bottom: 14px;">
                 <div class="card-title" style="color: #fbbf24; font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;" data-i18n="rating-title">
                     <i class="fa-solid fa-star"></i> 📜 跨版本動態評分標準與演算邏輯 (Future-Proof Rating Engine)
                 </div>
                 <p style="margin-bottom: 10px; font-size: 0.92rem; line-height: 1.6; color: #f1f5f9;" data-i18n="rating-desc">
-                    本站拋棄靜態硬編碼評分，採用<strong>客觀的版本與能力演算法 (Dynamic Version-Aware Engine)</strong>。評分直接根據 API 英文名稱中的代際版本號（1.5 / 2.5 / 3.0 / 3.5 / 4.0 / 5.0...）與能力後綴動態計算，確保未來推出 Gemini 4.0 或 5.0 時依然能準確且客觀地自動計分：
+                    本站採用<strong>客觀的版本與能力演算法 (Dynamic Version-Aware Engine)</strong>。評分直接根據 API 英文名稱中的代際版本號（1.5 / 2.5 / 3.0 / 3.5 / 4.0 / 5.0...）與推理/速度/上下文視窗能力動態計算：
                 </p>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
                     <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
                         <strong style="color: #60a5fa; font-size: 0.9rem;"><i class="fa-solid fa-layer-group"></i> 1. 代際版本基礎分 (Base Score)</strong><br>
-                        <span style="font-size: 0.84rem; color: #cbd5e1;">算式：<code>7.5 + (Major_Version * 0.5)</code><br>例如：Ver 2.5 = 8.8 分，Ver 3.5 = 9.25 分，Ver 4.0 = 9.5 分，Ver 5.0 = 9.9 分。</span>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;">算式：<code>7.5 + (Major_Version * 0.5)</code><br>例如：Ver 2.5 = 8.8 分；Ver 3.5 = 9.25 分；Ver 4.0 = 9.5 分；Ver 5.0 = 9.9 分。</span>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #34d399; font-size: 0.9rem;"><i class="fa-solid fa-brain"></i> 2. 核心推理與級別加分 (+0.5)</strong><br>
-                        <span style="font-size: 0.84rem; color: #cbd5e1;">具有 <code>Pro</code>、<code>Ultra</code> 或 <code>Thinking</code> 旗艦標籤模型享有 +0.5 深度推理加分。</span>
+                        <strong style="color: #34d399; font-size: 0.9rem;"><i class="fa-solid fa-brain"></i> 2. 深度推理與 2M 大視窗 (+0.6)</strong><br>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;"><code>Pro</code> / <code>Thinking</code> 旗艦模型具備超長 1M-2M 上下文與精準程式編碼能力，享 +0.6 加分。</span>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #a855f7; font-size: 0.9rem;"><i class="fa-solid fa-bolt"></i> 3. 速度與極速輕量 (+0.3)</strong><br>
-                        <span style="font-size: 0.84rem; color: #cbd5e1;"><code>Flash</code> 高速平衡模型享 +0.3 加分，<code>Flash-Lite</code> 享 +0.1 加分。</span>
+                        <strong style="color: #a855f7; font-size: 0.9rem;"><i class="fa-solid fa-bolt"></i> 3. 速度與極速輕量 (+0.4)</strong><br>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;"><code>Flash</code> 高速平衡模型享 +0.4 加分，<code>Flash-Lite</code> 享 +0.1 加分。</span>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #fbbf24; font-size: 0.9rem;"><i class="fa-solid fa-globe"></i> 4. 實時擴充與串流 (+0.2)</strong><br>
-                        <span style="font-size: 0.84rem; color: #cbd5e1;"><code>Live API</code> 雙向對話與 <code>Grounding</code> 實時搜尋接地享 +0.2 功能加分。</span>
+                        <strong style="color: #ef4444; font-size: 0.9rem;"><i class="fa-solid fa-triangle-exclamation"></i> 4. 小型模型與短視窗扣分 (-1.2)</strong><br>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;"><code>Gemma</code> 等開源小型模型因上下文視窗較小且程式編碼能力較弱，予以 -1.2 扣分調整。</span>
                     </div>
                 </div>
             </div>
 
             <!-- Detailed Cards Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 16px;">
-                <!-- Live API Explainer -->
-                <div class="card" style="border-left: 5px solid #a855f7; padding: 16px; margin: 0;">
-                    <strong style="color: #c084fc; font-size: 1.02rem; font-weight: 800;" data-i18n="live-api-explainer-title">
-                        <i class="fa-solid fa-bolt" style="margin-right: 6px;"></i> ⚡ 什麼是 Live API？ (Multimodal Live API)
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; margin-bottom: 16px;">
+                <!-- Embedding Explainer Card -->
+                <div class="card" style="border-left: 5px solid #10b981; padding: 16px; margin: 0;">
+                    <strong style="color: #34d399; font-size: 1.02rem; font-weight: 800;" data-i18n="embedding-explainer-title">
+                        <i class="fa-solid fa-database" style="margin-right: 6px;"></i> 🔍 什麼是 向量檢索與文本嵌入 (Text Embedding)？
                     </strong>
-                    <p style="font-size: 0.9rem; color: #f1f5f9; line-height: 1.6; margin-top: 8px; margin-bottom: 0;" data-i18n="live-api-explainer-desc">
-                        Live API 是 Google 推出的基於 <strong>WebSocket 協議</strong> 的雙向低延遲對話接口（類似 Gemini Live 語音體驗）。它允許應用程式建立持久長連接，直接將連續音訊/視訊串流傳送給模型並獲得實時極速回應。
+                    <p style="font-size: 0.9rem; color: #f1f5f9; line-height: 1.6; margin-top: 8px; margin-bottom: 0;" data-i18n="embedding-explainer-desc">
+                        Embedding 模型 (如 <code>text-embedding-004</code>) 不會直接進行文字對話，而是將文字、文檔或程式碼轉換為高維度數值向量 (Vector)。它是構建 <strong>RAG (檢索增強生成 / 企業知識庫)</strong> 的核心技術，能在毫秒內於海量檔案中精準搜尋最相關的參考內容。
                     </p>
                 </div>
 
@@ -229,13 +230,13 @@
                     </p>
                 </div>
 
-                <!-- Image Gen Billing Warning -->
-                <div class="card" style="border-left: 5px solid #f59e0b; padding: 16px; margin: 0;">
-                    <strong style="color: #fbbf24; font-size: 1.02rem; font-weight: 800;" data-i18n="image-billing-warning-title">
-                        <i class="fa-solid fa-triangle-exclamation" style="margin-right: 6px;"></i> ⚠️ 圖像與影音生成 (Imagen / Veo) 綁卡說明
+                <!-- Live API Explainer -->
+                <div class="card" style="border-left: 5px solid #a855f7; padding: 16px; margin: 0;">
+                    <strong style="color: #c084fc; font-size: 1.02rem; font-weight: 800;" data-i18n="live-api-explainer-title">
+                        <i class="fa-solid fa-bolt" style="margin-right: 6px;"></i> ⚡ 什麼是 Live API？ (Multimodal Live API)
                     </strong>
-                    <p style="font-size: 0.9rem; color: #f1f5f9; line-height: 1.6; margin-top: 8px; margin-bottom: 0;" data-i18n="image-billing-warning-desc">
-                        Google 官方規定所有圖像與影音生成 endpoints (Imagen 3 / Veo) 必須在 GCP 專案上<strong>繫結 Pay-As-You-Go 結算帳戶 (信用卡)</strong> 方可呼叫。純免費未綁卡專案發送請求會強制返回 HTTP 403 Billing 錯誤。
+                    <p style="font-size: 0.9rem; color: #f1f5f9; line-height: 1.6; margin-top: 8px; margin-bottom: 0;" data-i18n="live-api-explainer-desc">
+                        Live API 是 Google 推出的基於 <strong>WebSocket 協議</strong> 的雙向低延遲對話接口（類似 Gemini Live 語音體驗）。它允許應用程式建立持久長連接，直接將連續音訊/視訊串流傳送給模型並獲得實時極速回應。
                     </p>
                 </div>
             </div>
@@ -342,6 +343,6 @@
         </div>
     </footer>
 
-    <script src="app.js?v=1.0.6"></script>
+    <script src="app.js?v=1.0.7"></script>
 </body>
 </html>

@@ -5,28 +5,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Multi-language Translations Dictionary
     const translations = {
         "zh-TW": {
-            "app-title": "Gemini API 官方額度查詢與監控 <span class='sync-daily-tag' style='background: rgba(52,211,153,0.2); color: #34d399; font-size: 0.82rem; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); margin-left: 6px;'><i class='fa-solid fa-arrows-rotate'></i> 每日自動同步更新</span>",
-            "official-source": "官方資料來源：<strong>Google AI Studio</strong>",
-            "last-updated": "最後更新時間：",
+            "app-title": "Gemini API 官方額度查詢與監控 <span class='sync-daily-tag' style='background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 600;'><i class='fa-solid fa-arrows-rotate'></i> 每日更新</span>",
+            "official-source": "官方來源：Google AI Studio",
+            "last-updated-date": "最近更新：",
             "loading": "載入中...",
-            "dl-json-btn": "下載 JSON 配置",
-            "dl-csv-btn": "下載 CSV 報表",
+            "dl-json-btn": "下載 JSON",
+            "dl-csv-btn": "下載 CSV",
             "tab-all": "🌐 全部模型",
-            "tab-text": "📝 文字與語言大模型",
+            "tab-code": "💻 程式碼與複雜推理",
+            "tab-chat": "💬 一般對話與創作",
             "tab-vision": "👁️ 視覺與截圖辨識 (Multimodal)",
             "tab-speech": "🎙️ 語音合成與 TTS",
             "tab-image-gen": "🎨 圖像與影音生成 (Imagen/Veo)",
             "tab-live": "⚡ 即時對話 (Live API)",
             "tab-grounding": "🌐 實時網路搜尋與地圖引註",
-            "tab-other": "📦 向量與其他專用模型",
+            "tab-embedding": "🔍 向量檢索 (Embedding)",
             
-            "free-table-title": "🎁 官方免費模型額度限制 (Free Tier - RPD > 0)",
-            "free-badge": "免費模型 (高分優選排序)",
+            "free-table-title": "🎁 官方免費模型額度限制 (Free Tier - RPD > 0 / Unlimited)",
+            "free-badge": "免費模型 (按動態評分優先排序)",
             "paid-table-title": "💳 付費隨用隨付與獨佔模型限制 (Pay-as-you-go / Paid Only)",
             "paid-badge": "付費/綁卡層級 (無免費每日額度)",
             
             "col-display-name": "模型顯示名稱",
-            "col-score": "綜合評分",
+            "col-score": "動態評分",
             "col-api-id": "API 識別碼",
             "col-category": "用途分類",
             "col-rpm": "RPM (分)",
@@ -59,22 +60,23 @@ document.addEventListener("DOMContentLoaded", () => {
             "footer-users-unit": " 人"
         },
         "en": {
-            "app-title": "Gemini API Quota & Rate Limits Monitor <span class='sync-daily-tag' style='background: rgba(52,211,153,0.2); color: #34d399; font-size: 0.82rem; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); margin-left: 6px;'><i class='fa-solid fa-arrows-rotate'></i> Daily Auto Synced</span>",
-            "official-source": "Official Data Source: <strong>Google AI Studio</strong>",
-            "last-updated": "Last Updated: ",
+            "app-title": "Gemini API Quota & Rate Limits Monitor <span class='sync-daily-tag' style='background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 600;'><i class='fa-solid fa-arrows-rotate'></i> Daily Updated</span>",
+            "official-source": "Source: Google AI Studio",
+            "last-updated-date": "Updated: ",
             "loading": "Loading...",
-            "dl-json-btn": "Download JSON Config",
-            "dl-csv-btn": "Download CSV Report",
+            "dl-json-btn": "Download JSON",
+            "dl-csv-btn": "Download CSV",
             "tab-all": "🌐 All Models",
-            "tab-text": "📝 Text & Language",
+            "tab-code": "💻 Coding & Deep Reasoning",
+            "tab-chat": "💬 General Chat & Creation",
             "tab-vision": "👁️ Vision & Multimodal",
             "tab-speech": "🎙️ Speech & TTS",
             "tab-image-gen": "🎨 Image & Video Gen",
             "tab-live": "⚡ Live API",
             "tab-grounding": "🌐 Real-time Search & Maps",
-            "tab-other": "📦 Embedding & Other",
+            "tab-embedding": "🔍 Embedding & RAG",
             
-            "free-table-title": "🎁 Official Free Tier Rate Limits (RPD > 0)",
+            "free-table-title": "🎁 Official Free Tier Rate Limits (RPD > 0 / Unlimited)",
             "free-badge": "Free Tier (Ranked by Rating)",
             "paid-table-title": "💳 Pay-as-you-go & Paid Tier Limits (RPD = 0)",
             "paid-badge": "Paid Tier (Billing Account Required)",
@@ -123,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const freeTbody = document.getElementById("free-quota-tbody");
     const paidTbody = document.getElementById("paid-quota-tbody");
-    const updateTimeText = document.getElementById("update-time-text");
+    const updateDateText = document.getElementById("update-date-text");
     const tabContainer = document.getElementById("category-tabs-container");
     const langSelect = document.getElementById("lang-select");
 
@@ -153,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 4. Fetch and load JSON data
+    // 4. Fetch and load JSON data (Format Date ONLY: YYYY/MM/DD)
     async function loadLimitsData() {
         const langObj = translations[userLang] || translations["zh-TW"];
         try {
@@ -163,11 +165,23 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             const lastModified = response.headers.get("Last-Modified");
+            let dateStr = "";
             if (lastModified) {
                 const date = new Date(lastModified);
-                updateTimeText.textContent = `${langObj["last-updated"]}${date.toLocaleString(userLang === "zh-TW" ? "zh-TW" : "en-US")}`;
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                dateStr = `${year}/${month}/${day}`;
             } else {
-                updateTimeText.textContent = `${langObj["last-updated"]}Just Now (Auto synced)`;
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                dateStr = `${year}/${month}/${day}`;
+            }
+
+            if (updateDateText) {
+                updateDateText.innerHTML = `<i class="fa-regular fa-calendar-check"></i> ${langObj["last-updated-date"]}${dateStr}`;
             }
 
             const rawData = await response.json();
@@ -177,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("載入數據錯誤：", error);
             const errMsg = `
                 <tr>
-                    <td colspan="8" class="text-center" style="padding: 30px; color: var(--color-red);">
+                    <td colspan="8" class="text-center" style="padding: 24px; color: var(--color-red);">
                         <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i> ${langObj["load-failed"]}
                     </td>
                 </tr>
@@ -187,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 5. Render tables with fine categories & vision fixes
+    // 5. Render tables with strict classification audit
     function renderTable() {
         const langObj = translations[userLang] || translations["zh-TW"];
         freeTbody.innerHTML = "";
@@ -200,30 +214,39 @@ document.addEventListener("DOMContentLoaded", () => {
             const nameLower = (model.display_name || "").toLowerCase();
             const catLower = (model.category || "").toLowerCase();
 
+            const isTTSOrAudio = fineCat === "speech" || nameLower.includes("tts") || nameLower.includes("audio") || nameLower.includes("lyria");
+            const isEmbedding = fineCat === "embedding" || nameLower.includes("embedding") || nameLower.includes("aqa");
+            const isImageGen = fineCat === "image_gen" || nameLower.includes("imagen") || nameLower.includes("veo") || nameLower.includes("banana");
+            const isLive = fineCat === "live_api" || catLower.includes("live") || nameLower.includes("live");
+
             if (activeCategory === "all") {
                 matchesCategory = true;
-            } else if (activeCategory === "text") {
-                matchesCategory = fineCat === "text" || catLower === "text-out models" || catLower === "agents";
+            } else if (activeCategory === "code") {
+                // Coding & Deep Reasoning models (Pro, Flash 3.5, 3.1)
+                matchesCategory = !isTTSOrAudio && !isEmbedding && !isImageGen && !isLive && (nameLower.includes("pro") || nameLower.includes("flash") || nameLower.includes("computer use"));
+            } else if (activeCategory === "chat") {
+                // General Chat & Creation models
+                matchesCategory = !isTTSOrAudio && !isEmbedding && !isImageGen && !isLive && (fineCat === "text" || fineCat === "grounding" || fineCat === "vision");
             } else if (activeCategory === "vision") {
-                // Multimodal Vision Fix: Gemini 2.5 Flash, 2.5 Pro, 3 Flash, 3.1 Pro, Computer Use ARE ALL Vision models!
-                matchesCategory = isVisionCapable || fineCat === "vision" || nameLower.includes("flash") || nameLower.includes("pro") || nameLower.includes("computer use");
+                // STRICT VISION AUDIT: Must support Vision Multimodal AND MUST NOT be TTS/Audio/Embedding/ImageGen!
+                matchesCategory = isVisionCapable && !isTTSOrAudio && !isEmbedding && !isImageGen;
             } else if (activeCategory === "speech") {
-                matchesCategory = fineCat === "speech" || nameLower.includes("tts") || nameLower.includes("audio");
+                matchesCategory = isTTSOrAudio;
             } else if (activeCategory === "image_gen") {
-                matchesCategory = fineCat === "image_gen" || nameLower.includes("imagen") || nameLower.includes("veo") || nameLower.includes("banana");
+                matchesCategory = isImageGen;
             } else if (activeCategory === "live_api") {
-                matchesCategory = fineCat === "live_api" || catLower.includes("live") || nameLower.includes("live");
+                matchesCategory = isLive;
             } else if (activeCategory === "grounding") {
                 matchesCategory = fineCat === "grounding" || catLower.includes("grounding") || nameLower.includes("grounding");
-            } else if (activeCategory === "other") {
-                matchesCategory = fineCat === "other" || fineCat === "embedding" || nameLower.includes("embedding") || nameLower.includes("gemma");
+            } else if (activeCategory === "embedding") {
+                matchesCategory = isEmbedding;
             }
 
             return matchesCategory;
         });
 
-        // Split models into Free Tier (RPD > 0) and Paid Tier (RPD = 0)
-        const freeModels = filtered.filter(m => m.is_free_tier || (m.rpd_limit && m.rpd_limit > 0));
+        // Split models into Free Tier (RPD > 0 or Unlimited) and Paid Tier (RPD = 0)
+        const freeModels = filtered.filter(m => m.is_free_tier || (m.rpd_limit && (m.rpd_limit > 0 || m.rpd_limit === -1)));
         const paidModels = filtered.filter(m => !m.is_free_tier && (!m.rpd_limit || m.rpd_limit === 0));
 
         // Sort by model_score descending so high score models appear FIRST!
@@ -238,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modelsList.length === 0) {
             tbodyElement.innerHTML = `
                 <tr>
-                    <td colspan="8" class="text-center" style="padding: 30px; color: var(--text-muted);">
+                    <td colspan="8" class="text-center" style="padding: 24px; color: var(--text-muted);">
                         ${emptyMsg}
                     </td>
                 </tr>
@@ -249,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
         modelsList.forEach(model => {
             const tr = document.createElement("tr");
 
-            // Category badge mapping
             let catBadgeClass = "badge-other";
             const fineCat = model.fine_category || "other";
             
@@ -259,24 +281,30 @@ document.addEventListener("DOMContentLoaded", () => {
             else if (fineCat === "image_gen") catBadgeClass = "badge-image-gen";
             else if (fineCat === "live_api") catBadgeClass = "badge-live";
             else if (fineCat === "grounding") catBadgeClass = "badge-grounding";
+            else if (fineCat === "embedding") catBadgeClass = "badge-other";
 
             const catText = model.fine_category_name_zh || "通用模型";
             const scoreVal = (model.model_score || 9.0).toFixed(1);
 
-            // Rating Badge (Gold for >= 9.5, Blue for < 9.5)
-            const scoreColor = scoreVal >= 9.5 ? "#f59e0b" : "#3b82f6";
-            const scoreBadge = `<span style="display:inline-flex; align-items:center; gap:3px; background:rgba(245,158,11,0.12); color:${scoreColor}; font-weight:800; font-size:0.83rem; padding:2px 8px; border-radius:12px; border:1px solid rgba(245,158,11,0.25);"><i class="fa-solid fa-star" style="font-size:0.75rem;"></i> ${scoreVal}</span>`;
+            // Score Badge styling
+            const scoreColor = scoreVal >= 9.5 ? "#f59e0b" : (scoreVal >= 9.0 ? "#3b82f6" : "#94a3b8");
+            const scoreBadge = `<span style="display:inline-flex; align-items:center; gap:3px; background:rgba(245,158,11,0.1); color:${scoreColor}; font-weight:800; font-size:0.83rem; padding:2px 8px; border-radius:12px; border:1px solid rgba(245,158,11,0.2);"><i class="fa-solid fa-star" style="font-size:0.75rem;"></i> ${scoreVal}</span>`;
 
             // Status tags
             let statusTag = "";
+            const rpdStr = String(model.rpd || "").toLowerCase();
             if (model.is_free_tier) {
-                statusTag += `<span style="font-size:0.72rem; background:rgba(52,211,153,0.15); color:#34d399; padding:2px 5px; border-radius:4px; margin-left:4px; font-weight:600;">🎁 免費</span>`;
+                if (rpdStr.includes("unlimited") || model.rpd_limit === -1) {
+                    statusTag += `<span style="font-size:0.72rem; background:rgba(52,211,153,0.2); color:#34d399; padding:2px 6px; border-radius:4px; margin-left:4px; font-weight:700;">🎁 免費 (日額度無上限)</span>`;
+                } else {
+                    statusTag += `<span style="font-size:0.72rem; background:rgba(52,211,153,0.15); color:#34d399; padding:2px 6px; border-radius:4px; margin-left:4px; font-weight:600;">🎁 免費</span>`;
+                }
             } else {
-                statusTag += `<span style="font-size:0.72rem; background:rgba(96,165,250,0.15); color:#60a5fa; padding:2px 5px; border-radius:4px; margin-left:4px; font-weight:600;">💳 付費</span>`;
+                statusTag += `<span style="font-size:0.72rem; background:rgba(96,165,250,0.15); color:#60a5fa; padding:2px 6px; border-radius:4px; margin-left:4px; font-weight:600;">💳 付費</span>`;
             }
 
             if (model.requires_billing_account) {
-                statusTag += `<span style="font-size:0.72rem; background:rgba(245,158,11,0.15); color:#fbbf24; padding:2px 5px; border-radius:4px; margin-left:4px; font-weight:600;" title="需繫結結算帳戶/信用卡">⚠️ 需綁卡</span>`;
+                statusTag += `<span style="font-size:0.72rem; background:rgba(245,158,11,0.15); color:#fbbf24; padding:2px 6px; border-radius:4px; margin-left:4px; font-weight:600;" title="需繫結結算帳戶/信用卡">⚠️ 需綁卡</span>`;
             }
 
             const rpmHtml = formatLimitValue(model.rpm, "RPM");
@@ -284,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const rpdHtml = formatLimitValue(model.rpd, "RPD");
 
             tr.innerHTML = `
-                <td style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;">${model.display_name} ${statusTag}</td>
+                <td style="font-weight: 700; color: var(--text-primary); font-size: 0.94rem;">${model.display_name} ${statusTag}</td>
                 <td>${scoreBadge}</td>
                 <td class="model-api-name"><code>${model.api_name}</code></td>
                 <td><span class="badge ${catBadgeClass}" style="font-size: 0.78rem;">${catText}</span></td>
@@ -304,6 +332,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function formatLimitValue(val, type) {
         if (!val || val === "N/A" || val.toUpperCase() === "N/A") {
             return `<span class="limit-val na">N/A</span>`;
+        }
+
+        if (val.toLowerCase().includes("unlimited")) {
+            return `<span class="limit-val high" style="color:#34d399; font-weight:800;">Unlimited</span>`;
         }
         
         const num = parseFloat(val.replace(/,/g, ""));
