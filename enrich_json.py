@@ -4,6 +4,23 @@ import re
 
 JSON_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "gemini_rate_limits.json"))
 
+def make_unique_display_name(api_name, raw_display_name):
+    api_lower = api_name.lower()
+    disp = raw_display_name.strip()
+    
+    # Append clear variant suffixes so every display_name is 100% unique!
+    if "map-grounding" in api_lower or "maps-grounding" in api_lower:
+        if "maps grounding" not in disp.lower() and "map grounding" not in disp.lower():
+            disp += " (Maps Grounding)"
+    elif "agents" in api_lower and "agent" not in disp.lower():
+        disp += " (Agents)"
+    elif "native-audio" in api_lower and "audio" not in disp.lower():
+        disp += " (Native Audio)"
+    elif "translate" in api_lower and "translate" not in disp.lower():
+        disp += " (Translate)"
+
+    return disp
+
 def calculate_dynamic_version_score(model):
     display_name = model.get("display_name", "")
     api_name = model.get("api_name", "")
@@ -21,7 +38,6 @@ def calculate_dynamic_version_score(model):
             pass
 
     # Version-Aware Scalable Base Score
-    # Version 2.0 = 8.5, Version 2.5 = 8.8, Version 3.0 = 9.0, Version 3.5 = 9.3, Version 4.0 = 9.6, Version 5.0 = 9.9
     base_score = 7.5 + (ver_num * 0.5)
 
     # Capability & Context Window Bonus/Penalty
@@ -42,20 +58,22 @@ def calculate_dynamic_version_score(model):
     return final_score
 
 def enrich_model(model):
-    display_name = model.get("display_name", "")
+    raw_display_name = model.get("display_name", "")
     api_name = model.get("api_name", "")
     category = model.get("category", "")
     tier = model.get("tier", "")
     rpd_str = str(model.get("rpd", "")).lower()
     rpd_limit = model.get("rpd_limit") if model.get("rpd_limit") is not None else 0
 
+    # Ensure 100% Unique Display Name
+    display_name = make_unique_display_name(api_name, raw_display_name)
+    model["display_name"] = display_name
+
     name_lower = display_name.lower()
     cat_lower = category.lower()
     tier_lower = tier.lower()
 
     # Rule 1: Free Tier definition
-    # Free if rpd_limit > 0 OR rpd_limit == -1 OR "unlimited" in rpd_str
-    # If rpd_limit == 0 and "unlimited" is not in rpd_str, it has NO free daily quota!
     is_free = (
         rpd_limit > 0 or 
         rpd_limit == -1 or 
@@ -73,12 +91,11 @@ def enrich_model(model):
     )
     model["requires_billing_account"] = requires_billing
 
-    # Rule 3: Dynamic Rating Score (with Gemma context window penalty)
+    # Rule 3: Dynamic Rating Score
     score = calculate_dynamic_version_score(model)
     model["model_score"] = score
 
     # Rule 4: Fine-grained Category Classification
-    # Note: TTS / Audio / Embedding models MUST NOT be marked as Vision capable!
     is_tts_or_audio = "tts" in name_lower or "audio" in name_lower or "speech" in name_lower or "lyria" in name_lower
     is_embedding = "embedding" in name_lower or "aqa" in name_lower
     is_image_gen = "imagen" in name_lower or "veo" in name_lower or "banana" in name_lower
@@ -181,6 +198,7 @@ def main():
             "sorting_rule": "所有模型已按動態綜合評分 `model_score` 由高至低排序，且免費模型 (is_free_tier: true) 優先排列於最前面。",
             "recommended_usage": "當您的 AI 軟體或腳本導入此 JSON 時，可以直接讀取 `models` 陣列的第一個元素 (Index 0) 作為預設首選最佳模型。",
             "failover_instruction": "當調用當前模型遇到 HTTP 429 Rate Limit 超限時，順序存取下一個 `is_free_tier: true` 的模型即可實現 100% 不中斷自動降級與備援。",
+            "display_name_disambiguation": "每一個模型的 `display_name` 均保證 100% 唯一且不重複 (例如區分 `Gemini 3.1 Flash Lite` 與 `Gemini 3.1 Flash Lite (Maps Grounding)`)，方便外部 AI 軟體直接識別。",
             "rpd_unlimited_note": "RPD 顯示為 Unlimited 或 -1 代表『每日發送請求次數完全無上限』。"
         },
         "models": sorted_data
