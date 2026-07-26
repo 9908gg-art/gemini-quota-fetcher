@@ -1542,8 +1542,8 @@ if __name__ == "__main__":
                 from enrich_json import enrich_model
                 enriched_data = [enrich_model(item) for item in data]
                 free_m = [m for m in enriched_data if m.get("is_free_tier")]
-                paid_m = [m for m in enriched_data if not m.get("is_free_tier")]
-                free_m.sort(key=lambda x: (x.get("rpd_limit") or 0, x.get("rpm_limit") or 0), reverse=True)
+                free_m.sort(key=lambda x: (x.get("model_score") or 0, x.get("rpd_limit") or 0), reverse=True)
+                paid_m.sort(key=lambda x: (x.get("model_score") or 0, x.get("rpm_limit") or 0), reverse=True)
                 sorted_json_data = free_m + paid_m
                 with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
                     json.dump(sorted_json_data, f, indent=4, ensure_ascii=False)

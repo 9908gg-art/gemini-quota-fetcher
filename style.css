@@ -525,3 +525,66 @@ code {
     font-size: 0.82rem;
     color: var(--color-accent-light);
 }
+
+/* 大尺寸類別頁籤 */
+.tab-btn-lg {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tab-btn-lg:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.tab-btn-lg.active {
+    background: var(--color-accent);
+    color: #ffffff;
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+}
+
+/* 緊湊型表格樣式 (減小邊距與高度) */
+.quota-table-compact {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.quota-table-compact th {
+    background: rgba(255, 255, 255, 0.03);
+    color: #94a3b8;
+    font-weight: 700;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+    font-size: 0.85rem;
+}
+
+.quota-table-compact td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: middle;
+}
+
+.quota-table-compact tr:hover td {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.btn-jump-detail:hover {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+}
