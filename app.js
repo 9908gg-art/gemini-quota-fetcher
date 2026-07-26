@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 付費隨用隨付與獨佔模型限制 (Pay-as-you-go / Paid Only)",
             "paid-badge": "付費/綁卡層級 (無免費每日額度)",
             
-            "col-display-name": "模型名稱 (API 識別碼)",
+            "col-display-name": "模型名稱",
             "col-score": "動態評分",
             "col-category": "用途分類",
             "col-rpm": "RPM (分)",
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 Pay-as-you-go & Paid Tier Limits (RPD = 0)",
             "paid-badge": "Paid Tier (Billing Account Required)",
             
-            "col-display-name": "Model Name (API Identifier)",
+            "col-display-name": "Model Name",
             "col-score": "Rating",
             "col-category": "Category",
             "col-rpm": "RPM (Min)",
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 従量課金＆有料限定モデル (RPD = 0)",
             "paid-badge": "有料層 (クレジットカード必須)",
             
-            "col-display-name": "モデル名 (API 識別子)",
+            "col-display-name": "モデル名",
             "col-score": "スコア",
             "col-category": "用途分類",
             "col-rpm": "RPM (分)",
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 종량제 및 유료 전용 모델 (RPD = 0)",
             "paid-badge": "유료 계정 (신용카드 등록 필요)",
             
-            "col-display-name": "모델 이름 (API 식별자)",
+            "col-display-name": "모델 이름",
             "col-score": "평점",
             "col-category": "용도 분류",
             "col-rpm": "RPM (분)",
@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 5. Render tables with single consolidated model name column
+    // 5. Render tables showing ONLY single clean API model name
     function renderTable() {
         const langObj = translations[userLang] || translations["zh-TW"];
         freeTbody.innerHTML = "";
@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let matchesCategory = false;
             const fineCat = model.fine_category || "other";
             const isVisionCapable = model.is_vision_capable || false;
-            const nameLower = (model.display_name || "").toLowerCase();
+            const nameLower = (model.api_name || model.display_name || "").toLowerCase();
             const catLower = (model.category || "").toLowerCase();
 
             const isTTSOrAudio = fineCat === "speech" || nameLower.includes("tts") || nameLower.includes("audio") || nameLower.includes("lyria");
@@ -422,15 +422,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const tpmHtml = formatLimitValue(model.tpm, "TPM");
             const rpdHtml = formatLimitValue(model.rpd, "RPD");
 
+            // SINGLE NAME ONLY: Display only api_name! No duplicated text or display_name subtitle!
             tr.innerHTML = `
-                <td style="font-weight: 700; color: var(--text-primary); font-size: 0.94rem;">
-                    <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                        <span>${model.display_name}</span>
-                        ${statusTag}
-                    </div>
-                    <div style="font-size: 0.78rem; margin-top: 3px; font-weight: 400;">
-                        <code>API: ${model.api_name}</code>
-                    </div>
+                <td style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;">
+                    <code style="font-size: 0.92rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25);">${model.api_name}</code>
+                    ${statusTag}
                 </td>
                 <td>${scoreBadge}</td>
                 <td><span class="badge ${catBadgeClass}" style="font-size: 0.78rem;">${catText}</span></td>
