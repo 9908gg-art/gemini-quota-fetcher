@@ -170,7 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateTimeText.textContent = `${langObj["last-updated"]}Just Now (Auto synced)`;
             }
 
-            allModels = await response.json();
+            const rawData = await response.json();
+            allModels = Array.isArray(rawData) ? rawData : (rawData.models || []);
             renderTable();
         } catch (error) {
             console.error("載入數據錯誤：", error);

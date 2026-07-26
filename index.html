@@ -15,13 +15,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://9908gg-art.github.io/gemini-quota-fetcher/">
     <meta property="og:title" content="Gemini API 官方額度查詢與監控 (每日自動同步更新)">
-    <meta property="og:description" content="即時同步 Google AI Studio 官方 Rate Limits，精確區分免費模型 (RPD > 0) 與付費模型，提供綜合評分排序與 JSON 配置下載。">
+    <meta property="og:description" content="即時同步 Google AI Studio 官方 Rate Limits，精確區分免費模型 (RPD > 0 或 RPD Unlimited) 與付費模型，提供動態版本評分排序與 JSON 配置下載。">
     <meta property="og:image" content="https://9908gg-art.github.io/gemini-quota-fetcher/login_error_screenshot.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Gemini API 官方額度查詢與監控 (每日自動同步更新)">
-    <meta name="twitter:description" content="即時同步 Rate Limits，提供綜合評分排序、細項用途分類與 JSON 配置下載。">
+    <meta name="twitter:description" content="即時同步 Rate Limits，提供動態評分排序、細項用途分類與 JSON 配置下載。">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -47,35 +47,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Busuanzi View Counter -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.0.5">
+    <link rel="stylesheet" href="style.css?v=1.0.6">
 </head>
 <body>
-    <header class="app-header">
+    <header class="app-header" style="padding: 10px 0; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid var(--border-color);">
         <div class="header-bg-gradient"></div>
-        <div class="container header-flex" style="gap: 12px; flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div class="container header-flex" style="gap: 10px; flex-wrap: wrap; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <div class="logo">
                     <i class="fa-solid fa-bolt logo-icon"></i>
                     <span class="logo-text">GEMINI MONITOR</span>
                 </div>
-                <h1 id="app-title" data-i18n="app-title" style="margin: 0; font-size: 1.35rem; font-weight: 800;">
-                    Gemini API 官方額度查詢與監控 <span class="sync-daily-tag" style="background: rgba(52,211,153,0.2); color: #34d399; font-size: 0.82rem; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); margin-left: 6px;"><i class="fa-solid fa-arrows-rotate"></i> 每日自動同步更新</span>
+                <h1 id="app-title" data-i18n="app-title" style="margin: 0; font-size: 1.18rem; font-weight: 800; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    Gemini API 官方額度查詢與監控
+                    <span class="sync-daily-tag" style="background: rgba(52,211,153,0.18); color: #34d399; font-size: 0.78rem; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(52,211,153,0.3); font-weight: 600;">
+                        <i class="fa-solid fa-arrows-rotate"></i> 每日自動同步更新
+                    </span>
+                    <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 400;" data-i18n="official-source">官方來源：Google AI Studio</span>
+                    <span style="font-size: 0.75rem; color: #64748b; font-weight: 400;" id="update-time-text">最後更新：載入中...</span>
                 </h1>
             </div>
             
-            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-left: auto;">
-                <div class="download-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <a href="gemini_rate_limits.json" download="gemini_rate_limits.json" class="btn-dl-json" style="background: var(--color-accent); color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(59,130,246,0.3);">
-                        <i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="dl-json-btn">下載 JSON 配置</span>
-                    </a>
-                    <a href="gemini_rate_limits.csv" download="gemini_rate_limits.csv" class="btn-dl-csv" style="background: rgba(255,255,255,0.08); color: var(--text-primary); text-decoration: none; padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.15);">
-                        <i class="fa-solid fa-file-csv"></i> <span data-i18n="dl-csv-btn">下載 CSV 報表</span>
-                    </a>
-                </div>
-                
-                <div class="lang-selector-wrapper">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-left: auto;">
+                <a href="gemini_rate_limits.json" download="gemini_rate_limits.json" class="btn-dl-json" style="background: var(--color-accent); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 4px 12px rgba(59,130,246,0.3);">
+                    <i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="dl-json-btn">下載 JSON 配置</span>
+                </a>
+                <a href="gemini_rate_limits.csv" download="gemini_rate_limits.csv" class="btn-dl-csv" style="background: rgba(255,255,255,0.08); color: var(--text-primary); text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.15);">
+                    <i class="fa-solid fa-file-csv"></i> <span data-i18n="dl-csv-btn">下載 CSV</span>
+                </a>
+                <div class="lang-selector-wrapper" style="padding: 2px 6px;">
                     <i class="fa-solid fa-globe lang-icon"></i>
-                    <select id="lang-select" class="lang-select-dropdown" title="Change Language / 切換語言">
+                    <select id="lang-select" class="lang-select-dropdown">
                         <option value="zh-TW">繁體中文</option>
                         <option value="en">English</option>
                         <option value="ja">日本語</option>
@@ -86,19 +88,10 @@
         </div>
     </header>
 
-    <main class="main-content container">
-        <!-- Status Bar -->
-        <div class="status-download-bar">
-            <div class="status-info">
-                <span class="pulse-indicator"></span>
-                <span class="status-text" data-i18n="official-source">官方資料來源：<strong>Google AI Studio</strong></span>
-            </div>
-            <div class="update-time-box" id="update-time-text">最後更新時間：載入中...</div>
-        </div>
-
+    <main class="main-content container" style="padding-top: 8px;">
         <!-- Major Category Navigation Tabs (Placed right at the top for immediate access) -->
-        <div class="card filter-card" style="margin-bottom: 12px; padding: 12px 16px;">
-            <div class="category-tabs-large" id="category-tabs-container" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start;">
+        <div class="card filter-card" style="margin-bottom: 10px; padding: 10px 14px;">
+            <div class="category-tabs-large" id="category-tabs-container" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start;">
                 <button class="tab-btn-lg active" data-category="all" data-i18n="tab-all">🌐 全部模型</button>
                 <button class="tab-btn-lg" data-category="text" data-i18n="tab-text">📝 文字與語言大模型</button>
                 <button class="tab-btn-lg" data-category="vision" data-i18n="tab-vision">👁️ 視覺與截圖辨識 (Multimodal)</button>
@@ -110,22 +103,22 @@
             </div>
         </div>
 
-        <!-- Table 1: Free Models First (RPD > 0) - Placed immediately at the top for instant viewing -->
-        <div class="card table-card" style="border-top: 3px solid var(--color-green); margin-bottom: 16px;">
-            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
-                <h2 class="section-title" style="margin: 0; font-size: 1.2rem; font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--color-green);" data-i18n="free-table-title">
-                    <i class="fa-solid fa-gift"></i> 🎁 官方免費模型額度限制 (Free Tier - RPD > 0)
+        <!-- Table 1: Free Models First (RPD > 0 or Unlimited) - Placed immediately at the top -->
+        <div class="card table-card" style="border-top: 3px solid var(--color-green); margin-bottom: 14px;">
+            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                <h2 class="section-title" style="margin: 0; font-size: 1.12rem; font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--color-green);" data-i18n="free-table-title">
+                    <i class="fa-solid fa-gift"></i> 🎁 官方免費模型額度限制 (Free Tier - RPD > 0 / Unlimited)
                 </h2>
-                <span class="badge badge-free" data-i18n="free-badge" style="padding: 5px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 20px; background: rgba(52, 211, 153, 0.15); color: #34d399;">
-                    免費模型 (高分優選排序)
+                <span class="badge badge-free" data-i18n="free-badge" style="padding: 4px 10px; font-size: 0.78rem; font-weight: 700; border-radius: 16px; background: rgba(52, 211, 153, 0.15); color: #34d399;">
+                    免費模型 (按動態評分優先排序)
                 </span>
             </div>
             <div class="table-responsive">
                 <table class="quota-table-compact">
                     <thead>
                         <tr>
-                            <th style="min-width: 190px;" data-i18n="col-display-name">模型顯示名稱</th>
-                            <th data-i18n="col-score">綜合評分</th>
+                            <th style="min-width: 200px;" data-i18n="col-display-name">模型顯示名稱</th>
+                            <th data-i18n="col-score">動態評分</th>
                             <th data-i18n="col-api-id">API 識別碼</th>
                             <th data-i18n="col-category">用途分類</th>
                             <th class="text-right" data-i18n="col-rpm">RPM (分)</th>
@@ -136,7 +129,7 @@
                     </thead>
                     <tbody id="free-quota-tbody">
                         <tr>
-                            <td colspan="8" class="text-center" style="padding: 30px; color: var(--text-muted);" data-i18n="load-data-free">
+                            <td colspan="8" class="text-center" style="padding: 24px; color: var(--text-muted);" data-i18n="load-data-free">
                                 <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在載入免費模型數據...
                             </td>
                         </tr>
@@ -146,12 +139,12 @@
         </div>
 
         <!-- Table 2: Paid Models & Exclusive APIs (RPD = 0 / Billing Required) -->
-        <div class="card table-card" style="border-top: 3px solid var(--color-blue); margin-bottom: 24px;">
-            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
-                <h2 class="section-title" style="margin: 0; font-size: 1.2rem; font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--color-blue);" data-i18n="paid-table-title">
+        <div class="card table-card" style="border-top: 3px solid var(--color-blue); margin-bottom: 20px;">
+            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                <h2 class="section-title" style="margin: 0; font-size: 1.12rem; font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--color-blue);" data-i18n="paid-table-title">
                     <i class="fa-solid fa-credit-card"></i> 💳 付費隨用隨付與獨佔模型限制 (Pay-as-you-go / Paid Only)
                 </h2>
-                <span class="badge badge-paid" data-i18n="paid-badge" style="padding: 5px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 20px; background: rgba(96, 165, 250, 0.15); color: #60a5fa;">
+                <span class="badge badge-paid" data-i18n="paid-badge" style="padding: 4px 10px; font-size: 0.78rem; font-weight: 700; border-radius: 16px; background: rgba(96, 165, 250, 0.15); color: #60a5fa;">
                     付費/綁卡層級 (無免費每日額度)
                 </span>
             </div>
@@ -159,8 +152,8 @@
                 <table class="quota-table-compact">
                     <thead>
                         <tr>
-                            <th style="min-width: 190px;" data-i18n="col-display-name">模型顯示名稱</th>
-                            <th data-i18n="col-score">綜合評分</th>
+                            <th style="min-width: 200px;" data-i18n="col-display-name">模型顯示名稱</th>
+                            <th data-i18n="col-score">動態評分</th>
                             <th data-i18n="col-api-id">API 識別碼</th>
                             <th data-i18n="col-category">用途分類</th>
                             <th class="text-right" data-i18n="col-rpm">RPM (分)</th>
@@ -171,7 +164,7 @@
                     </thead>
                     <tbody id="paid-quota-tbody">
                         <tr>
-                            <td colspan="8" class="text-center" style="padding: 30px; color: var(--text-muted);" data-i18n="load-data-paid">
+                            <td colspan="8" class="text-center" style="padding: 24px; color: var(--text-muted);" data-i18n="load-data-paid">
                                 <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在載入付費模型數據...
                             </td>
                         </tr>
@@ -182,155 +175,155 @@
 
         <!-- BOTTOM SECTION: Detailed Explanations & Knowledge Base Anchor -->
         <div id="details-section" style="margin-top: 10px;">
-            <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--color-accent-light); border-bottom: 2px solid rgba(59,130,246,0.3); padding-bottom: 8px; margin-bottom: 16px;">
+            <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--color-accent-light); border-bottom: 2px solid rgba(59,130,246,0.3); padding-bottom: 8px; margin-bottom: 14px;">
                 <i class="fa-solid fa-book-bookmark"></i> 全站模型詳細說明與知識庫專區
             </h2>
 
-            <!-- Rating Standard Explanation -->
-            <div class="card help-section-card" style="border-left: 5px solid #f59e0b; padding: 18px 20px; margin-bottom: 16px;">
-                <div class="card-title" style="color: #fbbf24; font-size: 1.15rem; font-weight: 800; margin-bottom: 8px;" data-i18n="rating-title">
-                    <i class="fa-solid fa-star"></i> 📜 模型綜合評分標準與排序算式說明
+            <!-- Rating Standard Explanation (Dynamic Version-Aware Formula) -->
+            <div class="card help-section-card" style="border-left: 5px solid #f59e0b; padding: 16px 18px; margin-bottom: 14px;">
+                <div class="card-title" style="color: #fbbf24; font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;" data-i18n="rating-title">
+                    <i class="fa-solid fa-star"></i> 📜 跨版本動態評分標準與演算邏輯 (Future-Proof Rating Engine)
                 </div>
-                <p style="margin-bottom: 10px; font-size: 0.95rem; line-height: 1.6; color: #f1f5f9;" data-i18n="rating-desc">
-                    為了讓開發者一目了然地挑選最高 CP 值與最強大性能的模型，本站針對各模型進行 <strong>10.0 分制綜合評分</strong>，評分標準包含以下四大核心維度：
+                <p style="margin-bottom: 10px; font-size: 0.92rem; line-height: 1.6; color: #f1f5f9;" data-i18n="rating-desc">
+                    本站拋棄靜態硬編碼評分，採用<strong>客觀的版本與能力演算法 (Dynamic Version-Aware Engine)</strong>。評分直接根據 API 英文名稱中的代際版本號（1.5 / 2.5 / 3.0 / 3.5 / 4.0 / 5.0...）與能力後綴動態計算，確保未來推出 Gemini 4.0 或 5.0 時依然能準確且客觀地自動計分：
                 </p>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
-                    <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #60a5fa; font-size: 0.92rem;"><i class="fa-solid fa-brain"></i> 1. 模型代際與推理實力 (40%)</strong><br>
-                        <span style="font-size: 0.85rem; color: #cbd5e1;">Gemini 3.5 / 3.1 Pro 擁有最強推理與邏輯實力，基礎分高達 9.5~9.8。</span>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+                    <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <strong style="color: #60a5fa; font-size: 0.9rem;"><i class="fa-solid fa-layer-group"></i> 1. 代際版本基礎分 (Base Score)</strong><br>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;">算式：<code>7.5 + (Major_Version * 0.5)</code><br>例如：Ver 2.5 = 8.8 分，Ver 3.5 = 9.25 分，Ver 4.0 = 9.5 分，Ver 5.0 = 9.9 分。</span>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #34d399; font-size: 0.92rem;"><i class="fa-solid fa-bolt"></i> 2. 每日免費上限 RPD (30%)</strong><br>
-                        <span style="font-size: 0.85rem; color: #cbd5e1;">RPD ≥ 1500 次/日額度最高者額外獲得 +0.3 加分，確保適合工具長期調度。</span>
+                    <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <strong style="color: #34d399; font-size: 0.9rem;"><i class="fa-solid fa-brain"></i> 2. 核心推理與級別加分 (+0.5)</strong><br>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;">具有 <code>Pro</code>、<code>Ultra</code> 或 <code>Thinking</code> 旗艦標籤模型享有 +0.5 深度推理加分。</span>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #a855f7; font-size: 0.92rem;"><i class="fa-solid fa-eye"></i> 3. 原生多模態能力 (20%)</strong><br>
-                        <span style="font-size: 0.85rem; color: #cbd5e1;">具備圖片辨識、PDF 閱讀與截圖 OCR 的多模態模型享有更高綜合評分。</span>
+                    <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <strong style="color: #a855f7; font-size: 0.9rem;"><i class="fa-solid fa-bolt"></i> 3. 速度與極速輕量 (+0.3)</strong><br>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;"><code>Flash</code> 高速平衡模型享 +0.3 加分，<code>Flash-Lite</code> 享 +0.1 加分。</span>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #fbbf24; font-size: 0.92rem;"><i class="fa-solid fa-stopwatch"></i> 4. 響應速度 RPM (10%)</strong><br>
-                        <span style="font-size: 0.85rem; color: #cbd5e1;">Flash 輕量系列響應極快且 RPM 限額高，享有速率調度權重加分。</span>
+                    <div style="background: rgba(255, 255, 255, 0.04); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <strong style="color: #fbbf24; font-size: 0.9rem;"><i class="fa-solid fa-globe"></i> 4. 實時擴充與串流 (+0.2)</strong><br>
+                        <span style="font-size: 0.84rem; color: #cbd5e1;"><code>Live API</code> 雙向對話與 <code>Grounding</code> 實時搜尋接地享 +0.2 功能加分。</span>
                     </div>
                 </div>
             </div>
 
             <!-- Detailed Cards Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 16px;">
                 <!-- Live API Explainer -->
-                <div class="card" style="border-left: 5px solid #a855f7; padding: 18px; margin: 0;">
-                    <strong style="color: #c084fc; font-size: 1.05rem; font-weight: 800;" data-i18n="live-api-explainer-title">
+                <div class="card" style="border-left: 5px solid #a855f7; padding: 16px; margin: 0;">
+                    <strong style="color: #c084fc; font-size: 1.02rem; font-weight: 800;" data-i18n="live-api-explainer-title">
                         <i class="fa-solid fa-bolt" style="margin-right: 6px;"></i> ⚡ 什麼是 Live API？ (Multimodal Live API)
                     </strong>
-                    <p style="font-size: 0.92rem; color: #f1f5f9; line-height: 1.6; margin-top: 10px; margin-bottom: 0;" data-i18n="live-api-explainer-desc">
-                        Live API 是 Google 推出的基於 <strong>WebSocket 協議</strong> 的雙向低延遲對話接口（類似 Gemini Live 語音體驗）。它允許應用程式建立持久長連接，直接將連續音訊/視訊串流傳送給模型並獲得實時極速回應，適用於即時語音助手與視訊對話應用。
+                    <p style="font-size: 0.9rem; color: #f1f5f9; line-height: 1.6; margin-top: 8px; margin-bottom: 0;" data-i18n="live-api-explainer-desc">
+                        Live API 是 Google 推出的基於 <strong>WebSocket 協議</strong> 的雙向低延遲對話接口（類似 Gemini Live 語音體驗）。它允許應用程式建立持久長連接，直接將連續音訊/視訊串流傳送給模型並獲得實時極速回應。
                     </p>
                 </div>
 
                 <!-- Grounding Explainer -->
-                <div class="card" style="border-left: 5px solid #3b82f6; padding: 18px; margin: 0;">
-                    <strong style="color: #60a5fa; font-size: 1.05rem; font-weight: 800;" data-i18n="grounding-explainer-title">
+                <div class="card" style="border-left: 5px solid #3b82f6; padding: 16px; margin: 0;">
+                    <strong style="color: #60a5fa; font-size: 1.02rem; font-weight: 800;" data-i18n="grounding-explainer-title">
                         <i class="fa-solid fa-globe" style="margin-right: 6px;"></i> 🌐 什麼是 實時網路搜尋與地圖引註 (Grounding)？
                     </strong>
-                    <p style="font-size: 0.92rem; color: #f1f5f9; line-height: 1.6; margin-top: 10px; margin-bottom: 0;" data-i18n="grounding-explainer-desc">
-                        Grounding 並非獨立模型，而是代表模型具備連結 <strong>Google Web 即時搜尋</strong> 或 <strong>Google Maps 地理數據庫</strong> 的實時檢索能力。它讓 AI 的回答擺脫訓練截止日限制，回答時會自動附帶出處參考網址與實時地圖座標。
+                    <p style="font-size: 0.9rem; color: #f1f5f9; line-height: 1.6; margin-top: 8px; margin-bottom: 0;" data-i18n="grounding-explainer-desc">
+                        Grounding 並非獨立模型，而是代表模型具備連結 <strong>Google Web 即時搜尋</strong> 或 <strong>Google Maps 地理數據庫</strong> 的實時檢索能力。<strong>完全支援日常對話與文字創作</strong>，並在此基礎上自動檢索實時網頁與出處連結。
                     </p>
                 </div>
 
                 <!-- Image Gen Billing Warning -->
-                <div class="card" style="border-left: 5px solid #f59e0b; padding: 18px; margin: 0;">
-                    <strong style="color: #fbbf24; font-size: 1.05rem; font-weight: 800;" data-i18n="image-billing-warning-title">
+                <div class="card" style="border-left: 5px solid #f59e0b; padding: 16px; margin: 0;">
+                    <strong style="color: #fbbf24; font-size: 1.02rem; font-weight: 800;" data-i18n="image-billing-warning-title">
                         <i class="fa-solid fa-triangle-exclamation" style="margin-right: 6px;"></i> ⚠️ 圖像與影音生成 (Imagen / Veo) 綁卡說明
                     </strong>
-                    <p style="font-size: 0.92rem; color: #f1f5f9; line-height: 1.6; margin-top: 10px; margin-bottom: 0;" data-i18n="image-billing-warning-desc">
+                    <p style="font-size: 0.9rem; color: #f1f5f9; line-height: 1.6; margin-top: 8px; margin-bottom: 0;" data-i18n="image-billing-warning-desc">
                         Google 官方規定所有圖像與影音生成 endpoints (Imagen 3 / Veo) 必須在 GCP 專案上<strong>繫結 Pay-As-You-Go 結算帳戶 (信用卡)</strong> 方可呼叫。純免費未綁卡專案發送請求會強制返回 HTTP 403 Billing 錯誤。
                     </p>
                 </div>
             </div>
 
             <!-- Purpose & Failover Advantages Card -->
-            <div class="card help-section-card" style="border-left: 5px solid var(--color-blue); padding: 18px 20px; margin-bottom: 16px;">
-                <div class="card-title" style="color: var(--color-blue); font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;" data-i18n="purpose-title">
-                    <i class="fa-solid fa-plug"></i> 面板用途與第三方 AI 軟體串接優勢 (JSON API 直連)
+            <div class="card help-section-card" style="border-left: 5px solid var(--color-blue); padding: 16px 18px; margin-bottom: 14px;">
+                <div class="card-title" style="color: var(--color-blue); font-size: 1.1rem; font-weight: 800; margin-bottom: 8px;" data-i18n="purpose-title">
+                    <i class="fa-solid fa-plug"></i> 面板用途與第三方 AI 軟體串接指南 (JSON API 直連)
                 </div>
-                <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6; color: #f1f5f9;" data-i18n="purpose-desc">
+                <p style="margin-bottom: 10px; font-size: 0.92rem; line-height: 1.6; color: #f1f5f9;" data-i18n="purpose-desc">
                     本面板每日自動同步 Google AI Studio 官方 Rate Limits 數據，特別為開發者與本機 AI 軟體提供以下兩大核心優勢：
                 </p>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
-                    <div style="background: rgba(255, 255, 255, 0.04); padding: 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #60a5fa; font-size: 0.98rem;" data-i18n="purpose-card1-title"><i class="fa-solid fa-link"></i> 免費模型配置 API (JSON 直連)</strong><br>
-                        <span style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.6; display: inline-block; margin-top: 6px;" data-i18n="purpose-card1-desc">
-                            提供結構化的 <strong>JSON 數據接口</strong> (`gemini_rate_limits.json`)，您的語音輸入工具、AI 助手或本機腳本可直接遠端獲取包含 `is_free_tier: true` 的最新免費模型名單與規範（RPM/TPM/RPD），省去手動判斷邏輯。
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                    <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <strong style="color: #60a5fa; font-size: 0.95rem;" data-i18n="purpose-card1-title"><i class="fa-solid fa-link"></i> 免費模型配置 API (JSON 直連)</strong><br>
+                        <span style="font-size: 0.86rem; color: #e2e8f0; line-height: 1.5; display: inline-block; margin-top: 5px;" data-i18n="purpose-card1-desc">
+                            提供結構化的 <strong>JSON 數據接口</strong> (`gemini_rate_limits.json`)，內含 `_developer_guide` 說明。您的語音輸入工具或 AI 軟體可直接讀取陣列的第一個元素 (Index 0) 作為預設首選最佳模型。
                         </span>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.04); padding: 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <strong style="color: #34d399; font-size: 0.98rem;" data-i18n="purpose-card2-title"><i class="fa-solid fa-shield-halved"></i> 故障切換與自動降級 (Failover)</strong><br>
-                        <span style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.6; display: inline-block; margin-top: 6px;" data-i18n="purpose-card2-desc">
-                            當您的工具呼叫單一免費模型觸發 <strong>HTTP 429 額度超限</strong>時，可透過讀取本站接口，在背景自動切換到其他健康的備用免費模型，確保您的工具運作永不中斷。
+                    <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <strong style="color: #34d399; font-size: 0.95rem;" data-i18n="purpose-card2-title"><i class="fa-solid fa-shield-halved"></i> 故障切換與自動降級 (Failover)</strong><br>
+                        <span style="font-size: 0.86rem; color: #e2e8f0; line-height: 1.5; display: inline-block; margin-top: 5px;" data-i18n="purpose-card2-desc">
+                            當您的工具呼叫當前模型遇到 <strong>HTTP 429 額度超限</strong>時，順序存取下一個 `is_free_tier: true` 的模型即可實現 100% 不中斷自動降級與備援。
                         </span>
                     </div>
                 </div>
             </div>
 
             <!-- High-Contrast Limit Glossary Card -->
-            <div class="card help-section-card" style="border-left: 5px solid var(--color-accent); padding: 18px 20px; margin-bottom: 24px;">
-                <div class="card-title" style="font-size: 1.15rem; font-weight: 800; color: var(--color-accent-light); margin-bottom: 12px;" data-i18n="glossary-title">
+            <div class="card help-section-card" style="border-left: 5px solid var(--color-accent); padding: 16px 18px; margin-bottom: 20px;">
+                <div class="card-title" style="font-size: 1.1rem; font-weight: 800; color: var(--color-accent-light); margin-bottom: 10px;" data-i18n="glossary-title">
                     <i class="fa-solid fa-circle-info"></i> 額度限額名詞說明 (RPM / TPM / RPD)
                 </div>
-                <div class="help-grid-high-contrast" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
-                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 12px; border-radius: 8px;">
-                        <div style="font-size: 1.1rem; font-weight: 800; color: #60a5fa;">RPM</div>
-                        <div style="font-size: 0.82rem; color: #94a3b8; font-weight: 600;">Requests Per Minute</div>
-                        <div style="font-size: 0.88rem; color: #f1f5f9; line-height: 1.5; margin-top: 6px;" data-i18n="glossary-desc-rpm">每分鐘最多可發送的 API 請求次數限制。</div>
+                <div class="help-grid-high-contrast" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 10px; border-radius: 6px;">
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #60a5fa;">RPM</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 600;">Requests Per Minute</div>
+                        <div style="font-size: 0.86rem; color: #f1f5f9; line-height: 1.4; margin-top: 4px;" data-i18n="glossary-desc-rpm">每分鐘最多可發送的 API 請求次數限制。</div>
                     </div>
-                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 12px; border-radius: 8px;">
-                        <div style="font-size: 1.1rem; font-weight: 800; color: #34d399;">TPM</div>
-                        <div style="font-size: 0.82rem; color: #94a3b8; font-weight: 600;">Tokens Per Minute</div>
-                        <div style="font-size: 0.88rem; color: #f1f5f9; line-height: 1.5; margin-top: 6px;" data-i18n="glossary-desc-tpm">每分鐘最多可傳輸的總 Token 數限制（包含輸入與輸出）。</div>
+                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 10px; border-radius: 6px;">
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #34d399;">TPM</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 600;">Tokens Per Minute</div>
+                        <div style="font-size: 0.86rem; color: #f1f5f9; line-height: 1.4; margin-top: 4px;" data-i18n="glossary-desc-tpm">每分鐘最多可傳輸的總 Token 數限制（包含輸入與輸出）。</div>
                     </div>
-                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 12px; border-radius: 8px;">
-                        <div style="font-size: 1.1rem; font-weight: 800; color: #fbbf24;">RPD</div>
-                        <div style="font-size: 0.82rem; color: #94a3b8; font-weight: 600;">Requests Per Day</div>
-                        <div style="font-size: 0.88rem; color: #f1f5f9; line-height: 1.5; margin-top: 6px;" data-i18n="glossary-desc-rpd">每日最多可發送的 API 總請求次數上限 (RPD > 0 代表免費模型)。</div>
+                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 10px; border-radius: 6px;">
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #fbbf24;">RPD</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 600;">Requests Per Day</div>
+                        <div style="font-size: 0.86rem; color: #f1f5f9; line-height: 1.4; margin-top: 4px;" data-i18n="glossary-desc-rpd">每日最多可發送的 API 總請求次數上限。顯示 Unlimited 代表每日發送次數完全無上限。</div>
                     </div>
-                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 12px; border-radius: 8px;">
-                        <div style="font-size: 1.1rem; font-weight: 800; color: #c084fc;">Free vs Paid</div>
-                        <div style="font-size: 0.82rem; color: #94a3b8; font-weight: 600;">Free / Pay-as-you-go</div>
-                        <div style="font-size: 0.88rem; color: #f1f5f9; line-height: 1.5; margin-top: 6px;" data-i18n="glossary-desc-free-paid">免費層級具有每日限制 (RPD > 0)；付費層級依量計費，無每日上限。</div>
+                    <div class="help-box-hc" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 10px; border-radius: 6px;">
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #c084fc;">Free vs Paid</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 600;">Free / Pay-as-you-go</div>
+                        <div style="font-size: 0.86rem; color: #f1f5f9; line-height: 1.4; margin-top: 4px;" data-i18n="glossary-desc-free-paid">免費層級具有每日限制 (RPD > 0 或 Unlimited)；付費層級依量計費，無每日上限。</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Amazon Affiliate Card -->
-        <div class="card amazon-affiliate-card" style="border-top: 3px solid #ff9900; background: linear-gradient(145deg, rgba(255, 153, 0, 0.03) 0%, rgba(20, 20, 20, 0.6) 100%); padding: 20px 24px; margin-bottom: 24px;">
-            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 153, 0, 0.15); padding-bottom: 12px; margin-bottom: 16px;">
-                <h2 class="section-title" style="margin: 0; font-size: 1.25rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: #ff9900;" data-i18n="amazon-title">
+        <div class="card amazon-affiliate-card" style="border-top: 3px solid #ff9900; background: linear-gradient(145deg, rgba(255, 153, 0, 0.03) 0%, rgba(20, 20, 20, 0.6) 100%); padding: 18px 20px; margin-bottom: 20px;">
+            <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 153, 0, 0.15); padding-bottom: 10px; margin-bottom: 14px;">
+                <h2 class="section-title" style="margin: 0; font-size: 1.18rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: #ff9900;" data-i18n="amazon-title">
                     <i class="fa-brands fa-amazon"></i> 🛒 亞馬遜聯盟行銷精選推薦 (Amazon Hub)
                 </h2>
-                <span class="badge" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 20px; background: rgba(255, 153, 0, 0.15); color: #ff9900;" data-i18n="amazon-subtitle">
+                <span class="badge" style="padding: 4px 10px; font-size: 0.78rem; font-weight: 600; border-radius: 16px; background: rgba(255, 153, 0, 0.15); color: #ff9900;" data-i18n="amazon-subtitle">
                     精選好物推薦
                 </span>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-                <a href="https://www.amazon.com/gp/bestsellers?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 16px;">
-                    <strong style="color: #ff9900; font-size: 0.95rem;" data-i18n="amz-bestsellers"><i class="fa-solid fa-fire"></i> 暢銷產品榜</strong>
-                    <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 6px; margin-bottom: 8px;" data-i18n="amz-bestsellers-desc">發掘亞馬遜每小時更新的最受歡迎商品。</p>
-                    <span style="color: #ff9900; font-size: 0.82rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+                <a href="https://www.amazon.com/gp/bestsellers?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 14px;">
+                    <strong style="color: #ff9900; font-size: 0.92rem;" data-i18n="amz-bestsellers"><i class="fa-solid fa-fire"></i> 暢銷產品榜</strong>
+                    <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 4px; margin-bottom: 6px;" data-i18n="amz-bestsellers-desc">發掘亞馬遜每小時更新的最受歡迎商品。</p>
+                    <span style="color: #ff9900; font-size: 0.8rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
                 </a>
-                <a href="https://www.amazon.com/gp/new-releases?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 16px;">
-                    <strong style="color: #ff9900; font-size: 0.95rem;" data-i18n="amz-new-releases"><i class="fa-solid fa-wand-magic-sparkles"></i> 熱門新品榜</strong>
-                    <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 6px; margin-bottom: 8px;" data-i18n="amz-new-releases-desc">掌握最新上架與即將推出的創意新品。</p>
-                    <span style="color: #ff9900; font-size: 0.82rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
+                <a href="https://www.amazon.com/gp/new-releases?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 14px;">
+                    <strong style="color: #ff9900; font-size: 0.92rem;" data-i18n="amz-new-releases"><i class="fa-solid fa-wand-magic-sparkles"></i> 熱門新品榜</strong>
+                    <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 4px; margin-bottom: 6px;" data-i18n="amz-new-releases-desc">掌握最新上架與即將推出的創意新品。</p>
+                    <span style="color: #ff9900; font-size: 0.8rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
                 </a>
-                <a href="https://www.amazon.com/gp/most-wished-for?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 16px;">
-                    <strong style="color: #ff9900; font-size: 0.95rem;" data-i18n="amz-most-wished"><i class="fa-solid fa-heart"></i> 最想收到好物</strong>
-                    <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 6px; margin-bottom: 8px;" data-i18n="amz-most-wished-desc">消費者最常加入個人願望清單的夢幻商品。</p>
-                    <span style="color: #ff9900; font-size: 0.82rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
+                <a href="https://www.amazon.com/gp/most-wished-for?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 14px;">
+                    <strong style="color: #ff9900; font-size: 0.92rem;" data-i18n="amz-most-wished"><i class="fa-solid fa-heart"></i> 最想收到好物</strong>
+                    <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 4px; margin-bottom: 6px;" data-i18n="amz-most-wished-desc">消費者最常加入個人願望清單的夢幻商品。</p>
+                    <span style="color: #ff9900; font-size: 0.8rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
                 </a>
-                <a href="https://www.amazon.com/gp/most-gifted?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 16px;">
-                    <strong style="color: #ff9900; font-size: 0.95rem;" data-i18n="amz-most-gifted"><i class="fa-solid fa-gift"></i> 送禮首選推薦</strong>
-                    <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 6px; margin-bottom: 8px;" data-i18n="amz-most-gifted-desc">節日送禮、生日慶祝最受歡迎的熱門禮品。</p>
-                    <span style="color: #ff9900; font-size: 0.82rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
+                <a href="https://www.amazon.com/gp/most-gifted?tag=9908qq-20" target="_blank" class="amz-item-card" style="text-decoration: none; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 153, 0, 0.1); border-radius: 8px; padding: 14px;">
+                    <strong style="color: #ff9900; font-size: 0.92rem;" data-i18n="amz-most-gifted"><i class="fa-solid fa-gift"></i> 送禮首選推薦</strong>
+                    <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 4px; margin-bottom: 6px;" data-i18n="amz-most-gifted-desc">節日送禮、生日慶祝最受歡迎的熱門禮品。</p>
+                    <span style="color: #ff9900; font-size: 0.8rem; font-weight: 600;" data-i18n="amz-action">即刻探索 ➡️</span>
                 </a>
             </div>
         </div>
@@ -339,7 +332,7 @@
     <footer class="app-footer">
         <div class="container">
             <p data-i18n="footer-copyright">© 2026 Gemini API Monitor. 每日定時自動採集與重新發布。</p>
-            <p class="view-counter-box" id="busuanzi_container_site_pv" style="display:none; font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; margin-bottom: 10px;">
+            <p class="view-counter-box" id="busuanzi_container_site_pv" style="display:none; font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; margin-bottom: 8px;">
                 <i class="fa-solid fa-eye" style="margin-right: 5px; color: var(--color-blue);"></i> 
                 <span data-i18n="footer-views-label">本站總瀏覽量：</span><span id="busuanzi_value_site_pv" style="font-weight: 600; color: var(--color-blue);">...</span> <span data-i18n="footer-views-unit">次</span> | 
                 <i class="fa-solid fa-user" style="margin-right: 5px; color: var(--color-green);"></i> 
@@ -349,6 +342,6 @@
         </div>
     </footer>
 
-    <script src="app.js?v=1.0.5"></script>
+    <script src="app.js?v=1.0.6"></script>
 </body>
 </html>

@@ -1527,26 +1527,49 @@ if __name__ == "__main__":
             data = result_queue.get()
             try:
                 check_and_notify_changes(JSON_OUTPUT, data)
-                # Save CSV
-                with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "RPM Limit", "TPM Limit", "RPD Limit", "RPM Current", "TPM Current", "RPD Current"])
-                    for row in data:
-                        writer.writerow([
-                            row["api_name"], row["display_name"], row["category"], row["tier"],
-                            row["rpm"], row["tpm"], row["rpd"],
-                            row.get("rpm_limit"), row.get("tpm_limit"), row.get("rpd_limit"),
-                            row.get("rpm_current"), row.get("tpm_current"), row.get("rpd_current")
-                        ])
-                # Save JSON
+                # Enrich and sort models by score
                 from enrich_json import enrich_model
-                enriched_data = [enrich_model(item) for item in data]
+                enriched_data = [enrich_model(item) for item in data if isinstance(item, dict) and "api_name" in item]
                 free_m = [m for m in enriched_data if m.get("is_free_tier")]
+                paid_m = [m for m in enriched_data if not m.get("is_free_tier")]
                 free_m.sort(key=lambda x: (x.get("model_score") or 0, x.get("rpd_limit") or 0), reverse=True)
                 paid_m.sort(key=lambda x: (x.get("model_score") or 0, x.get("rpm_limit") or 0), reverse=True)
-                sorted_json_data = free_m + paid_m
+                sorted_models = free_m + paid_m
+
+                # Save CSV with Model Rating Score
+                with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["Model Rating Score", "API Model Name", "Display Name", "Fine Category", "Is Free Tier", "Requires Billing", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "Capabilities", "Usage Description"])
+                    for row in sorted_models:
+                        writer.writerow([
+                            row.get("model_score", 9.0),
+                            row["api_name"], row["display_name"], row.get("fine_category_name_zh", row["category"]),
+                            "YES" if row.get("is_free_tier") else "NO",
+                            "YES" if row.get("requires_billing_account") else "NO",
+                            row["tier"], row["rpm"], row["tpm"], row["rpd"],
+                            ", ".join(row.get("capabilities", [])),
+                            row.get("usage_description_zh", "")
+                        ])
+
+                # Save JSON with Developer Integration Guide
+                json_output_obj = {
+                    "_developer_guide": {
+                        "title": "Gemini API 官方額度與模型能力 JSON 接口操作指南 (專為 AI 軟體與工具 Failover 設計)",
+                        "sorting_rule": "所有模型已按綜合評分 `model_score` 由高至低排序，且免費模型 (is_free_tier: true) 優先排列於最前面。",
+                        "recommended_usage": "當您的 AI 軟體或腳本導入此 JSON 時，可以直接讀取 `models` 陣列的第一個元素 (Index 0) 作為預設首選最佳模型。",
+                        "failover_instruction": "當調用當前模型遇到 HTTP 429 Rate Limit 超限時，順序存取下一個 `is_free_tier: true` 的模型即可實現 100% 不中斷自動降級與備援。",
+                        "field_definitions": {
+                            "model_score": "模型動態綜合效能評分 (最高 9.9)，依據代際版本 (1.5/2.5/3.0/3.5/4.0/5.0) 與推理/速度/多模態能力動態計算。",
+                            "is_free_tier": "是否具備免費每日額度 (RPD > 0)。",
+                            "requires_billing_account": "是否強制要求 GCP 專案繫結信用卡/結算帳戶 (如 Imagen/Veo)。",
+                            "fine_category": "細項用途標籤: text, vision, speech, image_gen, live_api, grounding, embedding"
+                        }
+                    },
+                    "models": sorted_models
+                }
+
                 with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
-                    json.dump(sorted_json_data, f, indent=4, ensure_ascii=False)
+                    json.dump(json_output_obj, f, indent=4, ensure_ascii=False)
                 print(f"\n🎉 [CLI] 抓取完成！資料已存檔:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}")
                 
                 # 儲存並推送日誌 (Success)

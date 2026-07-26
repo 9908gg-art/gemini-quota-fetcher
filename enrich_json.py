@@ -1,63 +1,64 @@
 import json
 import os
+import re
 
 JSON_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "gemini_rate_limits.json"))
 
-def calculate_model_score(model):
-    name_lower = (model.get("display_name") or "").lower()
-    cat_lower = (model.get("category") or "").lower()
-    rpd_limit = model.get("rpd_limit") or 0
-    rpm_limit = model.get("rpm_limit") or 0
+def calculate_dynamic_version_score(model):
+    display_name = model.get("display_name", "")
+    api_name = model.get("api_name", "")
+    text = f"{display_name} {api_name}".lower()
 
-    # Base rating based on model capability & generation tier
-    score = 8.0
-    if "3.5" in name_lower or "3.1 pro" in name_lower:
-        score = 9.8
-    elif "3.1 flash" in name_lower or "3.0 flash" in name_lower or "3 flash" in name_lower:
-        score = 9.6
-    elif "2.5 pro" in name_lower:
-        score = 9.5
-    elif "2.5 flash" in name_lower:
-        score = 9.3
-    elif "gemma" in name_lower:
-        score = 8.9
-    elif "live" in name_lower or "live api" in cat_lower:
-        score = 9.4
-    elif "grounding" in name_lower or "grounding" in cat_lower:
-        score = 9.3
-    elif "tts" in name_lower or "speech" in name_lower or "audio" in name_lower:
-        score = 9.1
-    elif "imagen" in name_lower or "veo" in name_lower or "banana" in name_lower:
-        score = 9.0
-    elif "embedding" in name_lower:
-        score = 8.8
+    # Dynamic Version Parsing (extracts version numbers like 1.5, 2.5, 3.0, 3.1, 3.5, 4.0, 5.0, etc.)
+    version_matches = re.findall(r'(\d+\.\d+|\b[2-9]\b)', text)
+    ver_num = 2.5
+    if version_matches:
+        try:
+            val = float(version_matches[0])
+            if 1.0 <= val <= 20.0:
+                ver_num = val
+        except ValueError:
+            pass
 
-    # Free Tier Bonus (High RPD & RPM)
-    if rpd_limit >= 1500:
-        score += 0.2
-    elif rpd_limit > 0:
-        score += 0.1
+    # Version-Aware Scalable Base Score (Future-proof for 4.0, 5.0, etc.)
+    # Version 2.0 = 8.5, Version 2.5 = 8.8, Version 3.0 = 9.0, Version 3.5 = 9.25, Version 4.0 = 9.5, Version 5.0 = 9.9
+    base_score = 7.5 + (ver_num * 0.5)
 
-    if rpm_limit >= 15:
-        score += 0.1
+    # Capability Variant Bonus
+    if "pro" in text or "ultra" in text or "thinking" in text:
+        base_score += 0.5  # High reasoning and logic capability
+    elif "flash" in text:
+        base_score += 0.3  # High speed & balanced intelligence
+    elif "lite" in text:
+        base_score += 0.1  # Ultra lightweight
+    elif "live" in text or "grounding" in text:
+        base_score += 0.2  # Real-time streaming or search capability
+    elif "gemma" in text:
+        base_score += 0.1
 
-    return min(round(score, 1), 9.9)
+    final_score = min(max(round(base_score, 1), 7.0), 9.9)
+    return final_score
 
 def enrich_model(model):
     display_name = model.get("display_name", "")
     api_name = model.get("api_name", "")
     category = model.get("category", "")
     tier = model.get("tier", "")
-    rpd_limit = model.get("rpd_limit") or 0
-    rpm_limit = model.get("rpm_limit") or 0
-    tpm_limit = model.get("tpm_limit") or 0
+    rpd_str = str(model.get("rpd", "")).lower()
+    rpd_limit = model.get("rpd_limit") if model.get("rpd_limit") is not None else 0
 
     name_lower = display_name.lower()
     cat_lower = category.lower()
     tier_lower = tier.lower()
 
-    # Rule 1: Free Tier definition (RPD > 0 is Free model)
-    is_free = rpd_limit > 0
+    # Rule 1: Free Tier definition
+    # A model is Free if rpd_limit > 0 OR rpd_limit == -1 OR "unlimited" is in rpd string.
+    # If rpd_limit == 0 and "unlimited" is not in rpd_str, it has NO free daily quota (rpd = 0)!
+    if rpd_limit > 0 or rpd_limit == -1 or "unlimited" in rpd_str:
+        is_free = True
+    else:
+        is_free = False
+
     model["is_free_tier"] = is_free
 
     # Rule 2: Billing Account Requirement
@@ -70,12 +71,11 @@ def enrich_model(model):
     )
     model["requires_billing_account"] = requires_billing
 
-    # Rule 3: Comprehensive Rating Score
-    score = calculate_model_score(model)
+    # Rule 3: Dynamic Version-Aware Rating Score
+    score = calculate_dynamic_version_score(model)
     model["model_score"] = score
 
     # Rule 4: Fine-grained Category & Multimodal Vision Detection
-    # NOTE: Gemini 2.5 Flash, 2.5 Pro, 3.0 Flash, 3.1 Pro, etc. ARE ALL Vision & Multimodal models!
     is_vision_capable = (
         "flash" in name_lower or 
         "pro" in name_lower or 
@@ -84,7 +84,7 @@ def enrich_model(model):
     )
     model["is_vision_capable"] = is_vision_capable
 
-    if "live api" in cat_lower or "live" in name_lower:
+    if "live api" in cat_lower or "live" in name_lower or "audio dialog" in name_lower:
         fine_cat = "live_api"
         fine_cat_zh = "⚡ 即時對話 (Live API)"
     elif "grounding" in cat_lower or "grounding" in name_lower:
@@ -112,7 +112,7 @@ def enrich_model(model):
     model["fine_category"] = fine_cat
     model["fine_category_name_zh"] = fine_cat_zh
 
-    # Capabilities Array
+    # Capabilities & Description
     caps = []
     if is_vision_capable:
         caps.append("vision_screenshot_ocr")
@@ -127,10 +127,10 @@ def enrich_model(model):
         desc = "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
     elif fine_cat == "live_api":
         caps.extend(["websocket_live", "realtime_audio_video", "low_latency_dialog"])
-        desc = "基於 WebSocket 的低延遲即時雙向影音/語音對話 API (類似 Gemini Live 體驗)。"
+        desc = "基於 WebSocket 協議的低延遲即時雙向影音/語音對話 API (類似 Gemini Live 語音體驗)。"
     elif fine_cat == "grounding":
-        caps.extend(["google_search", "google_maps", "realtime_fact_checking"])
-        desc = "結合 Google Web 實時搜尋與 Google Maps 地理座標，提供附帶來源網址的最新精準答案。"
+        caps.extend(["google_search", "google_maps", "realtime_fact_checking", "chat_dialog"])
+        desc = "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
     elif fine_cat == "embedding":
         caps.extend(["text_embedding", "semantic_search"])
         desc = "用於文字向量化與語意搜尋 (RAG)，適合建立企業知識庫。"
@@ -149,25 +149,52 @@ def main():
         return
 
     with open(JSON_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
+        raw_data = json.load(f)
+
+    # Filter out developer guide if it exists from previous run
+    if isinstance(raw_data, dict) and "models" in raw_data:
+        data = raw_data["models"]
+    elif isinstance(raw_data, list):
+        data = [item for item in raw_data if isinstance(item, dict) and "api_name" in item]
+    else:
+        data = []
 
     enriched_data = [enrich_model(item) for item in data]
 
-    # Split into Free Tier (RPD > 0) and Paid Tier (RPD = 0)
+    # Split into Free Tier (RPD > 0 or Unlimited) and Paid Tier
     free_models = [m for m in enriched_data if m["is_free_tier"]]
     paid_models = [m for m in enriched_data if not m["is_free_tier"]]
 
-    # Rank by model_score descending so highest rated models appear first!
+    # Rank by model_score descending
     free_models.sort(key=lambda x: (x.get("model_score") or 0, x.get("rpd_limit") or 0), reverse=True)
     paid_models.sort(key=lambda x: (x.get("model_score") or 0, x.get("rpm_limit") or 0), reverse=True)
 
     sorted_data = free_models + paid_models
 
+    # Developer Integration Guide embedded directly into JSON file
+    output_obj = {
+        "_developer_guide": {
+            "title": "Gemini API 官方額度與模型能力 JSON 接口操作指南 (專為 AI 軟體與工具 Failover 設計)",
+            "sorting_rule": "所有模型已按動態綜合評分 `model_score` 由高至低排序，且免費模型 (is_free_tier: true) 優先排列於最前面。",
+            "recommended_usage": "當您的 AI 軟體或腳本導入此 JSON 時，可以直接讀取 `models` 陣列的第一個元素 (Index 0) 作為預設首選最佳模型。",
+            "failover_instruction": "當調用當前模型遇到 HTTP 429 Rate Limit 超限時，順序存取下一個 `is_free_tier: true` 的模型即可實現 100% 不中斷自動降級與備援。",
+            "rpd_unlimited_note": "RPD 顯示為 Unlimited 或 -1 代表『每日發送請求次數完全無上限』，只要每分鐘請求 (RPM) 不超限即可無限次呼叫。",
+            "field_definitions": {
+                "model_score": "模型動態綜合效能評分 (最高 9.9)，依據英文 API 名稱中的代際版本號 (2.5/3.0/3.5/4.0/5.0...) 與推理/速度/多模態能力動態演算法計算，具備未來相容性。",
+                "is_free_tier": "是否具備免費額度 (RPD > 0 或 RPD Unlimited)。",
+                "requires_billing_account": "是否強制要求 GCP 專案繫結信用卡/結算帳戶 (如 Imagen/Veo)。",
+                "fine_category": "細項用途標籤: text, vision, speech, image_gen, live_api, grounding, embedding",
+                "capabilities": "模型具備的功能列表，如 vision_screenshot_ocr, google_search, tts, chat_dialog 等。"
+            }
+        },
+        "models": sorted_data
+    }
+
     with open(JSON_PATH, "w", encoding="utf-8") as f:
-        json.dump(sorted_data, f, indent=4, ensure_ascii=False)
+        json.dump(output_obj, f, indent=4, ensure_ascii=False)
 
     print(f"Successfully enriched & ranked {len(sorted_data)} models in gemini_rate_limits.json!")
-    print(f"- Free models (RPD > 0): {len(free_models)} (Top Score: {free_models[0]['model_score'] if free_models else 'N/A'})")
+    print(f"- Free models (RPD > 0 or Unlimited): {len(free_models)} (Top Score: {free_models[0]['model_score'] if free_models else 'N/A'})")
     print(f"- Paid/Exclusive models (RPD = 0): {len(paid_models)} (Top Score: {paid_models[0]['model_score'] if paid_models else 'N/A'})")
 
 if __name__ == "__main__":
