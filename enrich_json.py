@@ -1,9 +1,11 @@
 import json
 import os
 import re
+import urllib.request
 
 JSON_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "gemini_rate_limits.json"))
 LIVE_MODELS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "live_google_models.json"))
+API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyAomY0Xv38ZYfcrh-4euCzXOiur4Boa6wk")
 
 # Official Exact Google REST Endpoint Name Aliases Map (Fixes 404 Mismatches)
 OFFICIAL_ALIAS_MAP = {
@@ -19,7 +21,31 @@ OFFICIAL_ALIAS_MAP = {
     "imagen-3.0-ultra-generate-002": "imagen-4.0-ultra-generate-001",
 }
 
-def load_live_google_models():
+def fetch_live_google_models_dynamically():
+    """Live Google API Alignment Pipeline: Dynamically queries Google v1beta/models on every run!"""
+    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={API_KEY}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            models = data.get("models", [])
+            live_names = []
+            for m in models:
+                name = m.get("name", "").replace("models/", "")
+                disp = m.get("displayName", "")
+                methods = m.get("supportedGenerationMethods", [])
+                live_names.append({
+                    "api_name": name,
+                    "display_name": disp,
+                    "methods": methods
+                })
+            if live_names:
+                with open(LIVE_MODELS_PATH, "w", encoding="utf-8") as f:
+                    json.dump(live_names, f, indent=4, ensure_ascii=False)
+                return live_names
+    except Exception as e:
+        print(f"Notice: Live Google API endpoint check ({e}), relying on cached live_google_models.json.")
+
     if os.path.exists(LIVE_MODELS_PATH):
         try:
             with open(LIVE_MODELS_PATH, "r", encoding="utf-8") as f:
@@ -28,7 +54,7 @@ def load_live_google_models():
             pass
     return []
 
-LIVE_MODELS_LIST = load_live_google_models()
+LIVE_MODELS_LIST = fetch_live_google_models_dynamically()
 LIVE_API_NAMES = {m["api_name"]: m for m in LIVE_MODELS_LIST}
 
 def normalize_to_official_google_api_name(raw_api_name):
@@ -133,13 +159,9 @@ def enrich_model(model):
     is_image_gen = "imagen" in name_lower or "veo" in name_lower or "banana" in name_lower
     is_websocket_live = "live" in name_lower or "live api" in cat_lower or "audio dialog" in name_lower
 
-    # REST generateContent Compatibility Flag
-    # Standard text/multimodal REST generateContent calls work for text/vision/code/grounding/embedding models,
-    # but NOT for WebSocket-only Live API or Predict-only Imagen endpoints.
     is_rest_compatible = not is_websocket_live and not is_image_gen
     model["is_rest_compatible"] = is_rest_compatible
 
-    # Live Google v1beta/models Endpoint Verified Flag
     is_verified_live = api_name in LIVE_API_NAMES
     model["is_verified_live"] = is_verified_live
 
