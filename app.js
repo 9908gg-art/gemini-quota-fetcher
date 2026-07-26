@@ -27,9 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 付費隨用隨付與獨佔模型限制 (Pay-as-you-go / Paid Only)",
             "paid-badge": "付費/綁卡層級 (無免費每日額度)",
             
-            "col-display-name": "模型顯示名稱",
+            "col-display-name": "模型名稱 (API 識別碼)",
             "col-score": "動態評分",
-            "col-api-id": "API 識別碼",
             "col-category": "用途分類",
             "col-rpm": "RPM (分)",
             "col-tpm": "TPM (分)",
@@ -83,9 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 Pay-as-you-go & Paid Tier Limits (RPD = 0)",
             "paid-badge": "Paid Tier (Billing Account Required)",
             
-            "col-display-name": "Model Name",
+            "col-display-name": "Model Name (API Identifier)",
             "col-score": "Rating",
-            "col-api-id": "API Identifier",
             "col-category": "Category",
             "col-rpm": "RPM (Min)",
             "col-tpm": "TPM (Min)",
@@ -139,9 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 従量課金＆有料限定モデル (RPD = 0)",
             "paid-badge": "有料層 (クレジットカード必須)",
             
-            "col-display-name": "モデル表示名",
+            "col-display-name": "モデル名 (API 識別子)",
             "col-score": "スコア",
-            "col-api-id": "API 識別子",
             "col-category": "用途分類",
             "col-rpm": "RPM (分)",
             "col-tpm": "TPM (分)",
@@ -195,9 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "paid-table-title": "💳 종량제 및 유료 전용 모델 (RPD = 0)",
             "paid-badge": "유료 계정 (신용카드 등록 필요)",
             
-            "col-display-name": "모델 표시 이름",
+            "col-display-name": "모델 이름 (API 식별자)",
             "col-score": "평점",
-            "col-api-id": "API 식별자",
             "col-category": "용도 분류",
             "col-rpm": "RPM (분)",
             "col-tpm": "TPM (분)",
@@ -230,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // 2. Automatic Browser Language Detection (zh-TW, en, ja, ko)
+    // 2. Automatic Browser Language Detection
     let userLang = "zh-TW";
     const navLang = (navigator.language || navigator.userLanguage || "").toLowerCase();
     if (navLang.startsWith("ja")) {
@@ -311,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("載入數據錯誤：", error);
             const errMsg = `
                 <tr>
-                    <td colspan="8" class="text-center" style="padding: 24px; color: var(--color-red);">
+                    <td colspan="7" class="text-center" style="padding: 24px; color: var(--color-red);">
                         <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i> ${langObj["load-failed"]}
                     </td>
                 </tr>
@@ -321,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 5. Render tables with strict classification audit
+    // 5. Render tables with single consolidated model name column
     function renderTable() {
         const langObj = translations[userLang] || translations["zh-TW"];
         freeTbody.innerHTML = "";
@@ -378,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modelsList.length === 0) {
             tbodyElement.innerHTML = `
                 <tr>
-                    <td colspan="8" class="text-center" style="padding: 24px; color: var(--text-muted);">
+                    <td colspan="7" class="text-center" style="padding: 24px; color: var(--text-muted);">
                         ${emptyMsg}
                     </td>
                 </tr>
@@ -427,9 +423,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const rpdHtml = formatLimitValue(model.rpd, "RPD");
 
             tr.innerHTML = `
-                <td style="font-weight: 700; color: var(--text-primary); font-size: 0.94rem;">${model.display_name} ${statusTag}</td>
+                <td style="font-weight: 700; color: var(--text-primary); font-size: 0.94rem;">
+                    <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                        <span>${model.display_name}</span>
+                        ${statusTag}
+                    </div>
+                    <div style="font-size: 0.78rem; margin-top: 3px; font-weight: 400;">
+                        <code>API: ${model.api_name}</code>
+                    </div>
+                </td>
                 <td>${scoreBadge}</td>
-                <td class="model-api-name"><code>${model.api_name}</code></td>
                 <td><span class="badge ${catBadgeClass}" style="font-size: 0.78rem;">${catText}</span></td>
                 <td class="text-right">${rpmHtml}</td>
                 <td class="text-right">${tpmHtml}</td>

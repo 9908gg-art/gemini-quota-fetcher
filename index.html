@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Busuanzi View Counter -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.0.8">
+    <link rel="stylesheet" href="style.css?v=1.0.9">
 </head>
 <body>
     <header class="app-header" style="padding: 10px 0; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid var(--border-color);">
@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <!-- Table 1: Free Models First (RPD > 0 or Unlimited) - Placed immediately at the top -->
+        <!-- Table 1: Free Models First (RPD > 0 or Unlimited) - Single Name Column -->
         <div class="card table-card" style="border-top: 3px solid var(--color-green); margin-bottom: 14px;">
             <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
                 <h2 class="section-title" style="margin: 0; font-size: 1.12rem; font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--color-green);" data-i18n="free-table-title">
@@ -117,9 +117,8 @@
                 <table class="quota-table-compact">
                     <thead>
                         <tr>
-                            <th style="min-width: 200px;" data-i18n="col-display-name">模型顯示名稱</th>
+                            <th style="min-width: 240px;" data-i18n="col-display-name">模型名稱 (API 識別碼)</th>
                             <th data-i18n="col-score">動態評分</th>
-                            <th data-i18n="col-api-id">API 識別碼</th>
                             <th data-i18n="col-category">用途分類</th>
                             <th class="text-right" data-i18n="col-rpm">RPM (分)</th>
                             <th class="text-right" data-i18n="col-tpm">TPM (分)</th>
@@ -129,7 +128,7 @@
                     </thead>
                     <tbody id="free-quota-tbody">
                         <tr>
-                            <td colspan="8" class="text-center" style="padding: 24px; color: var(--text-muted);" data-i18n="load-data-free">
+                            <td colspan="7" class="text-center" style="padding: 24px; color: var(--text-muted);" data-i18n="load-data-free">
                                 <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在載入免費模型數據...
                             </td>
                         </tr>
@@ -138,7 +137,7 @@
             </div>
         </div>
 
-        <!-- Table 2: Paid Models & Exclusive APIs (RPD = 0 / Billing Required) -->
+        <!-- Table 2: Paid Models & Exclusive APIs (RPD = 0 / Billing Required) - Single Name Column -->
         <div class="card table-card" style="border-top: 3px solid var(--color-blue); margin-bottom: 20px;">
             <div class="card-header-flex" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
                 <h2 class="section-title" style="margin: 0; font-size: 1.12rem; font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--color-blue);" data-i18n="paid-table-title">
@@ -152,9 +151,8 @@
                 <table class="quota-table-compact">
                     <thead>
                         <tr>
-                            <th style="min-width: 200px;" data-i18n="col-display-name">模型顯示名稱</th>
+                            <th style="min-width: 240px;" data-i18n="col-display-name">模型名稱 (API 識別碼)</th>
                             <th data-i18n="col-score">動態評分</th>
-                            <th data-i18n="col-api-id">API 識別碼</th>
                             <th data-i18n="col-category">用途分類</th>
                             <th class="text-right" data-i18n="col-rpm">RPM (分)</th>
                             <th class="text-right" data-i18n="col-tpm">TPM (分)</th>
@@ -164,7 +162,7 @@
                     </thead>
                     <tbody id="paid-quota-tbody">
                         <tr>
-                            <td colspan="8" class="text-center" style="padding: 24px; color: var(--text-muted);" data-i18n="load-data-paid">
+                            <td colspan="7" class="text-center" style="padding: 24px; color: var(--text-muted);" data-i18n="load-data-paid">
                                 <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> 正在載入付費模型數據...
                             </td>
                         </tr>
@@ -252,7 +250,7 @@
                     <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
                         <strong style="color: #60a5fa; font-size: 0.95rem;" data-i18n="purpose-card1-title"><i class="fa-solid fa-link"></i> 免費模型配置 API (JSON 直連)</strong><br>
                         <span style="font-size: 0.86rem; color: #e2e8f0; line-height: 1.5; display: inline-block; margin-top: 5px;" data-i18n="purpose-card1-desc">
-                            提供結構化的 <strong>JSON 數據接口</strong> (`gemini_rate_limits.json`)，內含 `_developer_guide` 說明。您的語音輸入工具或 AI 軟體可直接讀取陣列的第一個元素 (Index 0) 作為預設首選最佳模型。
+                            提供結構化的 <strong>JSON 數據接口</strong> (`gemini_rate_limits.json`)，內含 `_developer_guide` 說明。您的語音輸入工具或 AI 軟體可直接讀取 `api_name` 欄位進行直連。
                         </span>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
@@ -348,6 +346,6 @@
         </div>
     </footer>
 
-    <script src="app.js?v=1.0.8"></script>
+    <script src="app.js?v=1.0.9"></script>
 </body>
 </html>
