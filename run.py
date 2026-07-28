@@ -1,6 +1,15 @@
 import os
 import sys
+import io
 import subprocess
+
+# Ensure Windows PowerShell / CMD console handles UTF-8 print statements without cp950 encoding errors
+if sys.platform == "win32":
+    try:
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 def run_cmd(args):
     try:
