@@ -1,27 +1,118 @@
-[2026-07-28 10:41:31] 🚀 啟動 Playwright 瀏覽器核心 (同步安全模式)...
-[2026-07-28 10:41:31] 📂 使用瀏覽器設定檔目錄: D:\root\gemini-quota-fetcher\aistudio_profile
-[2026-07-28 10:41:37] ⚠️ 未在預期路徑找到 cookies.json 檔案: D:\root\gemini-quota-fetcher\cookies.json
-[2026-07-28 10:41:37] 🌐 正在導航至網址: https://aistudio.google.com/rate-limit?timeRange=last-28-days&project=gen-lang-client-0286062465
-[2026-07-28 10:41:45] 🔍 檢查是否需要登入 Google 帳號...
-[2026-07-28 10:41:47] ⚠️ 偵測到需要登入！目前網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S1815217763%3A1785206503138074&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=Ac50bxsuy-QIJzuwdjTqabvTz3yNmk6-_hCc4Owjtl80xbdtS5ZA4bye7f9BM3JGtimDbavnBsFv6A | 網頁標題: Sign in - Google Accounts
-[2026-07-28 10:41:47] 📋 網頁當前文字片段: Loading Sign in Use your Google Account Email or phone Forgot email? Not your computer? Use Guest mode to sign in privately. Learn more about using Guest mode Next Create account English (United States) Help Privacy Terms
-[2026-07-28 10:41:47] 📸 已將偵測到登入/錯誤的網頁畫面截圖存檔至: D:\root\gemini-quota-fetcher\login_error_screenshot.png
-[2026-07-28 10:41:47] 🔴 抓取錯誤: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S1815217763%3A1785206503138074&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=Ac50bxsuy-QIJzuwdjTqabvTz3yNmk6-_hCc4Owjtl80xbdtS5ZA4bye7f9BM3JGtimDbavnBsFv6A。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
-[2026-07-28 10:41:47] ❌ [CLI 錯誤]: 抓取核心錯誤: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S1815217763%3A1785206503138074&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=Ac50bxsuy-QIJzuwdjTqabvTz3yNmk6-_hCc4Owjtl80xbdtS5ZA4bye7f9BM3JGtimDbavnBsFv6A。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+[2026-07-28 11:08:38] 🚀 啟動 Playwright 瀏覽器核心 (同步安全模式)...
+[2026-07-28 11:08:38] 📂 使用瀏覽器設定檔目錄: D:\root\gemini-quota-fetcher\aistudio_profile
+[2026-07-28 11:08:38] 🔴 抓取錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
+Call log:
+  - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
+  - <launched> pid=14328
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=14328] <gracefully close start>
+  - [pid=14328] <kill>
+  - [pid=14328] <will force kill>
+  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
+  - [pid=14328] <process did exit: exitCode=21, signal=null>
+  - [pid=14328] starting temporary directories cleanup
+  - [pid=14328] finished temporary directories cleanup
+  - [pid=14328] <gracefully close end>
+[2026-07-28 11:08:38] ❌ [CLI 錯誤]: 抓取核心錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
+Call log:
+  - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
+  - <launched> pid=14328
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=14328] <gracefully close start>
+  - [pid=14328] <kill>
+  - [pid=14328] <will force kill>
+  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
+  - [pid=14328] <process did exit: exitCode=21, signal=null>
+  - [pid=14328] starting temporary directories cleanup
+  - [pid=14328] finished temporary directories cleanup
+  - [pid=14328] <gracefully close end>
+
 
 詳細追蹤資訊:
 Traceback (most recent call last):
-  File "D:\root\gemini-quota-fetcher\main.py", line 275, in scrape
-    raise Exception(f"需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: '{page_title}'，網址: {current_url}。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。")
-Exception: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S1815217763%3A1785206503138074&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=Ac50bxsuy-QIJzuwdjTqabvTz3yNmk6-_hCc4Owjtl80xbdtS5ZA4bye7f9BM3JGtimDbavnBsFv6A。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+  File "D:\root\gemini-quota-fetcher\main.py", line 192, in scrape
+    self.browser_context = self.playwright.chromium.launch_persistent_context(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py", line 16570, in launch_persistent_context
+    self._sync(
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_browser_type.py", line 166, in launch_persistent_context
+    result = await self._channel.send_return_as_dict(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 83, in send_return_as_dict
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 559, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
+Call log:
+  - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
+  - <launched> pid=14328
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=14328] <gracefully close start>
+  - [pid=14328] <kill>
+  - [pid=14328] <will force kill>
+  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
+  - [pid=14328] <process did exit: exitCode=21, signal=null>
+  - [pid=14328] starting temporary directories cleanup
+  - [pid=14328] finished temporary directories cleanup
+  - [pid=14328] <gracefully close end>
+
 
 
 ================ ERROR DETAIL ================
-抓取核心錯誤: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S1815217763%3A1785206503138074&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=Ac50bxsuy-QIJzuwdjTqabvTz3yNmk6-_hCc4Owjtl80xbdtS5ZA4bye7f9BM3JGtimDbavnBsFv6A。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+抓取核心錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
+Call log:
+  - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
+  - <launched> pid=14328
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=14328] <gracefully close start>
+  - [pid=14328] <kill>
+  - [pid=14328] <will force kill>
+  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
+  - [pid=14328] <process did exit: exitCode=21, signal=null>
+  - [pid=14328] starting temporary directories cleanup
+  - [pid=14328] finished temporary directories cleanup
+  - [pid=14328] <gracefully close end>
+
 
 詳細追蹤資訊:
 Traceback (most recent call last):
-  File "D:\root\gemini-quota-fetcher\main.py", line 275, in scrape
-    raise Exception(f"需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: '{page_title}'，網址: {current_url}。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。")
-Exception: 需要登入，但目前設定為無頭模式 (Headless)。目前網頁標題: 'Sign in - Google Accounts'，網址: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&dsh=S1815217763%3A1785206503138074&followup=https%3A%2F%2Faistudio.google.com%2Frate-limit%3FtimeRange%3Dlast-28-days%26project%3Dgen-lang-client-0286062465&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=Ac50bxsuy-QIJzuwdjTqabvTz3yNmk6-_hCc4Owjtl80xbdtS5ZA4bye7f9BM3JGtimDbavnBsFv6A。請檢查 Cookies 是否過期，或參考 login_error_screenshot.png 畫面。
+  File "D:\root\gemini-quota-fetcher\main.py", line 192, in scrape
+    self.browser_context = self.playwright.chromium.launch_persistent_context(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py", line 16570, in launch_persistent_context
+    self._sync(
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_browser_type.py", line 166, in launch_persistent_context
+    result = await self._channel.send_return_as_dict(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 83, in send_return_as_dict
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Q\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 559, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
+Call log:
+  - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
+  - <launched> pid=14328
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=14328] <gracefully close start>
+  - [pid=14328] <kill>
+  - [pid=14328] <will force kill>
+  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
+  - [pid=14328] <process did exit: exitCode=21, signal=null>
+  - [pid=14328] starting temporary directories cleanup
+  - [pid=14328] finished temporary directories cleanup
+  - [pid=14328] <gracefully close end>
+
 
