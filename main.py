@@ -760,114 +760,38 @@ def push_to_github(log_func=print):
     log_func("📤 正在推送變更至 GitHub...")
     import shutil
     import subprocess
-    import urllib.request
-    import base64
-    import json
-    
-    # 1. Try standard Git command line
-    git_installed = shutil.which("git") is not None
-    success = False
-    if git_installed:
-        try:
-            # We run git commands
-            subprocess.check_call(["git", "add", "gemini_rate_limits.json", "gemini_rate_limits.csv"])
-            status_out = subprocess.check_output(["git", "status", "--porcelain"])
-            if not status_out.strip():
-                log_func("✔️ 數據無任何變更，無須推送。")
-                return True
-            subprocess.check_call(["git", "commit", "-m", "chore: 自動更新額度限制數據 [skip ci]"])
-            subprocess.check_call(["git", "push", "origin", "main"])
-            log_func("✔️ 使用 Git 工具成功推送！")
-            success = True
-        except Exception as e:
-            log_func(f"⚠️ Git 工具推送失敗: {e}，切換至 API 備份模式...")
-            
-    if not success:
-        log_func("📡 偵測到本機未安裝 Git 或推送失敗，正在啟用 GitHub REST API 自動上傳...")
-        try:
-            git_config_path = os.path.join(os.path.dirname(__file__), ".git", "config")
-            if not os.path.exists(git_config_path):
-                log_func("ℹ️ 本機資料夾缺少 .git/config 連線設定，正在為您自動重建 GitHub 連線設定檔...")
-                try:
-                    os.makedirs(os.path.dirname(git_config_path), exist_ok=True)
-                    with open(git_config_path, "w", encoding="utf-8") as f_cfg:
-                        f_cfg.write('[remote "origin"]\n')
-                        f_cfg.write(f'\turl = https://ghp_{"7PGRDWniiUCncG95fdjZ1y3FVSyqZe4O7XFb"}@github.com/9908gg-art/gemini-quota-fetcher.git\n')
-                except Exception as e_cfg:
-                    log_func(f"❌ 自動初始化連線設定失敗: {e_cfg}")
-                    return False
-                
-            with open(git_config_path, "r", encoding="utf-8") as f:
-                config_content = f.read()
-                
-            url_match = re.search(r"url\s*=\s*(https://\S+)", config_content)
-            if not url_match:
-                log_func("❌ 無法在 .git/config 中解析出 remote url。")
-                return False
-                
-            url = url_match.group(1)
-            match = re.search(r"https://([^@]+)@github\.com/([^/]+)/([^.]+)\.git", url)
-            if not match:
-                log_func("❌ 無法解析 GitHub Token，請確認您已正確設定 Remote 憑證。")
-                return False
-                
-            token = match.group(1)
-            owner = match.group(2)
-            repo = match.group(3)
-            
-            def upload_file(file_path, repo_path):
-                if not os.path.exists(file_path):
-                    return False
-                with open(file_path, "rb") as f:
-                    file_bytes = f.read()
-                content_b64 = base64.b64encode(file_bytes).decode("utf-8")
-                
-                api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{repo_path}"
-                req = urllib.request.Request(api_url)
-                req.add_header("Authorization", f"token {token}")
-                req.add_header("Accept", "application/vnd.github.v3+json")
-                req.add_header("User-Agent", "Gemini-Quota-Fetcher")
-                
-                sha = None
-                try:
-                    with urllib.request.urlopen(req) as response:
-                        res_data = json.loads(response.read().decode("utf-8"))
-                        sha = res_data.get("sha")
-                except urllib.error.HTTPError as e:
-                    if e.code != 404:
-                        log_func(f"⚠️ 檢查 {repo_path} SHA 失敗: {e}")
-                        
-                payload = {
-                    "message": "chore: 自動更新額度限制數據 (REST API) [skip ci]",
-                    "content": content_b64
-                }
-                if sha:
-                    payload["sha"] = sha
-                    
-                payload_bytes = json.dumps(payload).encode("utf-8")
-                put_req = urllib.request.Request(api_url, data=payload_bytes, method="PUT")
-                put_req.add_header("Authorization", f"token {token}")
-                put_req.add_header("Content-Type", "application/json")
-                put_req.add_header("Accept", "application/vnd.github.v3+json")
-                put_req.add_header("User-Agent", "Gemini-Quota-Fetcher")
-                
-                with urllib.request.urlopen(put_req) as response:
-                    if response.status in [200, 201]:
-                        return True
-                return False
+    import os
 
-            ok_json = upload_file(JSON_OUTPUT, "gemini_rate_limits.json")
-            ok_csv = upload_file(CSV_OUTPUT, "gemini_rate_limits.csv")
-            
-            if ok_json and ok_csv:
-                log_func("🎉 經由 GitHub API 成功上傳資料！網頁已完成同步！")
-                return True
-            else:
-                log_func("❌ 透過 API 上傳檔案失敗。")
-        except Exception as e:
-            log_func(f"❌ API 上傳發生異常錯誤: {e}")
-            
-    return success
+    git_bin = "git"
+    for candidate in [
+        r"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+        r"C:\Program Files\Git\cmd\git.exe"
+    ]:
+        if os.path.exists(candidate):
+            git_bin = candidate
+            break
+
+    try:
+        subprocess.check_call([git_bin, "add", "gemini_rate_limits.json", "gemini_rate_limits.csv", "run_log.txt"])
+        status_out = subprocess.check_output([git_bin, "status", "--porcelain"])
+        if not status_out.strip():
+            log_func("✔️ 數據無任何變更，無須推送。")
+            return True
+        subprocess.check_call([git_bin, "-c", "user.name=9908gg-art", "-c", "user.email=9908qq@gmail.com", "commit", "-m", "chore: 自動更新額度限制與日誌 [skip ci]"])
+        
+        # Read the new token directly from GITHUB_TOKEN environment variable as requested
+        token = os.environ.get("GITHUB_TOKEN", "").strip()
+        if token:
+            remote_url = f"https://x-access-token:{token}@github.com/9908gg-art/gemini-quota-fetcher.git"
+            subprocess.check_call([git_bin, "-c", "credential.helper=", "push", remote_url, "main"])
+            log_func("✔️ 已讀取 GITHUB_TOKEN 環境變數並成功推送至 GitHub！")
+        else:
+            subprocess.check_call([git_bin, "push", "origin", "main"])
+            log_func("✔️ 已成功將最新執行日誌與狀態推送至 GitHub！")
+        return True
+    except Exception as e:
+        log_func(f"⚠️ Git 推送日誌與資料失敗: {e}")
+        return False
 
 
 def send_telegram_status(message):
