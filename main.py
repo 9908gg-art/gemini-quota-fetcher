@@ -781,12 +781,13 @@ def push_to_github(log_func=print):
         
         # Read the new token directly from GITHUB_TOKEN environment variable as requested
         token = os.environ.get("GITHUB_TOKEN", "").strip()
+        git_flags = ["-c", "credential.helper=", "-c", "credential.interactive=never"]
         if token:
             remote_url = f"https://x-access-token:{token}@github.com/9908gg-art/gemini-quota-fetcher.git"
-            subprocess.check_call([git_bin, "-c", "credential.helper=", "push", "--force", remote_url, "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+            subprocess.check_call([git_bin] + git_flags + ["push", "--force", remote_url, "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
             log_func("✔️ 已讀取 GITHUB_TOKEN 環境變數並成功推送至 GitHub！")
         else:
-            subprocess.check_call([git_bin, "-c", "credential.helper=", "push", "origin", "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+            subprocess.check_call([git_bin] + git_flags + ["push", "origin", "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
             log_func("✔️ 已成功將最新執行日誌與狀態推送至 GitHub！")
         return True
     except Exception as e:
