@@ -997,16 +997,29 @@ def check_and_notify_changes(old_file_path, new_data):
         print(f"⚠️ 讀取舊版數據失敗，跳過比較: {e}")
         return
 
+    # Extract list of models if data is wrapped in dict object with _developer_guide
+    if isinstance(old_data, dict) and "models" in old_data:
+        old_data = old_data["models"]
+    elif not isinstance(old_data, list):
+        old_data = []
+
+    if isinstance(new_data, dict) and "models" in new_data:
+        new_data = new_data["models"]
+    elif not isinstance(new_data, list):
+        new_data = []
+
     # Convert list of dicts to dict keyed by (api_name, tier)
     old_dict = {}
     for item in old_data:
-        key = (item.get("api_name", ""), item.get("tier", "Free tier"))
-        old_dict[key] = item
+        if isinstance(item, dict):
+            key = (item.get("api_name", ""), item.get("tier", "Free tier"))
+            old_dict[key] = item
 
     new_dict = {}
     for item in new_data:
-        key = (item.get("api_name", ""), item.get("tier", "Free tier"))
-        new_dict[key] = item
+        if isinstance(item, dict):
+            key = (item.get("api_name", ""), item.get("tier", "Free tier"))
+            new_dict[key] = item
 
     changes = []
     added = []
