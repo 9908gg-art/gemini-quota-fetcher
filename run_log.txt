@@ -1,33 +1,33 @@
-[2026-07-28 11:08:38] 🚀 啟動 Playwright 瀏覽器核心 (同步安全模式)...
-[2026-07-28 11:08:38] 📂 使用瀏覽器設定檔目錄: D:\root\gemini-quota-fetcher\aistudio_profile
-[2026-07-28 11:08:38] 🔴 抓取錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
+[2026-07-28 11:09:49] 🚀 啟動 Playwright 瀏覽器核心 (同步安全模式)...
+[2026-07-28 11:09:50] 📂 使用瀏覽器設定檔目錄: D:\root\gemini-quota-fetcher\aistudio_profile
+[2026-07-28 11:09:50] 🔴 抓取錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
 Call log:
   - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
-  - <launched> pid=14328
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
-  - [pid=14328] <gracefully close start>
-  - [pid=14328] <kill>
-  - [pid=14328] <will force kill>
-  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
-  - [pid=14328] <process did exit: exitCode=21, signal=null>
-  - [pid=14328] starting temporary directories cleanup
-  - [pid=14328] finished temporary directories cleanup
-  - [pid=14328] <gracefully close end>
-[2026-07-28 11:08:38] ❌ [CLI 錯誤]: 抓取核心錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
+  - <launched> pid=17064
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=17064] <gracefully close start>
+  - [pid=17064] <kill>
+  - [pid=17064] <will force kill>
+  - [pid=17064] taskkill stderr: ���~: �䤣��B�z�{�� "17064"�C
+  - [pid=17064] <process did exit: exitCode=21, signal=null>
+  - [pid=17064] starting temporary directories cleanup
+  - [pid=17064] finished temporary directories cleanup
+  - [pid=17064] <gracefully close end>
+[2026-07-28 11:09:50] ❌ [CLI 錯誤]: 抓取核心錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
 Call log:
   - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
-  - <launched> pid=14328
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
-  - [pid=14328] <gracefully close start>
-  - [pid=14328] <kill>
-  - [pid=14328] <will force kill>
-  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
-  - [pid=14328] <process did exit: exitCode=21, signal=null>
-  - [pid=14328] starting temporary directories cleanup
-  - [pid=14328] finished temporary directories cleanup
-  - [pid=14328] <gracefully close end>
+  - <launched> pid=17064
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=17064] <gracefully close start>
+  - [pid=17064] <kill>
+  - [pid=17064] <will force kill>
+  - [pid=17064] taskkill stderr: ���~: �䤣��B�z�{�� "17064"�C
+  - [pid=17064] <process did exit: exitCode=21, signal=null>
+  - [pid=17064] starting temporary directories cleanup
+  - [pid=17064] finished temporary directories cleanup
+  - [pid=17064] <gracefully close end>
 
 
 詳細追蹤資訊:
@@ -51,17 +51,17 @@ Traceback (most recent call last):
 playwright._impl._errors.Error: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
 Call log:
   - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
-  - <launched> pid=14328
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
-  - [pid=14328] <gracefully close start>
-  - [pid=14328] <kill>
-  - [pid=14328] <will force kill>
-  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
-  - [pid=14328] <process did exit: exitCode=21, signal=null>
-  - [pid=14328] starting temporary directories cleanup
-  - [pid=14328] finished temporary directories cleanup
-  - [pid=14328] <gracefully close end>
+  - <launched> pid=17064
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=17064] <gracefully close start>
+  - [pid=17064] <kill>
+  - [pid=17064] <will force kill>
+  - [pid=17064] taskkill stderr: ���~: �䤣��B�z�{�� "17064"�C
+  - [pid=17064] <process did exit: exitCode=21, signal=null>
+  - [pid=17064] starting temporary directories cleanup
+  - [pid=17064] finished temporary directories cleanup
+  - [pid=17064] <gracefully close end>
 
 
 
@@ -69,17 +69,17 @@ Call log:
 抓取核心錯誤: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
 Call log:
   - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
-  - <launched> pid=14328
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
-  - [pid=14328] <gracefully close start>
-  - [pid=14328] <kill>
-  - [pid=14328] <will force kill>
-  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
-  - [pid=14328] <process did exit: exitCode=21, signal=null>
-  - [pid=14328] starting temporary directories cleanup
-  - [pid=14328] finished temporary directories cleanup
-  - [pid=14328] <gracefully close end>
+  - <launched> pid=17064
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=17064] <gracefully close start>
+  - [pid=17064] <kill>
+  - [pid=17064] <will force kill>
+  - [pid=17064] taskkill stderr: ���~: �䤣��B�z�{�� "17064"�C
+  - [pid=17064] <process did exit: exitCode=21, signal=null>
+  - [pid=17064] starting temporary directories cleanup
+  - [pid=17064] finished temporary directories cleanup
+  - [pid=17064] <gracefully close end>
 
 
 詳細追蹤資訊:
@@ -103,16 +103,16 @@ Traceback (most recent call last):
 playwright._impl._errors.Error: BrowserType.launch_persistent_context: Failed to create a ProcessSingleton for your profile directory. This usually means that the profile is already in use by another instance of Chromium.
 Call log:
   - <launching> C:\Users\Q\AppData\Local\ms-playwright\chromium-1223\chrome-win64\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --disable-blink-features=AutomationControlled --user-data-dir=D:\root\gemini-quota-fetcher\aistudio_profile --remote-debugging-pipe about:blank
-  - <launched> pid=14328
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
-  - [pid=14328][err] [14328:18276:0728/110838.397:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
-  - [pid=14328] <gracefully close start>
-  - [pid=14328] <kill>
-  - [pid=14328] <will force kill>
-  - [pid=14328] taskkill stderr: ���~: �䤣��B�z�{�� "14328"�C
-  - [pid=14328] <process did exit: exitCode=21, signal=null>
-  - [pid=14328] starting temporary directories cleanup
-  - [pid=14328] finished temporary directories cleanup
-  - [pid=14328] <gracefully close end>
+  - <launched> pid=17064
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\browser\process_singleton_win.cc:421] Lock file can not be created! Error code: 32
+  - [pid=17064][err] [17064:9436:0728/110950.185:ERROR:chrome\app\chrome_main_delegate.cc:515] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+  - [pid=17064] <gracefully close start>
+  - [pid=17064] <kill>
+  - [pid=17064] <will force kill>
+  - [pid=17064] taskkill stderr: ���~: �䤣��B�z�{�� "17064"�C
+  - [pid=17064] <process did exit: exitCode=21, signal=null>
+  - [pid=17064] starting temporary directories cleanup
+  - [pid=17064] finished temporary directories cleanup
+  - [pid=17064] <gracefully close end>
 
 
