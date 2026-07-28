@@ -44,8 +44,8 @@ def main():
     print("\n🚀 [3/3] 正在啟動瀏覽器進行抓取並上傳...")
     print("👉 請注意：我們將優先使用您本機的 Google Chrome 或 Edge 瀏覽器，請在彈出的視窗內完成 Google 登入。")
     
-    # 執行 main.py 並帶入 --cli 與 --push 參數 (無頭背景模式，不彈出瀏覽器視窗)
-    success = run_cmd([sys.executable, "main.py", "--cli", "--push"])
+    # 執行 main.py 並帶入 --cli, --headful 與 --push 參數 (彈出瀏覽器視窗，實時觀看官方抓取過程)
+    success = run_cmd([sys.executable, "main.py", "--cli", "--headful", "--push"])
     
     if success:
         print("\n🎉 恭喜！更新與上傳成功！您的 Gemini Quota 監視網站已同步更新。")
