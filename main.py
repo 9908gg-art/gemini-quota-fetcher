@@ -1,5 +1,15 @@
 import os
 import sys
+import io
+
+# Ensure Windows PowerShell / CMD console handles UTF-8 print statements without cp950 encoding errors
+if sys.platform == "win32":
+    try:
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 import json
 import csv
 import threading
