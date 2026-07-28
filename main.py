@@ -188,14 +188,48 @@ class ScraperThread(threading.Thread):
             os.makedirs(PROFILE_DIR, exist_ok=True)
             self.log(f"📂 使用瀏覽器設定檔目錄: {PROFILE_DIR}")
 
+            # Clean up stale SingletonLock files to prevent Error Code 32 (ProcessSingleton lock)
+            for lock_name in ["SingletonLock", "SingletonSocket", "SingletonCookie", "lockfile"]:
+                lock_file = os.path.join(PROFILE_DIR, lock_name)
+                if os.path.exists(lock_file):
+                    try:
+                        os.remove(lock_file)
+                        self.log(f"🧹 已自動清除殘留的瀏覽器鎖定檔: {lock_name}")
+                    except Exception:
+                        pass
+
             # Launch Chromium with persistent context to keep login cookies
-            self.browser_context = self.playwright.chromium.launch_persistent_context(
-                user_data_dir=PROFILE_DIR,
-                headless=self.headless,
-                viewport={'width': 1280, 'height': 800},
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-                args=["--disable-blink-features=AutomationControlled"]
-            )
+            try:
+                self.browser_context = self.playwright.chromium.launch_persistent_context(
+                    user_data_dir=PROFILE_DIR,
+                    headless=self.headless,
+                    viewport={'width': 1280, 'height': 800},
+                    user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    args=["--disable-blink-features=AutomationControlled"]
+                )
+            except Exception as launch_err:
+                self.log(f"⚠️ 初次啟動瀏覽器遇到鎖定 (ProcessSingleton)，正在強烈重試清理...")
+                if sys.platform == "win32":
+                    try:
+                        os.system("taskkill /f /im chrome.exe >nul 2>&1")
+                        os.system("taskkill /f /im chromium.exe >nul 2>&1")
+                    except Exception:
+                        pass
+                for lock_name in ["SingletonLock", "SingletonSocket", "SingletonCookie", "lockfile"]:
+                    lock_file = os.path.join(PROFILE_DIR, lock_name)
+                    if os.path.exists(lock_file):
+                        try:
+                            os.remove(lock_file)
+                        except Exception:
+                            pass
+                # Retry launching browser context
+                self.browser_context = self.playwright.chromium.launch_persistent_context(
+                    user_data_dir=PROFILE_DIR,
+                    headless=self.headless,
+                    viewport={'width': 1280, 'height': 800},
+                    user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    args=["--disable-blink-features=AutomationControlled"]
+                )
             # Load cookies from environment variable or local JSON if available
             cookies = None
             cookies_env = os.environ.get("GOOGLE_COOKIES")
