@@ -280,28 +280,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error("無法讀取 limits JSON 檔案");
             }
             
-            const lastModified = response.headers.get("Last-Modified");
-            let dateStr = "";
-            if (lastModified) {
-                const date = new Date(lastModified);
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                dateStr = `${year}/${month}/${day}`;
-            } else {
-                const today = new Date();
-                const year = today.getFullYear();
-                const month = String(today.getMonth() + 1).padStart(2, '0');
-                const day = String(today.getDate()).padStart(2, '0');
-                dateStr = `${year}/${month}/${day}`;
+            const rawData = await response.json();
+            allModels = Array.isArray(rawData) ? rawData : (rawData.models || []);
+
+            let dateStr = rawData.last_updated_date || "";
+            if (!dateStr) {
+                const lastModified = response.headers.get("Last-Modified");
+                if (lastModified) {
+                    const date = new Date(lastModified);
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    dateStr = `${year}/${month}/${day}`;
+                } else {
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const day = String(today.getDate()).padStart(2, '0');
+                    dateStr = `${year}/${month}/${day}`;
+                }
             }
 
             if (updateDateText) {
                 updateDateText.innerHTML = `<i class="fa-regular fa-calendar-check"></i> ${langObj["last-updated-date"]}${dateStr}`;
             }
 
-            const rawData = await response.json();
-            allModels = Array.isArray(rawData) ? rawData : (rawData.models || []);
             renderTable();
         } catch (error) {
             console.error("載入數據錯誤：", error);

@@ -1546,7 +1546,7 @@ if __name__ == "__main__":
                             row.get("usage_description_zh", "")
                         ])
 
-                # Save JSON with Developer Integration Guide
+                # Save JSON with Developer Integration Guide & Timestamp
                 json_output_obj = {
                     "_developer_guide": {
                         "title": "Gemini API 官方額度與模型能力 JSON 接口操作指南 (專為 AI 軟體與工具 Failover 設計)",
@@ -1560,6 +1560,8 @@ if __name__ == "__main__":
                             "fine_category": "細項用途標籤: text, vision, speech, image_gen, live_api, grounding, embedding"
                         }
                     },
+                    "last_updated_date": datetime.now().strftime("%Y/%m/%d"),
+                    "last_updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     "models": sorted_models
                 }
 
