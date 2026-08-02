@@ -1458,8 +1458,14 @@ if __name__ == "__main__":
                                 pass
                             commit_msg = "chore: 自動更新執行日誌與狀態 [skip ci]" if not success else "chore: 自動更新額度限制與日誌 [skip ci]"
                             subprocess.check_call([git_bin, "commit", "-m", commit_msg])
-                            token_url = f"https://ghp_{'7PGRDWniiUCncG95fdjZ1y3FVSyqZe4O7XFb'}@github.com/9908gg-art/gemini-quota-fetcher.git"
-                            subprocess.check_call([git_bin, "push", "--force", token_url, "main"])
+                            
+                            token = os.environ.get("GITHUB_TOKEN", "").strip()
+                            git_flags = ["-c", "credential.helper=", "-c", "credential.interactive=never"]
+                            if token:
+                                token_url = f"https://x-access-token:{token}@github.com/9908gg-art/gemini-quota-fetcher.git"
+                                subprocess.check_call([git_bin] + git_flags + ["push", "--force", token_url, "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+                            else:
+                                subprocess.check_call([git_bin] + git_flags + ["push", "origin", "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
                             print("✔️ 已成功將最新執行日誌與狀態推送至 GitHub！")
                         else:
                             print("✔️ 資料與日誌無任何變更，無須推送。")
