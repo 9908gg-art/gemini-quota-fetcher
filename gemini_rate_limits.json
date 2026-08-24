@@ -11,8 +11,8 @@
             "fine_category": "細項用途標籤: text, vision, speech, image_gen, live_api, grounding, embedding"
         }
     },
-    "last_updated_date": "2026/08/22",
-    "last_updated_at": "2026-08-22 08:06:16",
+    "last_updated_date": "2026/08/24",
+    "last_updated_at": "2026-08-24 08:12:01",
     "models": [
         {
             "api_name": "gemini-3.7-flash",
@@ -37,10 +37,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -68,10 +68,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -99,14 +99,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -134,10 +134,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -194,10 +194,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -225,14 +225,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -260,10 +260,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -291,13 +291,13 @@
             "fine_category": "live_api",
             "fine_category_name_zh": "⚡ 即時對話 (Live API)",
             "capabilities": [
-                "low_latency_dialog",
-                "vision_screenshot_ocr",
-                "text_generation",
-                "translation",
                 "websocket_live",
-                "code_completion",
+                "translation",
+                "low_latency_dialog",
                 "realtime_audio_video",
+                "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
@@ -325,14 +325,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -360,14 +360,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -395,14 +395,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -430,11 +430,11 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
-                "text_generation",
-                "tts",
                 "translation",
                 "voice_synthesis",
                 "code_completion",
+                "text_generation",
+                "tts",
                 "reasoning",
                 "text_to_speech"
             ],
@@ -463,10 +463,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -494,10 +494,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -525,11 +525,11 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
-                "text_generation",
-                "tts",
                 "translation",
                 "voice_synthesis",
                 "code_completion",
+                "text_generation",
+                "tts",
                 "reasoning",
                 "text_to_speech"
             ],
@@ -558,11 +558,11 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
-                "text_generation",
-                "tts",
                 "translation",
                 "voice_synthesis",
                 "code_completion",
+                "text_generation",
+                "tts",
                 "reasoning",
                 "text_to_speech"
             ],
@@ -591,10 +591,10 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "chat_dialog",
-                "realtime_fact_checking",
                 "google_maps",
-                "google_search"
+                "chat_dialog",
+                "google_search",
+                "realtime_fact_checking"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -621,10 +621,10 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "chat_dialog",
-                "realtime_fact_checking",
                 "google_maps",
-                "google_search"
+                "chat_dialog",
+                "google_search",
+                "realtime_fact_checking"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -651,14 +651,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -686,11 +686,11 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
-                "text_generation",
-                "tts",
                 "translation",
                 "voice_synthesis",
                 "code_completion",
+                "text_generation",
+                "tts",
                 "reasoning",
                 "text_to_speech"
             ],
@@ -719,10 +719,10 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "chat_dialog",
-                "realtime_fact_checking",
                 "google_maps",
-                "google_search"
+                "chat_dialog",
+                "google_search",
+                "realtime_fact_checking"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -749,9 +749,9 @@
             "fine_category": "embedding",
             "fine_category_name_zh": "🔍 向量檢索 (Embedding)",
             "capabilities": [
-                "semantic_search",
                 "rag_retrieval",
-                "text_embedding"
+                "text_embedding",
+                "semantic_search"
             ],
             "usage_description_zh": "文字向量化與語意檢索模型，專用於企業 RAG 知識庫與文件搜尋，不直接進行文字對話生成。"
         },
@@ -778,11 +778,11 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
+                "google_search",
                 "realtime_fact_checking",
-                "vision_screenshot_ocr",
                 "chat_dialog",
                 "google_maps",
-                "google_search"
+                "vision_screenshot_ocr"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -834,9 +834,9 @@
             "fine_category": "embedding",
             "fine_category_name_zh": "🔍 向量檢索 (Embedding)",
             "capabilities": [
-                "semantic_search",
                 "rag_retrieval",
-                "text_embedding"
+                "text_embedding",
+                "semantic_search"
             ],
             "usage_description_zh": "文字向量化與語意檢索模型，專用於企業 RAG 知識庫與文件搜尋，不直接進行文字對話生成。"
         },
@@ -863,10 +863,10 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "chat_dialog",
-                "realtime_fact_checking",
                 "google_maps",
-                "google_search"
+                "chat_dialog",
+                "google_search",
+                "realtime_fact_checking"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -968,10 +968,10 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "chat_dialog",
-                "realtime_fact_checking",
                 "google_maps",
-                "google_search"
+                "chat_dialog",
+                "google_search",
+                "realtime_fact_checking"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1023,14 +1023,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -1058,10 +1058,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -1089,14 +1089,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -1124,14 +1124,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -1160,10 +1160,10 @@
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
                 "video_generation",
-                "text_generation",
                 "translation",
-                "image_generation",
                 "code_completion",
+                "text_generation",
+                "image_generation",
                 "reasoning"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
@@ -1191,11 +1191,11 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
-                "text_generation",
-                "tts",
                 "translation",
                 "voice_synthesis",
                 "code_completion",
+                "text_generation",
+                "tts",
                 "reasoning",
                 "text_to_speech"
             ],
@@ -1224,14 +1224,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -1259,10 +1259,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -1290,10 +1290,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -1321,11 +1321,11 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
-                "text_generation",
-                "tts",
                 "translation",
                 "voice_synthesis",
                 "code_completion",
+                "text_generation",
+                "tts",
                 "reasoning",
                 "text_to_speech"
             ],
@@ -1354,14 +1354,14 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
-                "chat_dialog",
-                "google_maps",
-                "code_completion",
                 "google_search",
+                "realtime_fact_checking",
+                "code_completion",
+                "text_generation",
+                "google_maps",
+                "chat_dialog",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
@@ -1389,10 +1389,10 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "chat_dialog",
-                "realtime_fact_checking",
                 "google_maps",
-                "google_search"
+                "chat_dialog",
+                "google_search",
+                "realtime_fact_checking"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1420,10 +1420,10 @@
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
                 "video_generation",
-                "text_generation",
                 "translation",
-                "image_generation",
                 "code_completion",
+                "text_generation",
+                "image_generation",
                 "reasoning"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
@@ -1451,10 +1451,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -1511,8 +1511,8 @@
             "fine_category": "image_gen",
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
-                "image_generation",
-                "video_generation"
+                "video_generation",
+                "image_generation"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
         },
@@ -1539,8 +1539,8 @@
             "fine_category": "image_gen",
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
-                "image_generation",
-                "video_generation"
+                "video_generation",
+                "image_generation"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
         },
@@ -1567,10 +1567,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -1598,10 +1598,10 @@
             "fine_category": "vision",
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
-                "vision_screenshot_ocr",
-                "text_generation",
                 "translation",
                 "code_completion",
+                "text_generation",
+                "vision_screenshot_ocr",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
@@ -1630,10 +1630,10 @@
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
                 "video_generation",
-                "text_generation",
                 "translation",
-                "image_generation",
                 "code_completion",
+                "text_generation",
+                "image_generation",
                 "reasoning"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
@@ -1662,10 +1662,10 @@
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
                 "video_generation",
-                "text_generation",
                 "translation",
-                "image_generation",
                 "code_completion",
+                "text_generation",
+                "image_generation",
                 "reasoning"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
@@ -1720,8 +1720,8 @@
             "fine_category": "image_gen",
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
-                "image_generation",
-                "video_generation"
+                "video_generation",
+                "image_generation"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
         }
