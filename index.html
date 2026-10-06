@@ -16,8 +16,8 @@
     </script>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="GugoPro Gemini API 官方免費額度儀表板：每日同步 Google AI Studio 的 RPM、TPM、RPD 與 model_score，支援模型分類及 JSON／CSV 下載；免第三方平台月租，免費層以 Google 官方帳戶配額為準。">
-    <meta name="keywords" content="Google Gemini API 官方免費額度, 零訂閱費 AI, Gemini 免費用量, Gemini Rate Limits, RPM TPM RPD, Gemini API 模型評分, 免費 API 額度查詢, GugoPro">
+    <meta name="description" content="GugoPro Gemini API 官方免費額度儀表板與開發者手冊：每日同步 RPM、TPM、RPD、模型分類及 400／401／403／404／429／500／503／504 錯誤排查與 Failover 原則；實際配額依 Google 專案與模型而異。">
+    <meta name="keywords" content="Google Gemini API 官方免費額度, 零訂閱費 AI, Gemini 免費用量, Gemini Rate Limits, RPM TPM RPD, Gemini API 模型評分, 免費 API 額度查詢, GugoPro, Gemini API 錯誤碼, HTTP 429 配額超限, Gemini API Failover, API 故障排除, Developer Troubleshooting">
     <meta name="author" content="GugoPro AI Team">
     <link rel="canonical" href="https://quota.gugopro.com/">
 
@@ -25,7 +25,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://quota.gugopro.com/">
     <meta property="og:title" content="Gemini API 官方免費額度｜零月租訂閱費｜GugoPro">
-    <meta property="og:description" content="每日檢視 Google AI Studio Gemini API 的 RPM／TPM／RPD 與 model_score；官方免費層用量查詢，免第三方平台月租。實際配額依 Google 帳戶及專案為準。">
+    <meta property="og:description" content="每日同步 Gemini API RPM／TPM／RPD，附完整 HTTP 400、401、403、404、429、500、503、504 錯誤碼排查與有限 Failover 設計原則；配額與可用性以 Google AI Studio 和實際 API 回應為準。">
     <meta property="og:image" content="https://quota.gugopro.com/login_error_screenshot.png">
 
     <!-- Twitter Cards -->
@@ -58,6 +58,70 @@
     <!-- Busuanzi View Counter -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <link rel="stylesheet" href="style.css?v=2.0.0">
+
+    <style id="error-guide-styles">
+        .gugo-back-home {
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+            min-height: 38px; padding: 7px 13px; border-radius: 999px;
+            border: 1px solid rgba(95, 220, 239, .62);
+            background: linear-gradient(120deg, rgba(19, 107, 139, .92), rgba(35, 83, 154, .92));
+            box-shadow: 0 5px 18px rgba(28, 148, 194, .22), inset 0 1px rgba(255,255,255,.12);
+            color: #fff !important; font-size: .82rem; font-weight: 800; line-height: 1.25;
+            text-decoration: none; white-space: nowrap; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }
+        .gugo-back-home:hover, .gugo-back-home:focus-visible {
+            transform: translateY(-1px); border-color: #b7f5ff;
+            background: linear-gradient(120deg, #168bb5, #347de0);
+            box-shadow: 0 0 0 3px rgba(91, 214, 235, .16), 0 8px 24px rgba(40, 167, 215, .35);
+            color: #fff; outline: none;
+        }
+        #error-code-guide {
+            margin: 14px 0 22px; padding: clamp(16px, 3vw, 28px);
+            border: 1px solid rgba(93, 207, 230, .23); border-radius: 17px;
+            background: linear-gradient(145deg, rgba(11, 27, 46, .98), rgba(6, 15, 28, .98) 65%, rgba(9, 25, 43, .98));
+            box-shadow: 0 18px 46px rgba(0, 0, 0, .3), inset 0 1px rgba(255,255,255,.035);
+            color: #e5edf7;
+        }
+        #error-code-guide h2 { margin: 0 0 12px; color: #fff !important; font-size: clamp(1.35rem, 2.6vw, 1.9rem); font-weight: 900; line-height: 1.35; }
+        .error-guide-kicker { margin: 0 0 10px; color: #72d9e9; font: 800 .7rem/1.5 Inter, sans-serif; letter-spacing: .14em; }
+        .error-guide-intro { max-width: 1050px; margin: 0 0 12px; color: #dbe7f4; font-size: .94rem; line-height: 1.8; }
+        .error-guide-note { margin: 14px 0; padding: 13px 15px; border: 1px solid rgba(99, 188, 230, .24); border-left: 4px solid #48c8df; border-radius: 9px; background: rgba(33, 93, 131, .15); color: #e4f3fb; line-height: 1.75; }
+        .error-guide-note strong { color: #fff; }
+        .error-guide-jumps { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 18px; }
+        .error-guide-jumps a { padding: 6px 10px; border: 1px solid rgba(119, 198, 219, .25); border-radius: 999px; background: rgba(255,255,255,.035); color: #c6f5ff; font: 800 .76rem/1.3 Inter, sans-serif; text-decoration: none; }
+        .error-guide-jumps a:hover, .error-guide-jumps a:focus-visible { border-color: #69d8e9; background: rgba(38, 135, 168, .24); color: #fff; outline: none; }
+        .error-guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 13px; align-items: stretch; }
+        .error-card { min-width: 0; padding: 17px; border: 1px solid rgba(113, 185, 210, .18); border-radius: 13px; background: linear-gradient(150deg, rgba(16, 34, 55, .9), rgba(8, 19, 33, .95)); box-shadow: 0 10px 26px rgba(0,0,0,.2); }
+        .error-card-header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid rgba(130, 185, 207, .13); }
+        .error-code-badge { flex: 0 0 auto; min-width: 72px; padding: 7px 9px; border: 1px solid rgba(91, 210, 229, .28); border-radius: 9px; background: rgba(24, 115, 147, .2); color: #8be9f3; font: 900 .92rem/1.2 Inter, sans-serif; text-align: center; }
+        .error-card h3 { margin: 0 0 4px; color: #fff; font-size: 1.07rem; font-weight: 900; line-height: 1.4; }
+        .error-card-lead { margin: 0; color: #aebfd1; font-size: .82rem; line-height: 1.55; }
+        .error-card h4 { margin: 13px 0 6px; color: #82ddeb; font-size: .88rem; font-weight: 850; }
+        .error-card p, .error-card li { color: #d8e3ef; font-size: .86rem; line-height: 1.72; }
+        .error-card p { margin: 6px 0; }
+        .error-card ul, .error-card ol { margin: 5px 0 8px; padding-left: 1.25rem; }
+        .error-card li + li { margin-top: 4px; }
+        .error-card strong { color: #fff; }
+        .error-card code, #error-code-guide code { padding: .1em .35em; border: 1px solid rgba(118, 193, 215, .13); border-radius: 4px; background: rgba(0, 0, 0, .28); color: #a8eff7; font: .9em ui-monospace, SFMono-Regular, Consolas, monospace; overflow-wrap: anywhere; }
+        .error-card-sources { padding-top: 10px; margin-top: 12px; border-top: 1px solid rgba(130, 185, 207, .13); color: #9eb4c8 !important; font-size: .75rem !important; }
+        .error-card-sources a, .error-guide-links a { color: #79d8f3; text-decoration: underline; text-underline-offset: 2px; }
+        .error-card-sources a:hover, .error-guide-links a:hover { color: #d5fbff; }
+        .error-guide-principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 10px; margin: 12px 0; }
+        .error-principle { padding: 12px; border: 1px solid rgba(112, 191, 214, .15); border-radius: 9px; background: rgba(255,255,255,.035); color: #dceaf5; font-size: .83rem; line-height: 1.65; }
+        .error-principle strong { display: block; margin-bottom: 4px; color: #fff; }
+        .error-code-block { max-width: 100%; margin: 9px 0; padding: 13px; overflow-x: auto; border: 1px solid rgba(112, 191, 214, .2); border-radius: 9px; background: #050c15; color: #d7f4ff; font: .77rem/1.65 ui-monospace, SFMono-Regular, Consolas, monospace; white-space: pre; tab-size: 2; }
+        .error-code-block code { padding: 0; border: 0; background: transparent; color: inherit; }
+        .error-guide-links { margin: 15px 0 0; color: #b7c7d8; font-size: .82rem; line-height: 1.8; }
+        @media (max-width: 520px) {
+            .gugo-back-home { min-height: 36px; padding: 6px 10px; font-size: .77rem; }
+            #error-code-guide { padding: 15px 12px; border-radius: 12px; }
+            .error-card { padding: 13px; }
+            .error-card-header { gap: 9px; }
+            .error-code-badge { min-width: 65px; font-size: .82rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { .gugo-back-home { transition: none; } }
+    </style>
+
 </head>
 <body>
     <header class="app-header" style="padding: 10px 0; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid var(--border-color);">
@@ -78,7 +142,8 @@
             </div>
             
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-left: auto;">
-                <a href="gemini_rate_limits.json" download="gemini_rate_limits.json" class="btn-dl-json" style="background: var(--color-accent); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 4px 12px rgba(59,130,246,0.3);">
+<a href="https://gugopro.com/" class="gugo-back-home" aria-label="返回 GugoPro 首頁">← 返回 GugoPro 首頁</a>
+                                <a href="gemini_rate_limits.json" download="gemini_rate_limits.json" class="btn-dl-json" style="background: var(--color-accent); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 4px 12px rgba(59,130,246,0.3);">
                     <i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="dl-json-btn">下載 JSON</span>
                 </a>
                 <a href="gemini_rate_limits.csv" download="gemini_rate_limits.csv" class="btn-dl-csv" style="background: rgba(255,255,255,0.08); color: var(--text-primary); text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.15);">
@@ -199,6 +264,115 @@
             </div>
         </div>
 
+        <section id="error-code-guide" class="error-guide-panel" aria-labelledby="error-code-title">
+            <p class="error-guide-kicker">DEVELOPER HANDBOOK &amp; AUTO-FAILOVER ARCHITECTURE</p>
+            <h2 id="error-code-title">Gemini API 完整錯誤代碼解析與 Failover 故障排除手冊 (Developer Error Codes &amp; Troubleshooting)</h2>
+            <p class="error-guide-intro">Gemini API 的 HTTP 狀態碼不是單純的「成功／失敗」標籤：400 多半要修正請求，認證與權限錯誤需要修復金鑰或專案設定，429 代表某項適用限額已觸發，而 5xx／逾時才可能是短暫服務問題。穩健的呼叫端應解析回應中的 <code>error.code</code>、<code>error.status</code>、<code>error.message</code> 與 <code>error.details</code>，再決定停止、修正、等待或選用相容備援。</p>
+            <p class="error-guide-intro">Google 的速率限制常以 RPM、TPM、RPD 計算，依專案、模型、使用層級及特定功能而變；RPD 依官方說明在美國太平洋時間午夜重設。Google 也明示列出的速率上限不保證實際容量。本站的 <code>gemini_rate_limits.json</code> 是附有更新時間的公開資料快照，呈現模型／限額資訊，並非使用者帳戶的即時剩餘量、請求成功監測或 Google 服務可用性探測。<code>model_score</code> 是本站排序指標，不是健康檢查分數。</p>
+            <div class="error-guide-note"><strong>先釐清端點：</strong>以下以 Gemini Developer API 的 <code>GenerateContent</code> 為主；若使用 Interactions API，部分 machine-readable error code 與 HTTP code 對應不同（例如 Interactions 的 <code>authentication</code> 為 401，而 GenerateContent 的官方錯誤表沒有把 401 列為通用項，並示範 API key invalid 可出現在 400 <code>INVALID_ARGUMENT</code> 回應中）。應以自己實際呼叫的端點及錯誤本文判斷，不要只靠狀態碼猜測根因。</div>
+            <nav class="error-guide-jumps" aria-label="跳至 Gemini API 錯誤碼">
+                <a href="#error-400">400 請求格式</a><a href="#error-401">401 認證</a><a href="#error-403">403 權限</a><a href="#error-404">404 資源</a><a href="#error-429">429 配額</a><a href="#error-500">500 內部錯誤</a><a href="#error-503">503 服務不可用</a><a href="#error-504">504 逾時</a>
+            </nav>
+
+            <div class="error-guide-grid">
+                <article class="error-card" id="error-400" aria-labelledby="error-400-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 400</span><div><h3 id="error-400-title">INVALID_ARGUMENT｜無效請求參數</h3><p class="error-card-lead">先修正 payload、API 版本或模型功能不相容；原樣重送通常不會成功。</p></div></header>
+                    <h4>常見觸發情境</h4>
+                    <ul><li>GenerateContent request body 格式錯誤、JSON 結構不符、欄位拼錯或漏掉必要欄位（如 <code>contents</code>）。</li><li>使用舊版 endpoint 呼叫較新版本才支援的功能，或把不支援的欄位／功能送給所選模型。</li><li>生成參數不合規。官方 troubleshooting 列有 Candidate count 1–8、Temperature 0.0–1.0、TopP 0.0–1.0 的檢查值；<code>maxOutputTokens</code> 上限須查當前模型文件，其他參數（例如 TopK）亦不可自行假設共用界限。</li><li>多模態內容的欄位、Base64 bytes、MIME type 或模型能力不相符時，請依該方法的 API schema 與實際 <code>error.details</code> 查證，不要一概歸因於「支援格式清單」。</li></ul>
+                    <h4>逐步排查</h4><ol><li>保留回應本文，檢查 <code>error.message</code> 和 <code>error.details</code> 指向的欄位；對照目前 API reference 的 request body。</li><li>核對 URL 中模型 ID、HTTP 方法及 API 版本；確認所選模型支援所需功能及輸入類型。</li><li>逐項驗證必填欄位、型別、參數範圍、媒體 MIME 與資料完整性。不要把其他模型的參數設定直接複製過來。</li><li>辨別 <code>400 FAILED_PRECONDITION</code>（例如官方列出的免費層地區／帳務前置條件）與 <code>400 INVALID_ARGUMENT</code>；兩者根因不同。</li></ol>
+                    <p><strong>重試／備援：</strong>未修改請求前不要退避重試；換模型通常不會修正錯誤 JSON 或不合法參數。先修正 payload，再重新發送。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent 錯誤表</a> · <a href="https://ai.google.dev/gemini-api/docs/troubleshooting" target="_blank" rel="noopener noreferrer">參數排查</a> · <a href="https://ai.google.dev/api/generate-content" target="_blank" rel="noopener noreferrer">GenerateContent API reference</a></p>
+                </article>
+
+                <article class="error-card" id="error-401" aria-labelledby="error-401-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 401</span><div><h3 id="error-401-title">AUTHENTICATION｜認證失敗（依端點判讀）</h3><p class="error-card-lead">Interactions API 明列 authentication / 401；GenerateContent 的錯誤分類不同，勿假設全站有單一固定對應。</p></div></header>
+                    <h4>常見觸發情境</h4>
+                    <ul><li>Interactions API 請求未提供、提供無效或已過期的 API key。</li><li>部署環境讀取到空白、被截斷、錯專案或已撤銷的 secret；也可能因 key 管理政策或限制而無法使用。</li><li>GenerateContent 的官方錯誤本文範例把無效 API key 顯示為 400 <code>INVALID_ARGUMENT</code> 並附 <code>API_KEY_INVALID</code>，所以不能把每種 key 錯誤都硬編碼成 401。</li></ul>
+                    <h4>逐步排查</h4><ol><li>確認呼叫端使用正確 API 與專案的 key；REST 請求依文件透過 <code>x-goog-api-key</code> 傳送，並查看實際 HTTP status 與 error body。</li><li>在 Google AI Studio 核對 key 狀態、key 類型及限制；確定限制允許 Gemini API。</li><li>若 key 已外洩、封鎖或失效，建立新 key、以安全 secret 更新後驗證，再停用舊 key。切勿把 key 放入公開前端、Git、截圖或日誌。</li></ol>
+                    <p><strong>重試／備援：</strong>原樣重送或改模型都不會修復認證。先修復 key／環境設定，再測試；錯誤分類依 API 端點及回應本文為準。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/api-errors" target="_blank" rel="noopener noreferrer">Interactions API 錯誤碼</a> · <a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent 錯誤本文範例</a> · <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener noreferrer">API key 安全指南</a></p>
+                </article>
+
+                <article class="error-card" id="error-403" aria-labelledby="error-403-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 403</span><div><h3 id="error-403-title">PERMISSION_DENIED｜權限不足</h3><p class="error-card-lead">請求已抵達服務，但目前金鑰／專案對該資源或模型沒有所需權限。</p></div></header>
+                    <h4>常見觸發情境</h4>
+                    <ul><li>使用錯誤專案的 key，或該 key 沒有呼叫 Gemini API 所需的存取權。</li><li>API key 的 API 限制不允許 Generative Language API，或專案／資源存取設定不符。</li><li>呼叫 tuned model 時未使用該模型要求的正確驗證或存取方式。</li><li>403 與 429 不同：速率／配額超限通常在 GenerateContent 錯誤表中列為 429；不要僅因錯誤提到帳戶就改動付款設定。</li></ul>
+                    <h4>逐步排查</h4><ol><li>檢查 <code>error.message</code>、<code>error.status</code> 與 <code>details</code>，確認拒絕的是哪個 key、project、model 或 resource。</li><li>在 AI Studio／Cloud 專案核對 key、專案歸屬與 API 限制，確認模型及請求方法允許目前的認證。</li><li>若 key 被標示封鎖或疑似外洩，依官方流程輪替 key 並稽核用量；不要把 secret 貼給任何人。</li></ol>
+                    <p><strong>重試／備援：</strong>官方將 403 視為需先修正權限的客戶端錯誤，不建議原樣重試。改用另一個模型通常無法解決 key 或專案權限問題。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent 403 說明</a> · <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener noreferrer">API key 與限制</a> · <a href="https://ai.google.dev/gemini-api/docs/troubleshooting" target="_blank" rel="noopener noreferrer">錯誤排查</a></p>
+                </article>
+
+                <article class="error-card" id="error-404" aria-labelledby="error-404-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 404</span><div><h3 id="error-404-title">NOT_FOUND｜找不到模型或資源</h3><p class="error-card-lead">分辨是模型、媒體檔案、API 路徑或版本錯誤，再決定是否選相容替代模型。</p></div></header>
+                    <h4>常見觸發情境</h4>
+                    <ul><li>指定的模型資源名稱或 endpoint 路徑拼寫錯誤，該模型亦可能已不在目前可用清單。</li><li>GenerateContent request 引用不存在或不可取得的圖片、音訊、影片等檔案資源。</li><li>使用的 API 版本、方法或參數與該模型資源不相符。</li></ul>
+                    <h4>逐步排查</h4><ol><li>檢查錯誤本文中的 resource name；GenerateContent REST 路徑格式為 <code>/v1beta/models/{model}:generateContent</code>，不能把模型 ID 與完整路徑重複拼接。</li><li>呼叫 Models API 的 <code>models.list</code> / <code>models.get</code> 確認模型目前存在，並檢查 <code>supported_actions</code> 是否包含所需操作（例如 <code>generateContent</code>）。</li><li>若錯誤指向媒體檔案，確認 file URI／資源 ID、專案與生命週期有效，且請求所用方法支援該參照方式。</li><li>若確認是模型不存在，才依應用需求選擇清單中可用且支援相同輸入與功能的模型；舊模型不能預設仍可用。</li></ol>
+                    <p><strong>重試／備援：</strong>未改路徑、資源或模型前重試不會修復 404。只有在模型確實已不可用且已驗證替代模型相容時，切換模型才有意義；資源檔案不存在時換模型無效。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent 404 說明</a> · <a href="https://ai.google.dev/api/models" target="_blank" rel="noopener noreferrer">Models API：list／get／supported actions</a></p>
+                </article>
+
+                <article class="error-card" id="error-429" aria-labelledby="error-429-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 429</span><div><h3 id="error-429-title">RESOURCE_EXHAUSTED｜速率或配額已達上限</h3><p class="error-card-lead">任何一項適用限額被觸發，都可能令此請求被拒；先識別是哪個維度。</p></div></header>
+                    <h4>常見觸發情境</h4>
+                    <ul><li>超過該 project／model 適用的 RPM、輸入 TPM、RPD，或模型專屬維度；Batch API 另有獨立限額。</li><li>達到適用於帳戶或用量層級的 spend-based limit；Google 說明此類限制按滾動時間窗評估。</li><li>預覽／實驗模型或專案 tier 的限額較低；每個模型的實際可用容量可能不同，而且官方明示限額不保證實際容量。</li></ul>
+                    <h4>逐步排查</h4><ol><li>到 Google AI Studio 的 Active rate limits 查看當前 project 與 model 的限制；配額按 project 而不是 API key 計算。</li><li>依回應訊息判斷 RPM、TPM、RPD 或 spend 問題；降併發、節流、排隊、縮短輸入／輸出，避免短時間大量重送。</li><li>若是 RPD 用盡，依官方說明在美國太平洋時間午夜重設；不要靠緊密重試。若是 spend limit，查帳戶／帳務狀態及官方可用選項。</li><li>不要把 400 <code>FAILED_PRECONDITION</code>（免費層地區前置條件）或 402 <code>RESOURCE_EXHAUSTED</code>（Prepay 餘額耗盡）和 429 互相混為一談。</li></ol>
+                    <p><strong>重試／備援：</strong>對可恢復的短暫限流使用有限次 exponential backoff + jitter；若回應真的包含 <code>Retry-After</code> 才遵從該值，官方沒有保證每個 429 都會附此標頭。只有在確認瓶頸是特定模型、替代模型相容且其適用限額可用時，才嘗試切換；專案／每日／spend 限制可能不會因換模型消失。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/rate-limits" target="_blank" rel="noopener noreferrer">Rate limits 與重設時間</a> · <a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">429／402／400 分類</a> · <a href="https://ai.google.dev/gemini-api/docs/troubleshooting" target="_blank" rel="noopener noreferrer">Retry strategy</a></p>
+                </article>
+
+                <article class="error-card" id="error-500" aria-labelledby="error-500-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 500</span><div><h3 id="error-500-title">INTERNAL｜Google 端未預期錯誤</h3><p class="error-card-lead">官方錯誤表列為伺服器端未預期錯誤；context 過長只是文件示例之一。</p></div></header>
+                    <h4>建議處理</h4><ol><li>檢查 Gemini API 狀態頁是否有事件，同時記錄時間、模型、API 方法、HTTP status 與非機密錯誤內容。</li><li>若 prompt／context 或多模態輸入很大，依該模型的限制精簡內容；不能把單一 context 限制套用至所有模型。</li><li>稍候再有限重試；REST 自行加入 exponential backoff、jitter 與最大重試次數，避免無限迴圈。</li><li>若持續出現，使用 AI Studio 的回報管道附上可安全分享的重現資訊。</li></ol>
+                    <p><strong>重試／備援：</strong>Google 官方建議可等待後重試，或暫時切換另一個模型測試；替代模型必須支援所需功能。此建議不是成功保證，涉及外部工具副作用時先確保重試具冪等性。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent 500 指引</a> · <a href="https://ai.google.dev/gemini-api/docs/troubleshooting" target="_blank" rel="noopener noreferrer">重試策略</a> · <a href="https://aistudio.google.com/status" target="_blank" rel="noopener noreferrer">Gemini API status</a></p>
+                </article>
+
+                <article class="error-card" id="error-503" aria-labelledby="error-503-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 503</span><div><h3 id="error-503-title">UNAVAILABLE｜服務暫時過載或不可用</h3><p class="error-card-lead">容量暫時不足或服務停機時可能發生；不要把它直接當作一般配額超限。</p></div></header>
+                    <h4>建議處理</h4><ol><li>先查看 API status page；同時核對是否其實收到 429 配額錯誤，勿只看應用程式包裝後的通用訊息。</li><li>等待短時間後進行有限退避重試，增加 jitter，並設定最大嘗試次數。</li><li>Google 官方建議可暫時嘗試另一個模型；切換前核對該模型的 available actions、輸入／輸出能力與應用要求。</li><li>持續發生時停止自動重試，保存診斷資訊並向官方回報。</li></ol>
+                    <p><strong>重試／備援：</strong>可把 503 視為暫時性錯誤進行有限 backoff；若有 <code>Retry-After</code> 才採用該值，不可假設一定會出現。切換模型只是暫時排障方案，不代表可用性或不中斷承諾。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent 503 指引</a> · <a href="https://ai.google.dev/gemini-api/docs/troubleshooting" target="_blank" rel="noopener noreferrer">Retry strategy</a> · <a href="https://aistudio.google.com/status" target="_blank" rel="noopener noreferrer">Gemini API status</a></p>
+                </article>
+
+                <article class="error-card" id="error-504" aria-labelledby="error-504-title">
+                    <header class="error-card-header"><span class="error-code-badge">HTTP 504</span><div><h3 id="error-504-title">DEADLINE_EXCEEDED｜處理超過期限</h3><p class="error-card-lead">請求未能在期限內完成；可能與大型 prompt/context 或呼叫端 deadline 有關，並非配額錯誤的同義詞。</p></div></header>
+                    <h4>逐步排查</h4><ol><li>分辨 deadline 是由 client、SDK、HTTP proxy／load balancer 還是 API 回應產生；比較各層 timeout 設定與時間戳。</li><li>縮短 prompt/context、對話歷史或不必要的媒體輸入，並按正在使用的模型檢查輸入與輸出限制。</li><li>若應用允許等待，可合理調高 client request timeout；這不等於能任意延長 Google 伺服器處理時間。</li><li>Thinking 模型的推理可能增加延遲；僅在該模型支援且符合品質需求時，依官方 Thinking 文件調整 thinking level。</li></ol>
+                    <p><strong>重試／備援：</strong>只對判定為暫時性的逾時有限重試，採 backoff、jitter 與次數上限；有副作用的工具呼叫須先做冪等／去重。官方 504 指引主要是調整 client timeout；切換模型不是通用修復，streaming 也不等於不會逾時。</p>
+                    <p class="error-card-sources">官方參考：<a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent 504 指引</a> · <a href="https://ai.google.dev/gemini-api/docs/troubleshooting" target="_blank" rel="noopener noreferrer">逾時與重試排查</a> · <a href="https://ai.google.dev/gemini-api/docs/thinking" target="_blank" rel="noopener noreferrer">Thinking 設定</a></p>
+                </article>
+            </div>
+
+            <div class="error-guide-note"><strong>實作 Failover 的安全順序：</strong>先診斷錯誤，再判斷能否重試；只有暫時錯誤且請求可安全重複時，才有限次退避。切換模型前要確認候選模型存在、支援所需動作、輸入格式及參數，並重新評估品質、延遲、費用與配額。任何模型清單、免費層標記或分數都不能證明該次呼叫會成功，也不能建立「100% 不中斷」保證。</div>
+            <div class="error-guide-principles">
+                <div class="error-principle"><strong>① 不可重試類先修復</strong>400、401、403、404 通常要修正 payload、金鑰、權限或資源；不要原樣重送或盲目換模型。</div>
+                <div class="error-principle"><strong>② 暫時錯誤必須有上限</strong>對合適的 429／500／503／504 使用 exponential backoff + jitter、最大次數及可觀測記錄；不是永遠輪詢。</div>
+                <div class="error-principle"><strong>③ 配額不是模型間通用</strong>429 可能是 RPM、TPM、RPD、spend 或其他限制。專案／每日／帳戶層限制不一定能由換模型解除。</div>
+                <div class="error-principle"><strong>④ 先驗證模型相容性</strong>以 Models API 的 <code>models.list</code>／<code>models.get</code> 與 <code>supported_actions</code> 核對目前模型和功能；本站 JSON 只提供候選排序快照。</div>
+            </div>
+            <h3 style="margin:17px 0 7px;color:#fff;font-size:1.02rem;">用本站 JSON 建立候選模型清單（不含 API key）</h3>
+            <p class="error-guide-intro">以下程式只從同目錄 JSON 產生候選清單，不會呼叫 Gemini，也不會檢查個人剩餘額度。正式 Failover 應在伺服器端呼叫 API、以環境變數／Secret Manager 保管 key，並另外核實模型可用性與限額。</p>
+            <pre class="error-code-block"><code>const response = await fetch('./gemini_rate_limits.json', { cache: 'no-store' });
+if (!response.ok) throw new Error(`Quota snapshot HTTP ${response.status}`);
+const snapshot = await response.json();
+
+const candidates = (snapshot.models || [])
+  .filter(model =&gt; model.is_free_tier === true
+    &amp;&amp; model.is_rest_compatible === true
+    &amp;&amp; model.requires_billing_account !== true
+    &amp;&amp; Boolean(model.api_name))
+  .sort((a, b) =&gt; Number(b.model_score || 0) - Number(a.model_score || 0));
+
+console.table(candidates.map(model =&gt; ({
+  model: model.api_name,
+  score: model.model_score,
+  rpm: model.rpm,
+  tpm: model.tpm,
+  rpd: model.rpd
+}))); // 排序參考；不是即時可用性或配額保證</code></pre>
+            <div class="error-guide-note"><strong>不可把這段 shortlist 直接等同自動切換：</strong>實際請求前仍須確認官方模型清單、<code>supported_actions</code>、功能相容、帳戶可用性，以及錯誤是否為可恢復的暫時問題。發生 RPD／spend／專案共用限制時，立即輪遍模型只會增加負載；停止並告知呼叫端更安全。</div>
+            <p class="error-guide-links"><strong>Google 官方總覽：</strong><a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank" rel="noopener noreferrer">GenerateContent API errors</a> · <a href="https://ai.google.dev/gemini-api/docs/api-errors" target="_blank" rel="noopener noreferrer">Interactions API errors</a> · <a href="https://ai.google.dev/gemini-api/docs/troubleshooting" target="_blank" rel="noopener noreferrer">Troubleshooting</a> · <a href="https://ai.google.dev/gemini-api/docs/rate-limits" target="_blank" rel="noopener noreferrer">Rate limits</a> · <a href="https://ai.google.dev/api/models" target="_blank" rel="noopener noreferrer">Models API reference</a> · <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener noreferrer">API key security</a></p>
+        </section>
+
         <!-- BOTTOM SECTION: Detailed Explanations & Knowledge Base Anchor -->
         <div id="details-section" style="margin-top: 10px;">
             <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--color-accent-light); border-bottom: 2px solid rgba(59,130,246,0.3); padding-bottom: 8px; margin-bottom: 14px;">
@@ -284,7 +458,7 @@
                     <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
                         <strong style="color: #34d399; font-size: 0.95rem;" data-i18n="purpose-card2-title"><i class="fa-solid fa-shield-halved"></i> 故障切換與自動降級 (Failover)</strong><br>
                         <span style="font-size: 0.86rem; color: #e2e8f0; line-height: 1.5; display: inline-block; margin-top: 5px;" data-i18n="purpose-card2-desc">
-                            當您的工具呼叫當前模型遇到 <strong>HTTP 429 額度超限</strong>時，順序存取下一個 `is_free_tier: true` 的模型即可實現 100% 不中斷自動降級與備援。
+                            遇到 <strong>HTTP 429 配額或速率限制</strong>時，先判斷限制屬於模型、專案、用量層級或每日額度；僅在候選模型功能相容且其獨立限額可用時，才可嘗試有限度切換。`is_free_tier` 與 `model_score` 是篩選／排序提示，不代表即時健康度、剩餘配額或服務保證；任何 Failover 都無法承諾 100% 不中斷。
                         </span>
                     </div>
                 </div>
