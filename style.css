@@ -821,3 +821,66 @@ body {
     html { scroll-behavior: auto; }
     .quota-orbit-ring { animation: none; }
 }
+
+/* Sortable quota table headers and bilingual rate-limit labels */
+.quota-table-compact th .sortable-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    width: 100%;
+    padding: 4px 2px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease;
+}
+.quota-table-compact th.text-right .sortable-header { justify-content: flex-end; }
+.quota-table-compact th.text-center .sortable-header { justify-content: center; }
+.quota-table-compact th .sortable-header:hover,
+.quota-table-compact th .sortable-header:focus-visible {
+    background: rgba(85, 223, 209, .12);
+    color: #55dfd1;
+    outline: none;
+}
+.quota-table-compact th .sortable-header:focus-visible {
+    box-shadow: 0 0 0 2px rgba(85, 223, 209, .42);
+}
+.sortable-header > i { flex: 0 0 auto; opacity: .78; font-size: .78rem; }
+.sortable-header-label { display: inline-flex; flex-direction: column; gap: 1px; line-height: 1.15; }
+.quota-th-main { font-size: inherit; }
+.quota-th-sub { font-size: .73rem; line-height: 1.1; opacity: .85; font-weight: 500; white-space: nowrap; }
+
+/* GugoPro compliance navigation in the footer */
+.footer-compliance-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 16px;
+    margin: 0 0 10px;
+}
+.footer-compliance-nav a {
+    color: #94a3b8;
+    font-size: .78rem;
+    line-height: 1.5;
+    text-decoration: none;
+    text-underline-offset: 3px;
+    transition: color .15s ease, text-decoration-color .15s ease;
+}
+.footer-compliance-nav a:hover,
+.footer-compliance-nav a:focus-visible {
+    color: #55dfd1;
+    text-decoration: underline;
+    outline: none;
+}
+.footer-copyright { color: #94a3b8; }
+@media (max-width: 520px) {
+    .footer-compliance-nav { gap: 7px 12px; }
+    .footer-compliance-nav a { font-size: .74rem; }
+    .quota-th-sub { font-size: .72rem; }
+}

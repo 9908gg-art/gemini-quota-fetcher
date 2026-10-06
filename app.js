@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     let allModels = [];
     let activeCategory = "all";
+    let sortState = { key: "score", direction: "desc" };
     
     // 1. Multi-language Translations Dictionary (zh-TW, en, ja, ko)
     const translations = {
@@ -36,9 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "col-display-name": "模型名稱",
             "col-score": "動態評分",
             "col-category": "用途分類",
-            "col-rpm": "RPM (分)",
-            "col-tpm": "TPM (分)",
-            "col-rpd": "RPD (日上限)",
+            "col-rpm": "<span class=\"quota-th-main\">RPM</span><span class=\"quota-th-sub\">(分次數)</span>",
+            "col-tpm": "<span class=\"quota-th-main\">TPM</span><span class=\"quota-th-sub\">(分用量)</span>",
+            "col-rpd": "<span class=\"quota-th-main\">RPD</span><span class=\"quota-th-sub\">(日次數)</span>",
             "col-action": "詳細說明",
             
             "footer-copyright": "© 2026 官方免費額度查詢與模型分類. 每日定時自動採集與同步更新。",
@@ -97,9 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "col-display-name": "Model Name",
             "col-score": "Rating",
             "col-category": "Category",
-            "col-rpm": "RPM (Min)",
-            "col-tpm": "TPM (Min)",
-            "col-rpd": "RPD (Daily Cap)",
+            "col-rpm": "<span class=\"quota-th-main\">RPM</span><span class=\"quota-th-sub\">(requests/min)</span>",
+            "col-tpm": "<span class=\"quota-th-main\">TPM</span><span class=\"quota-th-sub\">(tokens/min)</span>",
+            "col-rpd": "<span class=\"quota-th-main\">RPD</span><span class=\"quota-th-sub\">(requests/day)</span>",
             "col-action": "Details",
             
             "footer-copyright": "© 2026 Official Gemini API Quotas. Daily auto-synced.",
@@ -158,9 +159,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "col-display-name": "モデル名",
             "col-score": "スコア",
             "col-category": "用途分類",
-            "col-rpm": "RPM (分)",
-            "col-tpm": "TPM (分)",
-            "col-rpd": "RPD (日上限)",
+            "col-rpm": "<span class=\"quota-th-main\">RPM</span><span class=\"quota-th-sub\">(分あたり回数)</span>",
+            "col-tpm": "<span class=\"quota-th-main\">TPM</span><span class=\"quota-th-sub\">(分あたり量)</span>",
+            "col-rpd": "<span class=\"quota-th-main\">RPD</span><span class=\"quota-th-sub\">(1日あたり回数)</span>",
             "col-action": "詳細説明",
             
             "footer-copyright": "© 2026 Gemini API Quotas Monitor. 毎日自動同期更新。",
@@ -219,9 +220,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "col-display-name": "모델 이름",
             "col-score": "평점",
             "col-category": "용도 분류",
-            "col-rpm": "RPM (분)",
-            "col-tpm": "TPM (분)",
-            "col-rpd": "RPD (일 한도)",
+            "col-rpm": "<span class=\"quota-th-main\">RPM</span><span class=\"quota-th-sub\">(분당 요청 수)</span>",
+            "col-tpm": "<span class=\"quota-th-main\">TPM</span><span class=\"quota-th-sub\">(분당 토큰 수)</span>",
+            "col-rpd": "<span class=\"quota-th-main\">RPD</span><span class=\"quota-th-sub\">(일일 요청 수)</span>",
             "col-action": "상세 설명",
             
             "footer-copyright": "© 2026 Gemini API Quotas Monitor. 매일 자동 동기화.",
@@ -389,12 +390,62 @@ document.addEventListener("DOMContentLoaded", () => {
         const freeModels = filtered.filter(m => m.is_free_tier || (m.rpd_limit && (m.rpd_limit > 0 || m.rpd_limit === -1)));
         const paidModels = filtered.filter(m => !m.is_free_tier && (!m.rpd_limit || m.rpd_limit === 0));
 
-        // Sort by model_score descending
-        freeModels.sort((a, b) => (b.model_score || 0) - (a.model_score || 0));
-        paidModels.sort((a, b) => (b.model_score || 0) - (a.model_score || 0));
+        // Apply one shared sort to both tables after the active category filter.
+        freeModels.sort(compareModels);
+        paidModels.sort(compareModels);
 
         populateTbody(freeTbody, freeModels, langObj["no-free-found"]);
         populateTbody(paidTbody, paidModels, langObj["no-paid-found"]);
+    }
+
+    function quotaSortValue(model, key) {
+        const rawValue = model[key];
+        const raw = String(rawValue == null ? "" : rawValue).trim().toLowerCase();
+        const numericLimit = model[`${key}_limit`];
+        if (numericLimit === -1 || raw.includes("unlimited")) return Infinity;
+        if (!raw || raw === "-" || raw === "n/a" || /^0\s*\/\s*0$/.test(raw)) return 0;
+
+        // Rate-limit strings are commonly displayed as "0 / 15", "0 / 250K",
+        // or "0 / 1.5M". Sort by the cap after the slash, not current usage.
+        const cap = (raw.includes("/") ? raw.slice(raw.lastIndexOf("/") + 1) : raw)
+            .trim().replace(/,/g, "");
+        const match = cap.match(/^(-?\d+(?:\.\d+)?)\s*([kmb])?$/i);
+        if (!match) return 0;
+        const multipliers = { k: 1e3, m: 1e6, b: 1e9 };
+        return Number(match[1]) * (multipliers[(match[2] || "").toLowerCase()] || 1);
+    }
+
+    function compareModels(a, b) {
+        let comparison = 0;
+        if (sortState.key === "name") {
+            comparison = String(a.api_name || a.display_name || "").localeCompare(
+                String(b.api_name || b.display_name || ""), userLang, { numeric: true, sensitivity: "base" }
+            );
+        } else if (sortState.key === "score") {
+            comparison = Number(a.model_score || 9.0) - Number(b.model_score || 9.0);
+        } else if (sortState.key === "category") {
+            comparison = String(a.fine_category_name_zh || a.category || a.fine_category || "").localeCompare(
+                String(b.fine_category_name_zh || b.category || b.fine_category || ""), userLang,
+                { numeric: true, sensitivity: "base" }
+            );
+        } else if (["rpm", "tpm", "rpd"].includes(sortState.key)) {
+            comparison = quotaSortValue(a, sortState.key) - quotaSortValue(b, sortState.key);
+        }
+        return sortState.direction === "desc" ? -comparison : comparison;
+    }
+
+    function syncSortHeaders() {
+        document.querySelectorAll(".sortable-header").forEach(button => {
+            const active = button.dataset.sortKey === sortState.key;
+            const icon = button.querySelector("i");
+            const th = button.closest("th");
+            if (icon) {
+                icon.className = `fa-solid ${active ? (sortState.direction === "desc" ? "fa-sort-down" : "fa-sort-up") : "fa-sort"}`;
+            }
+            if (th) th.setAttribute("aria-sort", active ? (sortState.direction === "desc" ? "descending" : "ascending") : "none");
+            const label = button.querySelector("[data-i18n]")?.textContent.trim() || button.dataset.sortKey;
+            button.setAttribute("aria-label", `${label}排序，${active && sortState.direction === "asc" ? "由低至高／A 到 Z" : "由高至低／Z 到 A"}；再次點擊切換`);
+        });
     }
 
     function populateTbody(tbodyElement, modelsList, emptyMsg) {
@@ -492,6 +543,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const classVal = isHigh ? "high" : "low";
         return `<span class="limit-val ${classVal}">${val}</span>`;
     }
+
+    // Click any sortable header in either table to sort both visible datasets.
+    document.querySelectorAll(".sortable-header").forEach(button => {
+        button.addEventListener("click", () => {
+            const key = button.dataset.sortKey;
+            if (sortState.key === key) {
+                sortState.direction = sortState.direction === "desc" ? "asc" : "desc";
+            } else {
+                sortState = { key, direction: "desc" };
+            }
+            syncSortHeaders();
+            renderTable();
+        });
+    });
+    syncSortHeaders();
 
     // Large Category Tabs click handler
     tabContainer.addEventListener("click", (e) => {

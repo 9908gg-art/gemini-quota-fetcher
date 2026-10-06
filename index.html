@@ -210,12 +210,12 @@
                 <table class="quota-table-compact">
                     <thead>
                         <tr>
-                            <th style="min-width: 220px;" data-i18n="col-display-name">模型名稱</th>
-                            <th data-i18n="col-score">動態評分</th>
-                            <th data-i18n="col-category">用途分類</th>
-                            <th class="text-right" data-i18n="col-rpm">RPM (分)</th>
-                            <th class="text-right" data-i18n="col-tpm">TPM (分)</th>
-                            <th class="text-right" data-i18n="col-rpd">RPD (日上限)</th>
+                            <th style="min-width: 220px;"><button type="button" class="sortable-header" data-sort-key="name"><span data-i18n="col-display-name">模型名稱</span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th><button type="button" class="sortable-header" data-sort-key="score"><span data-i18n="col-score">動態評分</span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th><button type="button" class="sortable-header" data-sort-key="category"><span data-i18n="col-category">用途分類</span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th class="text-right"><button type="button" class="sortable-header" data-sort-key="rpm"><span class="sortable-header-label" data-i18n="col-rpm"><span class="quota-th-main">RPM</span><span class="quota-th-sub">(分次數)</span></span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th class="text-right"><button type="button" class="sortable-header" data-sort-key="tpm"><span class="sortable-header-label" data-i18n="col-tpm"><span class="quota-th-main">TPM</span><span class="quota-th-sub">(分用量)</span></span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th class="text-right"><button type="button" class="sortable-header" data-sort-key="rpd"><span class="sortable-header-label" data-i18n="col-rpd"><span class="quota-th-main">RPD</span><span class="quota-th-sub">(日次數)</span></span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
                             <th class="text-center" data-i18n="col-action">詳細說明</th>
                         </tr>
                     </thead>
@@ -244,12 +244,12 @@
                 <table class="quota-table-compact">
                     <thead>
                         <tr>
-                            <th style="min-width: 220px;" data-i18n="col-display-name">模型名稱</th>
-                            <th data-i18n="col-score">動態評分</th>
-                            <th data-i18n="col-category">用途分類</th>
-                            <th class="text-right" data-i18n="col-rpm">RPM (分)</th>
-                            <th class="text-right" data-i18n="col-tpm">TPM (分)</th>
-                            <th class="text-right" data-i18n="col-rpd">RPD (日上限)</th>
+                            <th style="min-width: 220px;"><button type="button" class="sortable-header" data-sort-key="name"><span data-i18n="col-display-name">模型名稱</span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th><button type="button" class="sortable-header" data-sort-key="score"><span data-i18n="col-score">動態評分</span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th><button type="button" class="sortable-header" data-sort-key="category"><span data-i18n="col-category">用途分類</span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th class="text-right"><button type="button" class="sortable-header" data-sort-key="rpm"><span class="sortable-header-label" data-i18n="col-rpm"><span class="quota-th-main">RPM</span><span class="quota-th-sub">(分次數)</span></span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th class="text-right"><button type="button" class="sortable-header" data-sort-key="tpm"><span class="sortable-header-label" data-i18n="col-tpm"><span class="quota-th-main">TPM</span><span class="quota-th-sub">(分用量)</span></span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
+                            <th class="text-right"><button type="button" class="sortable-header" data-sort-key="rpd"><span class="sortable-header-label" data-i18n="col-rpd"><span class="quota-th-main">RPD</span><span class="quota-th-sub">(日次數)</span></span><i class="fa-solid fa-sort" aria-hidden="true"></i></button></th>
                             <th class="text-center" data-i18n="col-action">詳細說明</th>
                         </tr>
                     </thead>
@@ -531,7 +531,15 @@ console.table(candidates.map(model =&gt; ({
 
     <footer class="app-footer">
         <div class="container" style="text-align: center;">
-            <p data-i18n="footer-copyright" style="margin-bottom: 8px;">© 2026 官方免費額度查詢與模型分類. 每日定時自動採集與同步更新。</p>
+            <nav class="footer-compliance-nav" aria-label="GugoPro 合規與網站資訊">
+                <a href="https://gugopro.com/">GugoPro 首頁</a>
+                <a href="https://gugopro.com/about.html">關於我們</a>
+                <a href="https://gugopro.com/contact.html">聯絡我們</a>
+                <a href="https://gugopro.com/privacy.html">隱私權政策</a>
+                <a href="https://gugopro.com/terms.html">服務條款</a>
+                <a href="https://gugopro.com/disclaimer.html">免責聲明</a>
+            </nav>
+            <p class="footer-copyright" style="margin-bottom: 8px;">© 2026 GugoPro. All rights reserved. 官方免費額度查詢與模型分類。</p>
             
             <div class="coffee-sponsor-box" style="margin-top: 8px; margin-bottom: 12px;">
                 <a href="https://ko-fi.com/R1K123XRS9" target="_blank" class="btn-coffee" style="background: #72a4f2; color: #ffffff; font-weight: 800; padding: 7px 18px; border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; box-shadow: 0 4px 15px rgba(114,164,242,0.4); transition: transform 0.2s ease;">
