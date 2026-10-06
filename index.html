@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>官方免費額度查詢與模型分類 (每日更新) | Rate Limits 比較與 JSON 下載</title>
+    <title>Gemini API 官方免費額度｜零月租訂閱費用量查詢｜GugoPro</title>
     
     <!-- Google Analytics 4 (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF1DYLWMKX"></script>
@@ -16,22 +16,22 @@
     </script>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="全網最完整的 Google AI Studio (Gemini API) 官方模型免費額度查詢與分類終端。每日自動同步更新，支援 Gemini 3.5 Flash, Gemini 3.1 Pro, Live API, 實時網路搜尋與地圖引註模型的 RPM, TPM, RPD 極速檢視與 JSON 配置下載。">
-    <meta name="keywords" content="官方免費額度查詢, 模型分類, Gemini API 額度每日更新, Gemini API 免費額度, Gemini Rate Limits, Gemini 2.5 Flash RPM, Gemini 3 Flash 額度, Gemini Live API, Gemini 實時網路搜尋與地圖引註, Gemini API JSON 下載">
+    <meta name="description" content="GugoPro Gemini API 官方免費額度儀表板：每日同步 Google AI Studio 的 RPM、TPM、RPD 與 model_score，支援模型分類及 JSON／CSV 下載；免第三方平台月租，免費層以 Google 官方帳戶配額為準。">
+    <meta name="keywords" content="Google Gemini API 官方免費額度, 零訂閱費 AI, Gemini 免費用量, Gemini Rate Limits, RPM TPM RPD, Gemini API 模型評分, 免費 API 額度查詢, GugoPro">
     <meta name="author" content="GugoPro AI Team">
-    <link rel="canonical" href="https://9908gg-art.github.io/gemini-quota-fetcher/">
+    <link rel="canonical" href="https://quota.gugopro.com/">
 
     <!-- Open Graph / Facebook / Discord -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://9908gg-art.github.io/gemini-quota-fetcher/">
-    <meta property="og:title" content="官方免費額度查詢與模型分類 (每日更新)">
-    <meta property="og:description" content="即時同步 Google AI Studio 官方 Rate Limits，精確區分免費模型 (RPD > 0 或 RPD Unlimited) 與付費模型，提供動態版本評分排序與 JSON 配置下載。">
-    <meta property="og:image" content="https://9908gg-art.github.io/gemini-quota-fetcher/login_error_screenshot.png">
+    <meta property="og:url" content="https://quota.gugopro.com/">
+    <meta property="og:title" content="Gemini API 官方免費額度｜零月租訂閱費｜GugoPro">
+    <meta property="og:description" content="每日檢視 Google AI Studio Gemini API 的 RPM／TPM／RPD 與 model_score；官方免費層用量查詢，免第三方平台月租。實際配額依 Google 帳戶及專案為準。">
+    <meta property="og:image" content="https://quota.gugopro.com/login_error_screenshot.png">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="官方免費額度查詢與模型分類 (每日更新)">
-    <meta name="twitter:description" content="即時同步 Rate Limits，提供動態評分排序、細項用途分類與 JSON 配置下載。">
+    <meta name="twitter:title" content="Gemini API 官方免費額度｜零月租訂閱費｜GugoPro">
+    <meta name="twitter:description" content="同步官方 RPM／TPM／RPD 與模型評分；活用 Gemini 免費層額度，免第三方平台月租。">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -39,7 +39,7 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Official Gemini API Quotas & Model Categories",
-      "url": "https://9908gg-art.github.io/gemini-quota-fetcher/",
+      "url": "https://quota.gugopro.com/",
       "description": "Daily updated Google AI Studio (Gemini API) Rate Limits monitoring dashboard with model ratings and JSON configuration download.",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "All",
@@ -57,7 +57,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Busuanzi View Counter -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.1.0">
+    <link rel="stylesheet" href="style.css?v=2.0.0">
 </head>
 <body>
     <header class="app-header" style="padding: 10px 0; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid var(--border-color);">
@@ -98,6 +98,24 @@
     </header>
 
     <main class="main-content container" style="padding-top: 8px;">
+
+        <section class="quota-hero" aria-labelledby="quota-hero-title">
+            <div class="quota-hero-copy">
+                <div class="quota-hero-kicker"><span class="quota-hero-pulse" aria-hidden="true"></span><span data-i18n="quota-hero-kicker">OFFICIAL GOOGLE GEMINI API · FREE-TIER MONITOR</span></div>
+                <h2 id="quota-hero-title" data-i18n="quota-hero-title">活用官方免費 API 額度，零月租訂閱費</h2>
+                <p class="quota-hero-description" data-i18n="quota-hero-description">每日同步 Google AI Studio 的 Gemini API 限額與 model_score，快速比較 RPM、TPM、RPD 及模型用途；免付第三方額度平台月費。</p>
+                <div class="quota-hero-pills">
+                    <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span data-i18n="quota-hero-pill-official">Google AI Studio 官方資料</span></span>
+                    <span><i class="fa-solid fa-arrow-down-wide-short" aria-hidden="true"></i><span data-i18n="quota-hero-pill-score">依 model_score 動態排序</span></span>
+                </div>
+                <p class="quota-hero-note" data-i18n="quota-hero-note">免費層額度依 Google 帳戶、專案、模型及所在地設定而異；部分模型或已啟用計費的專案可能產生費用，請以 AI Studio 顯示與 Google 官方條款為準。</p>
+            </div>
+            <div class="quota-hero-side" aria-hidden="true">
+                <div class="quota-orbit"><span class="quota-orbit-ring"></span><span class="quota-orbit-label">GEMINI<br><strong>FREE</strong><br>TIER</span><span class="quota-orbit-dot"></span></div>
+                <div class="quota-hero-metrics"><span>RPM</span><b></b><span>TPM</span><b></b><span>RPD</span></div>
+                <div class="quota-hero-side-caption">LIVE QUOTA DATA</div>
+            </div>
+        </section>
         <!-- Major Category Navigation Tabs (Placed right at the top for immediate access) -->
         <div class="card filter-card" style="margin-bottom: 10px; padding: 10px 14px;">
             <div class="category-tabs-large" id="category-tabs-container" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start;">
@@ -356,6 +374,6 @@
         </div>
     </footer>
 
-    <script src="app.js?v=1.1.0"></script>
+    <script src="app.js?v=2.0.0"></script>
 </body>
 </html>

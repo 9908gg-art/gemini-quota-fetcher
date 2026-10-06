@@ -2,7 +2,7 @@
 
 這是一個自動化的 Gemini API 費率限制 (RPM, TPM, RPD) 監控面板。它利用 Playwright 無頭瀏覽器技術，每天定時自動抓取 Google AI Studio 官方的費率限制網頁，並生成視覺化的極速對稱面板發布至 GitHub Pages 上。
 
-🔗 **線上監控網址**: *(您的 GitHub Pages 網址，例如：`https://9908gg-art.github.io/gemini-quota-fetcher/`)*
+🔗 **線上監控網址**: `https://quota.gugopro.com/`
 
 ---
 

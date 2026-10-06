@@ -253,8 +253,6 @@ class ScraperThread(threading.Thread):
                     self.log(f"⚠️ 未在預期路徑找到 cookies.json 檔案: {COOKIES_FILE}")
                     
             if cookies:
-                # 確保 cookies 內部的 sameSite 符合 Playwright 大小寫要求 (Strict, Lax, None)
-                # 並移除不支援的 partitionKey
                 cleaned_cookies = []
                 for c in cookies:
                     if "partitionKey" in c:
@@ -262,10 +260,8 @@ class ScraperThread(threading.Thread):
                     if "sameSite" in c:
                         ss = str(c["sameSite"]).lower().strip()
                         if ss in ["lax", "strict", "none"]:
-                            # 將首字母大寫以符合要求 (Lax, Strict, None)
                             c["sameSite"] = ss.capitalize()
                         else:
-                            # 如果是其它不合規字串，刪除該欄位讓 Playwright 走預設值
                             del c["sameSite"]
                     cleaned_cookies.append(c)
                 
@@ -283,13 +279,11 @@ class ScraperThread(threading.Thread):
             self.log("🔍 檢查是否需要登入 Google 帳號...")
             page.wait_for_timeout(2000)
             
-            # Loop check for login screen
             if "accounts.google.com" in page.url or page.locator("text=Sign in").count() > 0:
                 current_url = page.url
                 page_title = page.title()
                 self.log(f"⚠️ 偵測到需要登入！目前網址: {current_url} | 網頁標題: {page_title}")
                 
-                # 取得當前網頁的部分文字內容以供除錯
                 try:
                     page_text = page.evaluate("() => document.body.innerText")
                     text_snippet = page_text[:400].replace('\n', ' ').strip()
@@ -297,7 +291,6 @@ class ScraperThread(threading.Thread):
                 except Exception:
                     pass
                 
-                # 自動截圖以供可視化除錯
                 try:
                     screenshot_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "login_error_screenshot.png"))
                     page.screenshot(path=screenshot_path)
@@ -314,7 +307,6 @@ class ScraperThread(threading.Thread):
 
             self.log("🟢 已登入或無需登入，正在等待 AI Studio 載入費率限制頁面...")
             
-            # Wait for content containing rate limit info to load
             try:
                 page.wait_for_selector("text=Rate limits by model", timeout=30000)
                 self.log("🎉 成功載入費率限制頁面！")
@@ -327,7 +319,6 @@ class ScraperThread(threading.Thread):
             
             if not clicked:
                 self.log("❌ 自動點擊「All models」滑塊失敗，準備彈出提醒以進行手動操作...")
-                # Trigger manual prompt (thread-safe UI communication)
                 user_confirmed = self.prompt_manual_toggle()
                 if user_confirmed:
                     self.log("👍 使用者已手動完成點擊，繼續下一步。")
@@ -336,9 +327,8 @@ class ScraperThread(threading.Thread):
                     raise Exception("無法點擊 All Models 滑塊，使用者終止程序。")
             else:
                 self.log("✨ 成功開啟「All models」滑塊，所有模型已展開！")
-                page.wait_for_timeout(2000) # Wait for page structure update
+                page.wait_for_timeout(2000)
                 
-            # Skip checking "See more" as "All models" toggle is sufficient
             self.log("🔘 跳過 See more 按鈕檢查（All models 開關已展開所有必要數據）。")
 
             # Extract Page Content
@@ -354,7 +344,6 @@ class ScraperThread(threading.Thread):
                 self.log(f"✅ 解析完成！共取得 {len(data)} 個模型的資料。")
                 self.result_queue.put(data)
                 try:
-                    # 讀取現有的舊 Cookies
                     old_cookies = []
                     if os.path.exists(COOKIES_FILE):
                         try:
@@ -363,10 +352,8 @@ class ScraperThread(threading.Thread):
                         except Exception:
                             pass
                     
-                    # 取得瀏覽器當前更新的 Cookies
                     new_cookies = self.browser_context.cookies()
                     
-                    # 進行合併，以新 Cookies 覆蓋舊的，但保留未更新的其他舊 Cookies (例如重要的 .google.com)
                     cookie_dict = {}
                     for c in old_cookies:
                         if isinstance(c, dict):
@@ -385,7 +372,6 @@ class ScraperThread(threading.Thread):
                     self.log(f"⚠️ 匯出 cookies.json 失敗: {ce}")
             else:
                 self.log("❌ 無法從頁面中解析出任何模型費率限制數據。")
-                # Save source files for debugging
                 debug_html_path = os.path.join(os.path.dirname(__file__), "debug_page_source.html")
                 debug_text_path = os.path.join(os.path.dirname(__file__), "debug_page_text.txt")
                 with open(debug_html_path, "w", encoding="utf-8") as f:
@@ -414,7 +400,6 @@ class ScraperThread(threading.Thread):
             self.log("🏁 抓取任務結束。")
 
     def click_all_models_toggle(self, page):
-        # We can find the button directly:
         toggle_button = None
         button_selectors = [
             "button[aria-label='Toggle view all models']",
@@ -442,7 +427,6 @@ class ScraperThread(threading.Thread):
                     self.log("滑塊已經是開啟狀態。")
                     return True
                 
-                # Standard click
                 self.log("正在嘗試標準點擊開關...")
                 toggle_button.scroll_into_view_if_needed()
                 toggle_button.click(force=True)
@@ -453,7 +437,6 @@ class ScraperThread(threading.Thread):
                     self.log("✔️ 成功切換滑塊！(aria-checked=true)")
                     return True
                     
-                # Container click fallback
                 self.log("常規點擊未生效，嘗試點擊滑塊的外層容器...")
                 parent = page.locator("mat-slide-toggle").first
                 if parent.is_visible():
@@ -465,7 +448,6 @@ class ScraperThread(threading.Thread):
                     self.log("✔️ 經由外層容器成功切換滑塊！")
                     return True
                     
-                # JS click fallback
                 self.log("嘗試使用 Javascript 強制觸發點擊事件...")
                 toggle_button.evaluate("el => el.click()")
                 page.wait_for_timeout(1000)
@@ -477,7 +459,6 @@ class ScraperThread(threading.Thread):
             except Exception as e:
                 self.log(f"點擊滑塊時發生錯誤: {str(e)}")
                 
-        # Label text click fallback
         try:
             label_loc = page.locator("text=All models").first
             if label_loc.is_visible(timeout=1000):
@@ -496,9 +477,6 @@ class ScraperThread(threading.Thread):
 def parse_numeric_limit(val):
     """
     Parse a rate limit string like "0 / 250K", "0 / Unlimited", "-" into (current_usage, limit_integer).
-    Returns (current, limit) where:
-      - limit is an integer (e.g. 250000, or -1 for Unlimited) or None if N/A.
-      - current is an integer representing current usage.
     """
     if not val or val == "N/A" or val == "-":
         return 0, None
@@ -510,20 +488,17 @@ def parse_numeric_limit(val):
         current_str = parts[0].strip()
         limit_str = parts[1].strip()
         
-    # Parse current
     try:
         current_val = int(current_str.replace(",", "").strip())
     except ValueError:
         current_val = 0
         
-    # Parse limit
     limit_clean = limit_str.lower().strip()
     if limit_clean in ["-", "n/a", ""]:
         return current_val, None
     if "unlimited" in limit_clean:
         return current_val, -1
         
-    # Check suffixes
     try:
         if limit_clean.endswith("k"):
             return current_val, int(float(limit_clean[:-1]) * 1000)
@@ -590,10 +565,8 @@ def parse_rate_limits(html_content, text_content, log_func=print):
                 
             category = cells[category_col_idx] if (category_col_idx != -1 and len(cells) > category_col_idx) else ""
             
-            # Map friendly display name to exact API identifier name
             api_name = get_api_model_id(display_name, category)
             
-            # Clean display name from system labels
             clean_display_name = display_name
             if clean_display_name.endswith("info"):
                 clean_display_name = clean_display_name[:-4].strip()
@@ -660,14 +633,12 @@ def parse_rate_limits(html_content, text_content, log_func=print):
             tier = "Free tier"
             rpm, tpm, rpd = "N/A", "N/A", "N/A"
             
-            # Inspect next 6 lines
             for offset in range(1, 7):
                 if i + offset >= len(lines):
                     break
                 sub = lines[i + offset]
                 sub_l = sub.lower()
                 
-                # If encountered next model, stop
                 if any(kw in sub_l for kw in ["gemini-", "text-embedding-", "imagen-"]) and '-' in sub:
                     break
                     
@@ -715,12 +686,10 @@ def parse_rate_limits(html_content, text_content, log_func=print):
     # Merge Results
     merged = {}
     
-    # Load Table parsing first
     for item in results:
         key = f"{item['api_name']}|{item['category']}"
         merged[key] = item
         
-    # Supplement from Text parsing
     for item in text_results:
         key = f"{item['api_name']}|{item['category']}"
         if key not in merged:
@@ -739,7 +708,6 @@ def parse_rate_limits(html_content, text_content, log_func=print):
                 merged[key]["rpd_limit"] = item["rpd_limit"]
                 merged[key]["rpd_current"] = item["rpd_current"]
 
-    # Filter system labels
     final_list = []
     for key, data in merged.items():
         api_name = data["api_name"]
@@ -756,43 +724,147 @@ def clean_limit_val(val, unit):
     return val_clean if val_clean else "N/A"
 
 
-def push_to_github(log_func=print):
-    log_func("📤 正在推送變更至 GitHub...")
-    import shutil
+def _commit_and_push_files(files_to_add, commit_msg, log_func=print, repo_dir=None, git_bin=None):
+    """Commit only the requested data/log files; rebase must succeed before a normal push."""
     import subprocess
-    import os
 
-    git_bin = "git"
-    for candidate in [
-        r"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-        r"C:\Program Files\Git\cmd\git.exe"
-    ]:
-        if os.path.exists(candidate):
-            git_bin = candidate
-            break
+    repo_dir = os.path.abspath(repo_dir or os.path.dirname(os.path.abspath(__file__)))
+    git_bin = git_bin or shutil.which("git")
+    if not git_bin:
+        for candidate in [
+            r"C:\Program Files\Git\cmd\git.exe",
+            r"C:\Program Files (x86)\Git\cmd\git.exe",
+            r"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+            r"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+            r"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+            r"C:\Program Files\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+            r"C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+            r"C:\Program Files\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+        ]:
+            if os.path.exists(candidate):
+                git_bin = candidate
+                break
+    if not git_bin:
+        log_func("⚠️ 系統未偵測到 Git，無法推送。")
+        return False
+
+    token = (os.environ.get("GITHUB_TOKEN") or os.environ.get("TOKEN") or "").strip().strip('"').strip("'")
+    target_remote = os.environ.get("QUOTA_REPO", "").strip()
+    if not target_remote:
+        target_remote = (
+            f"https://x-access-token:{token}@github.com/9908gg-art/gemini-quota-fetcher.git"
+            if token else "origin"
+        )
+
+    env = os.environ.copy()
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    env["GCM_INTERACTIVE"] = "Never"
+    git_prefix = [
+        git_bin,
+        "-c", "credential.helper=",
+        "-c", "credential.interactive=never",
+        "-c", "user.name=9908gg-art",
+        "-c", "user.email=contact@gugopro.com",
+    ]
+
+    def run_git(args, allowed_codes=(0,)):
+        try:
+            result = subprocess.run(
+                git_prefix + list(args),
+                cwd=repo_dir,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+            )
+        except Exception as exc:
+            return None, str(exc)
+        if result.returncode not in allowed_codes:
+            detail = (result.stderr or result.stdout or "Git command failed").strip()
+            for secret in (token, target_remote):
+                if secret and secret != "origin":
+                    detail = detail.replace(secret, "[認證資訊已遮蔽]")
+            return None, detail
+        return result, ""
 
     try:
-        subprocess.check_call([git_bin, "add", "gemini_rate_limits.json", "gemini_rate_limits.csv", "run_log.txt"])
-        status_out = subprocess.check_output([git_bin, "status", "--porcelain"])
-        if not status_out.strip():
-            log_func("✔️ 數據無任何變更，無須推送。")
+        root_result, error = run_git(["rev-parse", "--show-toplevel"])
+        if root_result is None:
+            log_func(f"⚠️ 無法確認 Git 專案目錄：{error}")
+            return False
+        repo_dir = os.path.abspath(root_result.stdout.strip())
+        branch_result, error = run_git(["branch", "--show-current"])
+        if branch_result is None:
+            log_func(f"⚠️ 無法確認目前 Git 分支：{error}")
+            return False
+        if branch_result.stdout.strip() != "main":
+            log_func(f"⚠️ 目前分支為 {branch_result.stdout.strip() or '(detached)'}，預期 main；為避免推錯分支已停止。")
+            return False
+
+        normalized_files = []
+        for item in files_to_add:
+            path = os.path.abspath(item if os.path.isabs(item) else os.path.join(repo_dir, item))
+            try:
+                if os.path.commonpath([repo_dir, path]) != repo_dir:
+                    log_func("⚠️ 忽略專案目錄外的檔案，停止推送。")
+                    return False
+            except ValueError:
+                log_func("⚠️ 檔案路徑與專案目錄不相容，停止推送。")
+                return False
+            normalized_files.append(os.path.relpath(path, repo_dir).replace(os.sep, "/"))
+        normalized_files = list(dict.fromkeys(normalized_files))
+        if not normalized_files:
+            log_func("⚠️ 沒有指定可推送的檔案。")
+            return False
+
+        result, error = run_git(["add", "--"] + normalized_files)
+        if result is None:
+            log_func(f"⚠️ Git add 失敗：{error}")
+            return False
+
+        staged, error = run_git(["diff", "--cached", "--quiet", "--"] + normalized_files, allowed_codes=(0, 1))
+        if staged is None:
+            log_func(f"⚠️ 無法檢查已暫存資料：{error}")
+            return False
+        if staged.returncode == 0:
+            log_func("✔️ 指定的額度資料與日誌沒有變更，無須推送。")
             return True
-        subprocess.check_call([git_bin, "-c", "user.name=9908gg-art", "-c", "user.email=9908qq@gmail.com", "commit", "-m", "chore: 自動更新額度限制與日誌 [skip ci]"])
-        
-        # Read the new token directly from GITHUB_TOKEN environment variable as requested
-        token = os.environ.get("GITHUB_TOKEN", "").strip()
-        git_flags = ["-c", "credential.helper=", "-c", "credential.interactive=never"]
-        if token:
-            remote_url = f"https://x-access-token:{token}@github.com/9908gg-art/gemini-quota-fetcher.git"
-            subprocess.check_call([git_bin] + git_flags + ["push", "--force", remote_url, "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-            log_func("✔️ 已讀取 GITHUB_TOKEN 環境變數並成功推送至 GitHub！")
-        else:
-            subprocess.check_call([git_bin] + git_flags + ["push", "origin", "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-            log_func("✔️ 已成功將最新執行日誌與狀態推送至 GitHub！")
+
+        # Pathspec limits this commit to quota data/logs; pre-staged index.html is never included.
+        commit_result, error = run_git(["commit", "-m", commit_msg, "--"] + normalized_files)
+        if commit_result is None:
+            log_func(f"⚠️ Git commit 失敗：{error}")
+            return False
+
+        # A failed pull/rebase must stop the flow. Never continue to push after a conflict.
+        pull_result, error = run_git(["pull", "--rebase", target_remote, "main"])
+        if pull_result is None:
+            run_git(["rebase", "--abort"], allowed_codes=(0, 1, 128))
+            log_func(f"⚠️ git pull --rebase 失敗，已取消推送以保護遠端頁面：{error}")
+            return False
+
+        push_result, error = run_git(["push", target_remote, "main"])
+        if push_result is None:
+            log_func(f"⚠️ 安全推送失敗；本機提交保留，遠端內容未被強制覆寫：{error}")
+            return False
+        log_func("✔️ 已 rebase 遠端 main，並安全推送額度資料與日誌。")
         return True
-    except Exception as e:
-        log_func(f"⚠️ Git 推送日誌與資料失敗: {e}")
+    except Exception as exc:
+        detail = str(exc).replace(token, "[認證資訊已遮蔽]") if token else str(exc)
+        log_func(f"⚠️ Git 同步／推送流程失敗：{detail}")
         return False
+
+
+def push_to_github(log_func=print):
+    log_func("📤 正在安全同步額度資料至 GitHub...")
+    return _commit_and_push_files(
+        ["gemini_rate_limits.json", "gemini_rate_limits.csv", "run_log.txt"],
+        "chore: 自動更新額度限制與日誌 [skip ci]",
+        log_func,
+    )
 
 
 def send_telegram_status(message):
@@ -803,12 +875,9 @@ def send_telegram_status(message):
     token = os.environ.get("tg_token")
     user_id = os.environ.get("TG_USER_ID")
     if token and user_id:
-        # 自動清理引號、雙引號與前後空白
         token = str(token).strip().strip('"').strip("'")
         user_id = str(user_id).strip().strip('"').strip("'")
         
-        # 為了防止 Message Too Long (4096 字元限制)
-        # 我們將長訊息以行(\n)為單位分割，組合成多個小於 4000 字元的區塊分開發送
         lines = message.split("\n")
         chunks = []
         current_chunk = []
@@ -829,7 +898,6 @@ def send_telegram_status(message):
         success_all = True
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         
-        # Create unverified SSL context to prevent CERTIFICATE_VERIFY_FAILED errors on Windows
         import ssl
         ssl_ctx = ssl.create_default_context()
         ssl_ctx.check_hostname = False
@@ -852,7 +920,6 @@ def send_telegram_status(message):
                         if idx == len(chunks) - 1:
                             print(f"✔️ Telegram 狀態通知發送成功！(共分 {len(chunks)} 個區塊發送)")
                 except Exception as ssl_err:
-                    # Retry with unverified SSL context fallback
                     with urllib.request.urlopen(req, context=ssl_ctx) as resp:
                         if idx == len(chunks) - 1:
                             print(f"✔️ Telegram 狀態通知發送成功！(SSL 安全降級，共分 {len(chunks)} 個區塊發送)")
@@ -864,7 +931,6 @@ def send_telegram_status(message):
                         print(f"🔍 [Telegram API 錯誤詳情]: {error_detail}")
                     except Exception:
                         pass
-                # SSL or non-critical notification error shouldn't crash the entire script
                 success_all = True
                 
         return success_all
@@ -922,7 +988,6 @@ def check_and_notify_changes(old_file_path, new_data):
         print(f"⚠️ 讀取舊版數據失敗，跳過比較: {e}")
         return
 
-    # Extract list of models if data is wrapped in dict object with _developer_guide
     if isinstance(old_data, dict) and "models" in old_data:
         old_data = old_data["models"]
     elif not isinstance(old_data, list):
@@ -933,7 +998,6 @@ def check_and_notify_changes(old_file_path, new_data):
     elif not isinstance(new_data, list):
         new_data = []
 
-    # Convert list of dicts to dict keyed by (api_name, tier)
     old_dict = {}
     for item in old_data:
         if isinstance(item, dict):
@@ -1011,8 +1075,6 @@ def check_and_notify_changes(old_file_path, new_data):
         import sys
         if "--cli" in sys.argv or "--auto" in sys.argv:
             send_telegram_status("🟢 <b>Gemini API 額度定時任務執行成功！</b>\n經比對，官方模型額度與上次相同，無任何變更。")
-
-
 
 
 class AppGUI:
@@ -1306,7 +1368,6 @@ class AppGUI:
                 
             self.write_log(f"💾 數據已自動存檔至:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}\n")
 
-            # Check if --push is specified to push changes to GitHub in GUI mode
             if "--push" in sys.argv:
                 push_to_github(lambda msg: self.write_log(msg + "\n"))
         except Exception as e:
@@ -1346,7 +1407,6 @@ class AppGUI:
 
 
 if __name__ == "__main__":
-    # Check if offline parsing is requested
     if "--parse-offline" in sys.argv:
         print("📦 [Offline Parsing] 正在從本地 HTML 檔案解析數據...")
         html_file = "aistudio_limits.html"
@@ -1363,7 +1423,6 @@ if __name__ == "__main__":
         data = parse_rate_limits(html_content, text_content, print)
         if data:
             check_and_notify_changes(JSON_OUTPUT, data)
-            # Save CSV
             with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
                 writer.writerow(["API Model Name", "Display Name", "Category/Purpose", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "RPM Limit", "TPM Limit", "RPD Limit", "RPM Current", "TPM Current", "RPD Current"])
@@ -1374,7 +1433,6 @@ if __name__ == "__main__":
                         row.get("rpm_limit"), row.get("tpm_limit"), row.get("rpd_limit"),
                         row.get("rpm_current"), row.get("tpm_current"), row.get("rpd_current")
                     ])
-            # Save JSON
             with open(JSON_OUTPUT, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
             print(f"\n🎉 [Offline] 數據解析成功並存檔:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}")
@@ -1383,7 +1441,6 @@ if __name__ == "__main__":
             print("❌ [Offline] 無法從本地檔案中解析出任何模型費率限制數據。")
             sys.exit(1)
 
-    # Check if CLI mode or Auto mode is requested
     if "--cli" in sys.argv or "--auto" in sys.argv:
         print("🚀 [CLI] 啟動 Gemini API Rate Limit 自動抓取任務...")
         url = DEFAULT_URL
@@ -1401,7 +1458,6 @@ if __name__ == "__main__":
             cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {msg_str}")
             
         def save_run_log_and_push(success, err_str=None):
-            # 1. 寫入本地日誌檔案 run_log.txt
             log_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "run_log.txt"))
             try:
                 with open(log_file_path, "w", encoding="utf-8") as f:
@@ -1412,67 +1468,17 @@ if __name__ == "__main__":
             except Exception as le:
                 print(f"⚠️ 寫入 run_log.txt 失敗: {le}")
                 
-            # 2. 自動將日誌、截圖與數據推送至 GitHub
+            push_ok = True
             if "--push" in sys.argv:
-                import shutil
-                import subprocess
-                git_bin = shutil.which("git")
-                if not git_bin:
-                    # 搜尋常見的 Visual Studio 與本機安裝路徑
-                    vs_paths = [
-                        r"C:\Program Files\Git\cmd\git.exe",
-                        r"C:\Program Files (x86)\Git\cmd\git.exe",
-                        r"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                        r"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                        r"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                        r"C:\Program Files\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                        r"C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                        r"C:\Program Files\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                    ]
-                    for path in vs_paths:
-                        if os.path.exists(path):
-                            git_bin = path
-                            break
-                
-                git_installed = git_bin is not None
-                if git_installed:
-                    try:
-                        files_to_add = ["run_log.txt"]
-                        screenshot_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "login_error_screenshot.png"))
-                        if os.path.exists(screenshot_path):
-                            files_to_add.append("login_error_screenshot.png")
-                        if success:
-                            files_to_add.extend(["gemini_rate_limits.json", "gemini_rate_limits.csv"])
-                            
-                        # 用 git add
-                        subprocess.check_call([git_bin, "add"] + files_to_add)
-                        
-                        # 檢查有無變更，有的話提交並推送
-                        status_out = subprocess.check_output([git_bin, "status", "--porcelain"])
-                        if status_out.strip():
-                            # 確保 Git 用戶名稱與信箱有被設定 (防範 Windows 排程服務帳戶環境缺失)
-                            try:
-                                subprocess.call([git_bin, "config", "user.name", "9908gg-art"])
-                                subprocess.call([git_bin, "config", "user.email", "9908qq@gmail.com"])
-                            except Exception:
-                                pass
-                            commit_msg = "chore: 自動更新執行日誌與狀態 [skip ci]" if not success else "chore: 自動更新額度限制與日誌 [skip ci]"
-                            subprocess.check_call([git_bin, "commit", "-m", commit_msg])
-                            
-                            token = os.environ.get("GITHUB_TOKEN", "").strip()
-                            git_flags = ["-c", "credential.helper=", "-c", "credential.interactive=never"]
-                            if token:
-                                token_url = f"https://x-access-token:{token}@github.com/9908gg-art/gemini-quota-fetcher.git"
-                                subprocess.check_call([git_bin] + git_flags + ["push", "--force", token_url, "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-                            else:
-                                subprocess.check_call([git_bin] + git_flags + ["push", "origin", "main"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-                            print("✔️ 已成功將最新執行日誌與狀態推送至 GitHub！")
-                        else:
-                            print("✔️ 資料與日誌無任何變更，無須推送。")
-                    except Exception as ge:
-                        print(f"⚠️ Git 推送日誌與資料失敗: {ge}")
-                else:
-                    print("⚠️ 系統未偵測到 Git 安裝 (包括 Visual Studio 內建 Git)，跳過自動推送動作。")
+                files_to_add = ["run_log.txt"]
+                screenshot_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "login_error_screenshot.png"))
+                if os.path.exists(screenshot_path):
+                    files_to_add.append(screenshot_path)
+                if success:
+                    files_to_add.extend(["gemini_rate_limits.json", "gemini_rate_limits.csv"])
+                commit_msg = "chore: 自動更新執行日誌與狀態 [skip ci]" if not success else "chore: 自動更新額度限制與日誌 [skip ci]"
+                push_ok = _commit_and_push_files(files_to_add, commit_msg, print)
+            return push_ok
 
         def cli_error(err):
             import html
@@ -1480,7 +1486,6 @@ if __name__ == "__main__":
             err_str = str(err)
             cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ❌ [CLI 錯誤]: {err_str}")
             
-            # 儲存並推送日誌
             save_run_log_and_push(False, err_str)
             
             if len(err_str) > 1500:
@@ -1495,7 +1500,6 @@ if __name__ == "__main__":
 
         headless = "--headful" not in sys.argv
         
-        # Instantiate ScraperThread but call scrape directly in the main thread
         scraper = ScraperThread(
             url=url,
             headless=headless,
@@ -1514,7 +1518,6 @@ if __name__ == "__main__":
             err_str = str(e)
             cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ❌ [CLI 致命錯誤]: {err_str}")
             
-            # 儲存並推送日誌
             save_run_log_and_push(False, err_str)
             
             if len(err_str) > 1500:
@@ -1523,12 +1526,10 @@ if __name__ == "__main__":
             send_email_notification(f"Gemini API 額度定時任務執行失敗！", f"錯誤原因：{err_str}")
             sys.exit(1)
             
-        # Handle Output
         if not result_queue.empty():
             data = result_queue.get()
             try:
                 check_and_notify_changes(JSON_OUTPUT, data)
-                # Enrich and sort models by score
                 from enrich_json import enrich_model
                 enriched_data = [enrich_model(item) for item in data if isinstance(item, dict) and "api_name" in item]
                 free_m = [m for m in enriched_data if m.get("is_free_tier")]
@@ -1537,7 +1538,6 @@ if __name__ == "__main__":
                 paid_m.sort(key=lambda x: (x.get("model_score") or 0, x.get("rpm_limit") or 0), reverse=True)
                 sorted_models = free_m + paid_m
 
-                # Save CSV with Model Rating Score
                 with open(CSV_OUTPUT, "w", newline="", encoding="utf-8-sig") as f:
                     writer = csv.writer(f)
                     writer.writerow(["Model Rating Score", "API Model Name", "Display Name", "Fine Category", "Is Free Tier", "Requires Billing", "Tier", "RPM (Requests/Min)", "TPM (Tokens/Min)", "RPD (Requests/Day)", "Capabilities", "Usage Description"])
@@ -1552,7 +1552,6 @@ if __name__ == "__main__":
                             row.get("usage_description_zh", "")
                         ])
 
-                # Save JSON with Developer Integration Guide & Timestamp
                 json_output_obj = {
                     "_developer_guide": {
                         "title": "Gemini API 官方額度與模型能力 JSON 接口操作指南 (專為 AI 軟體與工具 Failover 設計)",
@@ -1575,8 +1574,9 @@ if __name__ == "__main__":
                     json.dump(json_output_obj, f, indent=4, ensure_ascii=False)
                 print(f"\n🎉 [CLI] 抓取完成！資料已存檔:\n- CSV: {CSV_OUTPUT}\n- JSON: {JSON_OUTPUT}")
                 
-                # 儲存並推送日誌 (Success)
-                save_run_log_and_push(True)
+                if not save_run_log_and_push(True):
+                    print("❌ 資料已存於本機，但安全同步未完成；請依上方訊息排除 Git 問題後重試。")
+                    sys.exit(1)
                 sys.exit(0)
             except Exception as e:
                 import html
@@ -1584,7 +1584,6 @@ if __name__ == "__main__":
                 err_str = str(e)
                 cli_logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ❌ [CLI 存檔失敗]: {err_str}")
                 
-                # 儲存並推送日誌
                 save_run_log_and_push(False, err_str)
                 
                 if len(err_str) > 1500:
@@ -1599,7 +1598,6 @@ if __name__ == "__main__":
     if not HAS_TKINTER:
         print("⚠️ 系統未偵測到 Tkinter 元件，且未指定 --cli 參數。自動切換至 CLI 模式運行...")
         sys.argv.append("--cli")
-        # Re-run main logic by importing/re-executing CLI block
         os.system(f"python3 {__file__} --cli")
         sys.exit(0)
 
