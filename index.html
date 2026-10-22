@@ -1318,6 +1318,177 @@ html, body {
     }
 }
 
+    
+
+/* === Compact Quota Hero (Optimized Vertical Space) === */
+.quota-hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: center;
+    min-height: auto !important;
+    margin: 0 0 10px !important;
+    padding: 14px 18px !important;
+    overflow: hidden;
+    border: 1px solid rgba(92, 214, 232, 0.26);
+    border-radius: 14px;
+    background: linear-gradient(116deg, rgba(13, 30, 51, 0.98), rgba(8, 17, 31, 0.97) 62%, rgba(13, 37, 61, 0.96));
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28), inset 0 1px rgba(255,255,255,0.035);
+}
+.quota-hero::before {
+    width: 320px;
+    height: 320px;
+    right: -80px;
+    top: -160px;
+}
+.quota-hero-copy { min-width: 0; }
+.quota-hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px !important;
+    color: #75d8e7;
+    font: 800 0.65rem/1.2 Inter, sans-serif;
+    letter-spacing: 0.12em;
+}
+.quota-hero-pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4bd6a0;
+    box-shadow: 0 0 10px rgba(75, 214, 160, 0.8);
+}
+.quota-hero h2 {
+    margin: 0 0 5px !important;
+    color: #fff !important;
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem) !important;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+.quota-hero-description {
+    max-width: 760px;
+    margin: 0 !important;
+    color: #d4e1ef;
+    font-size: 0.84rem !important;
+    line-height: 1.48 !important;
+}
+.quota-hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px !important;
+    margin-top: 8px !important;
+}
+.quota-hero-pills > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px !important;
+    border: 1px solid rgba(117, 216, 231, 0.2);
+    border-radius: 999px;
+    background: rgba(53, 146, 181, 0.1);
+    color: #dffaff;
+    font-size: 0.72rem !important;
+    font-weight: 700;
+}
+.quota-hero-pills i { color: #67d8e8; }
+.quota-hero-pill-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px !important;
+    border-radius: 16px;
+    background: rgba(59, 130, 246, 0.18);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    color: #93c5fd;
+    font-size: 0.74rem !important;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.quota-hero-pill-link:hover {
+    background: rgba(59, 130, 246, 0.35);
+    border-color: #60a5fa;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+.quota-hero-note {
+    max-width: 780px;
+    margin: 6px 0 0 !important;
+    color: #9fb1c5;
+    font-size: 0.69rem !important;
+    line-height: 1.4 !important;
+}
+.quota-hero-side {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    min-width: 0;
+    flex-shrink: 0;
+}
+.quota-orbit {
+    position: relative;
+    display: grid;
+    width: 106px !important;
+    height: 106px !important;
+    place-items: center;
+    border: 1px solid rgba(106, 211, 232, 0.19);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(31, 119, 158, 0.19), rgba(9, 20, 35, 0.06) 67%);
+    box-shadow: 0 0 32px rgba(42, 172, 209, 0.1), inset 0 0 20px rgba(42, 172, 209, 0.08);
+}
+.quota-orbit-ring {
+    position: absolute;
+    inset: 7px !important;
+    border: 1px dashed rgba(110, 218, 234, 0.42);
+    border-radius: 50%;
+    animation: quota-orbit 28s linear infinite;
+}
+.quota-orbit-label {
+    color: #8db6c8;
+    font: 700 0.52rem/1.3 Inter, sans-serif !important;
+    letter-spacing: 0.15em;
+    text-align: center;
+}
+.quota-orbit-label strong {
+    color: #6ee7b7;
+    font-size: 0.78rem !important;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+.quota-orbit-dot {
+    position: absolute;
+    top: 4px !important;
+    left: 50%;
+    width: 7px !important;
+    height: 7px !important;
+    margin-left: -3.5px !important;
+    border-radius: 50%;
+    background: #47c7df;
+    box-shadow: 0 0 10px rgba(71, 199, 223, 0.95);
+}
+.quota-hero-metrics {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #c7e5ef;
+    font: 800 0.65rem/1 Inter, sans-serif !important;
+    letter-spacing: 0.08em;
+}
+.quota-hero-metrics b { width: 3px; height: 3px; border-radius: 50%; background: #47c7df; }
+.quota-hero-side-caption {
+    color: #7798ad;
+    font: 700 0.52rem/1 Inter, sans-serif !important;
+    letter-spacing: 0.15em;
+}
+@media (max-width: 720px) {
+    .quota-hero { grid-template-columns: minmax(0, 1fr) !important; padding: 12px 14px !important; }
+    .quota-hero-side { display: none !important; }
+}
+
     </style>
 </head>
 <body>
@@ -1371,7 +1542,7 @@ html, body {
                     <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span data-i18n="quota-hero-pill-official">Google AI Studio 官方資料</span></span>
                     <span><i class="fa-solid fa-arrow-down-wide-short" aria-hidden="true"></i><span data-i18n="quota-hero-pill-score">依 model_score 動態排序</span></span>
                     <!-- 官方直連按鈕：對 AdSense 與 E-E-A-T 有實質正面加分 -->
-                    <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" class="quota-hero-pill-link" title="前往 Google AI Studio 官方控制台查看個人用量">
+                    <a href="https://aistudio.google.com/u/3/rate-limit?timeRange=last-28-days&amp;project=gen-lang-client-0386379590&amp;pli=1" target="_blank" rel="noopener noreferrer" class="quota-hero-pill-link" title="前往 Google AI Studio 官方控制台查看個人用量">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         <span>前往 Google AI Studio 官方查詢後台</span>
                     </a>
@@ -1383,23 +1554,6 @@ html, body {
                 <div class="quota-hero-metrics"><span>RPM</span><b></b><span>TPM</span><b></b><span>RPD</span></div>
                 <div class="quota-hero-side-caption">LIVE QUOTA DATA</div>
             </div>
-        </section>
-
-        <!-- Featured Article Card (100% 像素級對齊圖片 4) -->
-        <section class="featured-article-card-section" aria-label="推薦開發者手冊專欄">
-            <a href="https://gugopro.com/articles/gemini-api-free-tier-and-developer-guide.html" target="_blank" rel="noopener" class="featured-article-card">
-                <div class="article-card-meta">
-                    <span class="article-badge">雲端系統 · 分散式容錯</span>
-                    <span class="article-read-time"><i class="fa-regular fa-clock"></i> 32 分鐘閱讀</span>
-                </div>
-                <h3 class="article-title">2026 終極開發者手冊：利用 Google Gemini 官方免費 API 打造零成本商用級應用之架構設計與故障排除全指南</h3>
-                <p class="article-desc">解碼 RPM/TPM/RPD 三維度約束、太平洋午夜重設與資料隱私邊界。剖析 8 大 HTTP 錯誤代碼確定性防禦矩陣、隨機全抖動指數退避、Python/Node.js 生產級藍圖與 Makespan 微積分證明。</p>
-                <div class="article-companion-box">
-                    <span class="companion-label">🛠️ 本篇配套工具：</span>
-                    <span class="companion-badge"><i class="fa-solid fa-chart-line"></i> 前往 API 額度儀表板</span>
-                </div>
-                <span class="article-link-action">閱讀完整專欄文章 →</span>
-            </a>
         </section>
 
         <!-- Major Category Navigation Tabs (100% 原始分類邏輯保留) -->
@@ -1468,6 +1622,23 @@ html, body {
                 </table>
             </div>
         </div>
+
+        <!-- Featured Article Card (100% 像素級對齊圖片 4) -->
+        <section class="featured-article-card-section" aria-label="推薦開發者手冊專欄">
+            <a href="https://gugopro.com/articles/gemini-api-free-tier-and-developer-guide.html" target="_blank" rel="noopener" class="featured-article-card">
+                <div class="article-card-meta">
+                    <span class="article-badge">雲端系統 · 分散式容錯</span>
+                    <span class="article-read-time"><i class="fa-regular fa-clock"></i> 32 分鐘閱讀</span>
+                </div>
+                <h3 class="article-title">2026 終極開發者手冊：利用 Google Gemini 官方免費 API 打造零成本商用級應用之架構設計與故障排除全指南</h3>
+                <p class="article-desc">解碼 RPM/TPM/RPD 三維度約束、太平洋午夜重設與資料隱私邊界。剖析 8 大 HTTP 錯誤代碼確定性防禦矩陣、隨機全抖動指數退避、Python/Node.js 生產級藍圖與 Makespan 微積分證明。</p>
+                <div class="article-companion-box">
+                    <span class="companion-label">🛠️ 本篇配套工具：</span>
+                    <span class="companion-badge"><i class="fa-solid fa-chart-line"></i> 前往 API 額度儀表板</span>
+                </div>
+                <span class="article-link-action">閱讀完整專欄文章 →</span>
+            </a>
+        </section>
 
         <!-- Developer Handbook & Auto-Failover Architecture Section -->
         <section id="error-code-guide" class="error-guide-panel" aria-labelledby="error-code-title">
