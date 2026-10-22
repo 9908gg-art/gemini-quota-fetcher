@@ -300,7 +300,13 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadLimitsData() {
         const langObj = translations[userLang] || translations["zh-TW"];
         try {
-            const response = await fetch("gemini_rate_limits.json?nocache=" + new Date().getTime());
+            let response;
+        try {
+            response = await fetch("gemini_rate_limits.json?nocache=" + new Date().getTime());
+            if (!response.ok) throw new Error("Local json fetch error " + response.status);
+        } catch (fetchErr) {
+            response = await fetch("https://quota.gugopro.com/gemini_rate_limits.json?nocache=" + new Date().getTime());
+        }
             if (!response.ok) {
                 throw new Error("無法讀取 limits JSON 檔案");
             }
