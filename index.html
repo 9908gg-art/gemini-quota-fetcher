@@ -55,7 +55,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-        <link rel="stylesheet" href="./style.css?v=20261022_1259">
+        <link rel="stylesheet" href="./style.css?v=20261022_1305">
     <style id="gugopro-quota-styles">
 
 /* ==========================================================================
@@ -759,11 +759,13 @@ body {
     letter-spacing: -0.025em;
 }
 .quota-hero-description {
-    max-width: 760px;
-    margin: 0;
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
     color: #d4e1ef;
-    font-size: clamp(0.88rem, 1.5vw, 1rem);
-    line-height: 1.75;
+    font-size: 0.84rem !important;
+    line-height: 1.48 !important;
+    text-wrap: pretty;
 }
 .quota-hero-pills {
     display: flex;
@@ -1369,11 +1371,13 @@ html, body {
     letter-spacing: -0.02em;
 }
 .quota-hero-description {
-    max-width: 760px;
+    max-width: none !important;
+    width: 100% !important;
     margin: 0 !important;
     color: #d4e1ef;
     font-size: 0.84rem !important;
     line-height: 1.48 !important;
+    text-wrap: pretty;
 }
 .quota-hero-pills {
     display: flex;
@@ -1537,7 +1541,7 @@ html, body {
             <div class="quota-hero-copy">
                 <div class="quota-hero-kicker"><span class="quota-hero-pulse" aria-hidden="true"></span><span data-i18n="quota-hero-kicker">OFFICIAL GOOGLE GEMINI API · FREE-TIER MONITOR</span></div>
                 <h2 id="quota-hero-title" data-i18n="quota-hero-title">活用官方免費 API 額度，零月租訂閱費</h2>
-                <p class="quota-hero-description" data-i18n="quota-hero-description">每日同步 Google AI Studio 的 Gemini API 限額與 model_score，快速比較 RPM、TPM、RPD 及模型用途；瞭解模型額度限制。</p>
+                <p class="quota-hero-description" data-i18n="quota-hero-description">每日同步 Google AI Studio 的 Gemini API 限額與 model_score，快速比較 RPM、TPM、RPD 及模型用途；<span style="white-space: nowrap;">瞭解模型額度限制。</span></p>
                 <div class="quota-hero-pills">
                     <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span data-i18n="quota-hero-pill-official">Google AI Studio 官方資料</span></span>
                     <span><i class="fa-solid fa-arrow-down-wide-short" aria-hidden="true"></i><span data-i18n="quota-hero-pill-score">依 model_score 動態排序</span></span>
@@ -1867,7 +1871,7 @@ html, body {
     </footer>
 
     <!-- 完全維持原樣的底層渲染腳本，雙軌相容線上與本機 -->
-        <script src="./app.js?v=20261022_1259"></script>
+        <script src="./app.js?v=20261022_1305"></script>
     <script>
     if (typeof allModels === 'undefined' && !window.appInitialized) {
         var fallbackScript = document.createElement('script');

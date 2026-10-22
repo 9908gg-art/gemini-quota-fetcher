@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "header-main-title": "官方免費額度查詢與模型分類",
             "quota-hero-kicker": "OFFICIAL GOOGLE GEMINI API · FREE-TIER MONITOR",
             "quota-hero-title": "活用官方免費 API 額度，零月租訂閱費",
-            "quota-hero-description": "每日同步 Google AI Studio 的 Gemini API 限額與 model_score，快速比較 RPM、TPM、RPD 及模型用途；瞭解模型額度限制。",
+            "quota-hero-description": "每日同步 Google AI Studio 的 Gemini API 限額與 model_score，快速比較 RPM、TPM、RPD 及模型用途；<span style=\"white-space: nowrap;\">瞭解模型額度限制。</span>",
             "quota-hero-pill-official": "Google AI Studio 官方資料",
             "quota-hero-pill-score": "依 model_score 動態排序",
             "quota-hero-note": "免費層額度依 Google 帳戶、專案、模型及所在地設定而異；部分模型或已啟用計費的專案可能產生費用，請以 AI Studio 顯示與 Google 官方條款為準。",

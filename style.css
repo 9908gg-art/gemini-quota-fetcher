@@ -696,11 +696,12 @@ body {
     letter-spacing: -0.025em;
 }
 .quota-hero-description {
-    max-width: 760px;
+    max-width: none;
     margin: 0;
     color: #d4e1ef;
-    font-size: clamp(0.88rem, 1.5vw, 1rem);
-    line-height: 1.75;
+    font-size: 0.84rem;
+    line-height: 1.48;
+    text-wrap: pretty;
 }
 .quota-hero-pills {
     display: flex;
