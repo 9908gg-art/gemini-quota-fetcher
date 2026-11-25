@@ -11,8 +11,8 @@
             "fine_category": "細項用途標籤: text, vision, speech, image_gen, live_api, grounding, embedding"
         }
     },
-    "last_updated_date": "2026/11/24",
-    "last_updated_at": "2026-11-24 08:18:48",
+    "last_updated_date": "2026/11/25",
+    "last_updated_at": "2026-11-25 08:06:37",
     "models": [
         {
             "api_name": "gemini-3.8-live-extended-thinking",
@@ -37,9 +37,9 @@
             "fine_category": "live_api",
             "fine_category_name_zh": "⚡ 即時對話 (Live API)",
             "capabilities": [
-                "low_latency_dialog",
                 "realtime_audio_video",
-                "websocket_live"
+                "websocket_live",
+                "low_latency_dialog"
             ],
             "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
         },
@@ -67,8 +67,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -98,8 +98,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -129,8 +129,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -159,9 +159,9 @@
             "fine_category": "live_api",
             "fine_category_name_zh": "⚡ 即時對話 (Live API)",
             "capabilities": [
-                "low_latency_dialog",
                 "realtime_audio_video",
-                "websocket_live"
+                "websocket_live",
+                "low_latency_dialog"
             ],
             "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
         },
@@ -189,12 +189,12 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
         },
@@ -222,43 +222,14 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
-        },
-        {
-            "api_name": "gemini-3.5-live-translate",
-            "display_name": "Gemini 3.5 Live Translate",
-            "category": "Live API",
-            "tier": "Free tier",
-            "rpm": "0 / Unlimited",
-            "tpm": "0 /  20K",
-            "rpd": "0 / Unlimited",
-            "rpm_limit": -1,
-            "tpm_limit": 20000,
-            "rpd_limit": -1,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": true,
-            "requires_billing_account": false,
-            "model_score": 9.6,
-            "is_rest_compatible": false,
-            "is_verified_live": false,
-            "is_vision_capable": false,
-            "fine_category": "live_api",
-            "fine_category_name_zh": "⚡ 即時對話 (Live API)",
-            "capabilities": [
-                "low_latency_dialog",
-                "realtime_audio_video",
-                "websocket_live"
-            ],
-            "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
         },
         {
             "api_name": "gemini-3.5-transcribe-live",
@@ -283,9 +254,38 @@
             "fine_category": "live_api",
             "fine_category_name_zh": "⚡ 即時對話 (Live API)",
             "capabilities": [
-                "low_latency_dialog",
                 "realtime_audio_video",
-                "websocket_live"
+                "websocket_live",
+                "low_latency_dialog"
+            ],
+            "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
+        },
+        {
+            "api_name": "gemini-3.5-live-translate",
+            "display_name": "Gemini 3.5 Live Translate",
+            "category": "Live API",
+            "tier": "Free tier",
+            "rpm": "0 / Unlimited",
+            "tpm": "0 /  20K",
+            "rpd": "0 / Unlimited",
+            "rpm_limit": -1,
+            "tpm_limit": 20000,
+            "rpd_limit": -1,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": true,
+            "requires_billing_account": false,
+            "model_score": 9.6,
+            "is_rest_compatible": false,
+            "is_verified_live": false,
+            "is_vision_capable": false,
+            "fine_category": "live_api",
+            "fine_category_name_zh": "⚡ 即時對話 (Live API)",
+            "capabilities": [
+                "realtime_audio_video",
+                "websocket_live",
+                "low_latency_dialog"
             ],
             "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
         },
@@ -313,8 +313,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -369,8 +369,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -400,13 +400,13 @@
             "fine_category_name_zh": "⚡ 即時對話 (Live API)",
             "capabilities": [
                 "code_completion",
-                "text_generation",
-                "vision_screenshot_ocr",
+                "realtime_audio_video",
                 "websocket_live",
-                "translation",
-                "reasoning",
+                "vision_screenshot_ocr",
+                "text_generation",
                 "low_latency_dialog",
-                "realtime_audio_video"
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
         },
@@ -433,9 +433,9 @@
             "fine_category": "live_api",
             "fine_category_name_zh": "⚡ 即時對話 (Live API)",
             "capabilities": [
-                "low_latency_dialog",
                 "realtime_audio_video",
-                "websocket_live"
+                "websocket_live",
+                "low_latency_dialog"
             ],
             "usage_description_zh": "專屬 WebSocket 協議低延遲即時對話 API，不相容標準 REST HTTP generateContent 呼叫。"
         },
@@ -463,8 +463,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -494,8 +494,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -525,12 +525,12 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
         },
@@ -558,44 +558,14 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
-        },
-        {
-            "api_name": "gemini-2.5-search-grounding",
-            "display_name": "Gemini 2.5",
-            "category": "Search grounding",
-            "tier": "Free tier",
-            "rpm": "-",
-            "tpm": "-",
-            "rpd": "0 /  1.5K",
-            "rpm_limit": null,
-            "tpm_limit": null,
-            "rpd_limit": 1500,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": true,
-            "requires_billing_account": false,
-            "model_score": 9.1,
-            "is_rest_compatible": true,
-            "is_verified_live": false,
-            "is_vision_capable": false,
-            "fine_category": "grounding",
-            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
-            "capabilities": [
-                "realtime_fact_checking",
-                "google_maps",
-                "chat_dialog",
-                "google_search"
-            ],
-            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
         {
             "api_name": "default-search-grounding",
@@ -621,9 +591,39 @@
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
+            ],
+            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
+        },
+        {
+            "api_name": "gemini-2.5-search-grounding",
+            "display_name": "Gemini 2.5",
+            "category": "Search grounding",
+            "tier": "Free tier",
+            "rpm": "-",
+            "tpm": "-",
+            "rpd": "0 /  1.5K",
+            "rpm_limit": null,
+            "tpm_limit": null,
+            "rpd_limit": 1500,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": true,
+            "requires_billing_account": false,
+            "model_score": 9.1,
+            "is_rest_compatible": true,
+            "is_verified_live": false,
+            "is_vision_capable": false,
+            "fine_category": "grounding",
+            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
+            "capabilities": [
+                "realtime_fact_checking",
+                "chat_dialog",
+                "google_search",
+                "google_maps"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -651,12 +651,12 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
         },
@@ -708,9 +708,9 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
+                "text_to_speech",
                 "tts",
-                "voice_synthesis",
-                "text_to_speech"
+                "voice_synthesis"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
         },
@@ -738,9 +738,9 @@
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -768,8 +768,8 @@
             "fine_category_name_zh": "🔍 向量檢索 (Embedding)",
             "capabilities": [
                 "semantic_search",
-                "rag_retrieval",
-                "text_embedding"
+                "text_embedding",
+                "rag_retrieval"
             ],
             "usage_description_zh": "文字向量化與語意檢索模型，專用於企業 RAG 知識庫與文件搜尋，不直接進行文字對話生成。"
         },
@@ -822,8 +822,8 @@
             "fine_category_name_zh": "🔍 向量檢索 (Embedding)",
             "capabilities": [
                 "semantic_search",
-                "rag_retrieval",
-                "text_embedding"
+                "text_embedding",
+                "rag_retrieval"
             ],
             "usage_description_zh": "文字向量化與語意檢索模型，專用於企業 RAG 知識庫與文件搜尋，不直接進行文字對話生成。"
         },
@@ -925,15 +925,15 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -961,47 +961,12 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
-        },
-        {
-            "api_name": "gemini-3.1-pro",
-            "display_name": "Gemini 3.1 Pro",
-            "category": "Map grounding",
-            "tier": "Free tier",
-            "rpm": "-",
-            "tpm": "-",
-            "rpd": "0 /  0",
-            "rpm_limit": null,
-            "tpm_limit": null,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 9.7,
-            "is_rest_compatible": true,
-            "is_verified_live": false,
-            "is_vision_capable": true,
-            "fine_category": "grounding",
-            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
-            "capabilities": [
-                "realtime_fact_checking",
-                "code_completion",
-                "text_generation",
-                "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
-                "chat_dialog",
-                "google_search"
-            ],
-            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
         {
             "api_name": "gemini-3.6-flash",
@@ -1026,15 +991,15 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1061,49 +1026,52 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
         {
-            "api_name": "nano-banana-pro-(gemini-3-pro-image)",
-            "display_name": "Nano Banana Pro (Gemini 3 Pro Image)",
-            "category": "Multi-modal generative models",
+            "api_name": "gemini-3.1-pro",
+            "display_name": "Gemini 3.1 Pro",
+            "category": "Map grounding",
             "tier": "Free tier",
-            "rpm": "0 /  0",
-            "tpm": "0 /  0",
+            "rpm": "-",
+            "tpm": "-",
             "rpd": "0 /  0",
-            "rpm_limit": 0,
-            "tpm_limit": 0,
+            "rpm_limit": null,
+            "tpm_limit": null,
             "rpd_limit": 0,
             "rpm_current": 0,
             "tpm_current": 0,
             "rpd_current": 0,
             "is_free_tier": false,
             "requires_billing_account": true,
-            "model_score": 9.6,
-            "is_rest_compatible": false,
+            "model_score": 9.7,
+            "is_rest_compatible": true,
             "is_verified_live": false,
-            "is_vision_capable": false,
-            "fine_category": "image_gen",
-            "fine_category_name_zh": "🎨 圖像與影音生成",
+            "is_vision_capable": true,
+            "fine_category": "grounding",
+            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "code_completion",
-                "image_generation",
+                "vision_screenshot_ocr",
+                "chat_dialog",
                 "text_generation",
-                "video_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
                 "translation",
                 "reasoning"
             ],
-            "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
+            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
         {
             "api_name": "lyria-3-pro",
@@ -1129,19 +1097,19 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
         },
         {
-            "api_name": "gemini-4-argon",
-            "display_name": "Gemini 4 Argon",
-            "category": "Text-out models",
+            "api_name": "nano-banana-pro-(gemini-3-pro-image)",
+            "display_name": "Nano Banana Pro (Gemini 3 Pro Image)",
+            "category": "Multi-modal generative models",
             "tier": "Free tier",
             "rpm": "0 /  0",
             "tpm": "0 /  0",
@@ -1154,64 +1122,21 @@
             "rpd_current": 0,
             "is_free_tier": false,
             "requires_billing_account": true,
-            "model_score": 9.5,
-            "is_rest_compatible": true,
+            "model_score": 9.6,
+            "is_rest_compatible": false,
             "is_verified_live": false,
             "is_vision_capable": false,
-            "fine_category": "text",
-            "fine_category_name_zh": "📝 文字與語言大模型",
-            "capabilities": [],
-            "usage_description_zh": "通用或特定開發者專用 API 服務模型。"
-        },
-        {
-            "api_name": "gemini-4-carbon",
-            "display_name": "Gemini 4 Carbon",
-            "category": "Text-out models",
-            "tier": "Free tier",
-            "rpm": "0 /  0",
-            "tpm": "0 /  0",
-            "rpd": "0 /  0",
-            "rpm_limit": 0,
-            "tpm_limit": 0,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 9.5,
-            "is_rest_compatible": true,
-            "is_verified_live": false,
-            "is_vision_capable": false,
-            "fine_category": "text",
-            "fine_category_name_zh": "📝 文字與語言大模型",
-            "capabilities": [],
-            "usage_description_zh": "通用或特定開發者專用 API 服務模型。"
-        },
-        {
-            "api_name": "gemini-4-neon",
-            "display_name": "Gemini 4 Neon",
-            "category": "Text-out models",
-            "tier": "Free tier",
-            "rpm": "0 /  0",
-            "tpm": "0 /  0",
-            "rpd": "0 /  0",
-            "rpm_limit": 0,
-            "tpm_limit": 0,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 9.5,
-            "is_rest_compatible": true,
-            "is_verified_live": false,
-            "is_vision_capable": false,
-            "fine_category": "text",
-            "fine_category_name_zh": "📝 文字與語言大模型",
-            "capabilities": [],
-            "usage_description_zh": "通用或特定開發者專用 API 服務模型。"
+            "fine_category": "image_gen",
+            "fine_category_name_zh": "🎨 圖像與影音生成",
+            "capabilities": [
+                "code_completion",
+                "video_generation",
+                "text_generation",
+                "image_generation",
+                "translation",
+                "reasoning"
+            ],
+            "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
         },
         {
             "api_name": "genie-4",
@@ -1239,50 +1164,15 @@
             "usage_description_zh": "通用或特定開發者專用 API 服務模型。"
         },
         {
-            "api_name": "gemini-3.1-flash-lite",
-            "display_name": "Gemini 3.1 Flash Lite",
-            "category": "Map grounding",
+            "api_name": "gemini-4-neon",
+            "display_name": "Gemini 4 Neon",
+            "category": "Text-out models",
             "tier": "Free tier",
-            "rpm": "-",
-            "tpm": "-",
+            "rpm": "0 /  0",
+            "tpm": "0 /  0",
             "rpd": "0 /  0",
-            "rpm_limit": null,
-            "tpm_limit": null,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 9.5,
-            "is_rest_compatible": true,
-            "is_verified_live": true,
-            "is_vision_capable": true,
-            "fine_category": "grounding",
-            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
-            "capabilities": [
-                "realtime_fact_checking",
-                "code_completion",
-                "text_generation",
-                "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
-                "chat_dialog",
-                "google_search"
-            ],
-            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
-        },
-        {
-            "api_name": "gemini-4-argon",
-            "display_name": "Gemini 4 Argon",
-            "category": "Map grounding",
-            "tier": "Free tier",
-            "rpm": "-",
-            "tpm": "-",
-            "rpd": "0 /  0",
-            "rpm_limit": null,
-            "tpm_limit": null,
+            "rpm_limit": 0,
+            "tpm_limit": 0,
             "rpd_limit": 0,
             "rpm_current": 0,
             "tpm_current": 0,
@@ -1293,19 +1183,64 @@
             "is_rest_compatible": true,
             "is_verified_live": false,
             "is_vision_capable": false,
-            "fine_category": "grounding",
-            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
-            "capabilities": [
-                "realtime_fact_checking",
-                "google_maps",
-                "chat_dialog",
-                "google_search"
-            ],
-            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
+            "fine_category": "text",
+            "fine_category_name_zh": "📝 文字與語言大模型",
+            "capabilities": [],
+            "usage_description_zh": "通用或特定開發者專用 API 服務模型。"
         },
         {
             "api_name": "gemini-4-carbon",
             "display_name": "Gemini 4 Carbon",
+            "category": "Text-out models",
+            "tier": "Free tier",
+            "rpm": "0 /  0",
+            "tpm": "0 /  0",
+            "rpd": "0 /  0",
+            "rpm_limit": 0,
+            "tpm_limit": 0,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 9.5,
+            "is_rest_compatible": true,
+            "is_verified_live": false,
+            "is_vision_capable": false,
+            "fine_category": "text",
+            "fine_category_name_zh": "📝 文字與語言大模型",
+            "capabilities": [],
+            "usage_description_zh": "通用或特定開發者專用 API 服務模型。"
+        },
+        {
+            "api_name": "gemini-4-argon",
+            "display_name": "Gemini 4 Argon",
+            "category": "Text-out models",
+            "tier": "Free tier",
+            "rpm": "0 /  0",
+            "tpm": "0 /  0",
+            "rpd": "0 /  0",
+            "rpm_limit": 0,
+            "tpm_limit": 0,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 9.5,
+            "is_rest_compatible": true,
+            "is_verified_live": false,
+            "is_vision_capable": false,
+            "fine_category": "text",
+            "fine_category_name_zh": "📝 文字與語言大模型",
+            "capabilities": [],
+            "usage_description_zh": "通用或特定開發者專用 API 服務模型。"
+        },
+        {
+            "api_name": "gemini-4-neon",
+            "display_name": "Gemini 4 Neon",
             "category": "Map grounding",
             "tier": "Free tier",
             "rpm": "-",
@@ -1327,9 +1262,9 @@
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1357,15 +1292,15 @@
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
         {
-            "api_name": "gemini-4-neon",
-            "display_name": "Gemini 4 Neon",
+            "api_name": "gemini-4-carbon",
+            "display_name": "Gemini 4 Carbon",
             "category": "Map grounding",
             "tier": "Free tier",
             "rpm": "-",
@@ -1387,9 +1322,74 @@
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
+            ],
+            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
+        },
+        {
+            "api_name": "gemini-4-argon",
+            "display_name": "Gemini 4 Argon",
+            "category": "Map grounding",
+            "tier": "Free tier",
+            "rpm": "-",
+            "tpm": "-",
+            "rpd": "0 /  0",
+            "rpm_limit": null,
+            "tpm_limit": null,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 9.5,
+            "is_rest_compatible": true,
+            "is_verified_live": false,
+            "is_vision_capable": false,
+            "fine_category": "grounding",
+            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
+            "capabilities": [
+                "realtime_fact_checking",
+                "chat_dialog",
+                "google_search",
+                "google_maps"
+            ],
+            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
+        },
+        {
+            "api_name": "gemini-3.1-flash-lite",
+            "display_name": "Gemini 3.1 Flash Lite",
+            "category": "Map grounding",
+            "tier": "Free tier",
+            "rpm": "-",
+            "tpm": "-",
+            "rpd": "0 /  0",
+            "rpm_limit": null,
+            "tpm_limit": null,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 9.5,
+            "is_rest_compatible": true,
+            "is_verified_live": true,
+            "is_vision_capable": true,
+            "fine_category": "grounding",
+            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
+            "capabilities": [
+                "code_completion",
+                "vision_screenshot_ocr",
+                "chat_dialog",
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1416,15 +1416,15 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1452,8 +1452,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -1483,8 +1483,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -1514,12 +1514,12 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
         },
@@ -1546,15 +1546,15 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1581,15 +1581,15 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1617,9 +1617,9 @@
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1647,17 +1647,17 @@
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
                 "code_completion",
-                "image_generation",
-                "text_generation",
                 "video_generation",
+                "text_generation",
+                "image_generation",
                 "translation",
                 "reasoning"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
         },
         {
-            "api_name": "gemini-2.5-flash",
-            "display_name": "Gemini 2.5 Flash",
+            "api_name": "gemini-3.5-transcribe",
+            "display_name": "Gemini 3.5 Transcribe",
             "category": "Map grounding",
             "tier": "Free tier",
             "rpm": "-",
@@ -1673,55 +1673,15 @@
             "requires_billing_account": true,
             "model_score": 9.2,
             "is_rest_compatible": true,
-            "is_verified_live": true,
-            "is_vision_capable": true,
+            "is_verified_live": false,
+            "is_vision_capable": false,
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "code_completion",
-                "text_generation",
-                "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
-            ],
-            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
-        },
-        {
-            "api_name": "gemini-2.5-flash-lite",
-            "display_name": "Gemini 2.5 Flash Lite",
-            "category": "Map grounding",
-            "tier": "Free tier",
-            "rpm": "-",
-            "tpm": "-",
-            "rpd": "0 /  0",
-            "rpm_limit": null,
-            "tpm_limit": null,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 9.2,
-            "is_rest_compatible": true,
-            "is_verified_live": true,
-            "is_vision_capable": true,
-            "fine_category": "grounding",
-            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
-            "capabilities": [
-                "realtime_fact_checking",
-                "code_completion",
-                "text_generation",
-                "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
-                "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1749,18 +1709,18 @@
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "text_to_speech",
                 "tts",
+                "text_generation",
+                "voice_synthesis",
                 "translation",
-                "reasoning",
-                "voice_synthesis"
+                "reasoning"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
         },
         {
-            "api_name": "gemini-3.5-transcribe",
-            "display_name": "Gemini 3.5 Transcribe",
+            "api_name": "gemini-2.5-flash",
+            "display_name": "Gemini 2.5 Flash",
             "category": "Map grounding",
             "tier": "Free tier",
             "rpm": "-",
@@ -1776,15 +1736,55 @@
             "requires_billing_account": true,
             "model_score": 9.2,
             "is_rest_compatible": true,
-            "is_verified_live": false,
-            "is_vision_capable": false,
+            "is_verified_live": true,
+            "is_vision_capable": true,
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
-                "google_maps",
+                "code_completion",
+                "vision_screenshot_ocr",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
+            ],
+            "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
+        },
+        {
+            "api_name": "gemini-2.5-flash-lite",
+            "display_name": "Gemini 2.5 Flash Lite",
+            "category": "Map grounding",
+            "tier": "Free tier",
+            "rpm": "-",
+            "tpm": "-",
+            "rpd": "0 /  0",
+            "rpm_limit": null,
+            "tpm_limit": null,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 9.2,
+            "is_rest_compatible": true,
+            "is_verified_live": true,
+            "is_vision_capable": true,
+            "fine_category": "grounding",
+            "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
+            "capabilities": [
+                "code_completion",
+                "vision_screenshot_ocr",
+                "chat_dialog",
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -1811,11 +1811,75 @@
             "fine_category": "speech",
             "fine_category_name_zh": "🎙️ 語音合成與 TTS",
             "capabilities": [
+                "text_to_speech",
                 "tts",
-                "voice_synthesis",
-                "text_to_speech"
+                "voice_synthesis"
             ],
             "usage_description_zh": "專利語音合成模型 (TTS)，文字轉高擬真對話語音，不支援圖像或螢幕截圖輸入。"
+        },
+        {
+            "api_name": "gemini-3.1-flash-lite",
+            "display_name": "Nano Banana 2 Lite (Gemini 3.1 Flash Lite Image)",
+            "category": "Multi-modal generative models",
+            "tier": "Free tier",
+            "rpm": "0 /  0",
+            "tpm": "0 /  0",
+            "rpd": "0 /  0",
+            "rpm_limit": 0,
+            "tpm_limit": 0,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 8.9,
+            "is_rest_compatible": false,
+            "is_verified_live": true,
+            "is_vision_capable": false,
+            "fine_category": "image_gen",
+            "fine_category_name_zh": "🎨 圖像與影音生成",
+            "capabilities": [
+                "code_completion",
+                "video_generation",
+                "text_generation",
+                "image_generation",
+                "translation",
+                "reasoning"
+            ],
+            "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
+        },
+        {
+            "api_name": "nano-banana-2-(gemini-3.1-flash-image)",
+            "display_name": "Nano Banana 2 (Gemini 3.1 Flash Image)",
+            "category": "Multi-modal generative models",
+            "tier": "Free tier",
+            "rpm": "0 /  0",
+            "tpm": "0 /  0",
+            "rpd": "0 /  0",
+            "rpm_limit": 0,
+            "tpm_limit": 0,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 8.9,
+            "is_rest_compatible": false,
+            "is_verified_live": false,
+            "is_vision_capable": false,
+            "fine_category": "image_gen",
+            "fine_category_name_zh": "🎨 圖像與影音生成",
+            "capabilities": [
+                "code_completion",
+                "video_generation",
+                "text_generation",
+                "image_generation",
+                "translation",
+                "reasoning"
+            ],
+            "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
         },
         {
             "api_name": "gemini-2.0-flash",
@@ -1841,8 +1905,8 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -1872,76 +1936,12 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
             "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
-        },
-        {
-            "api_name": "nano-banana-2-(gemini-3.1-flash-image)",
-            "display_name": "Nano Banana 2 (Gemini 3.1 Flash Image)",
-            "category": "Multi-modal generative models",
-            "tier": "Free tier",
-            "rpm": "0 /  0",
-            "tpm": "0 /  0",
-            "rpd": "0 /  0",
-            "rpm_limit": 0,
-            "tpm_limit": 0,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 8.9,
-            "is_rest_compatible": false,
-            "is_verified_live": false,
-            "is_vision_capable": false,
-            "fine_category": "image_gen",
-            "fine_category_name_zh": "🎨 圖像與影音生成",
-            "capabilities": [
-                "code_completion",
-                "image_generation",
-                "text_generation",
-                "video_generation",
-                "translation",
-                "reasoning"
-            ],
-            "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
-        },
-        {
-            "api_name": "gemini-3.1-flash-lite",
-            "display_name": "Nano Banana 2 Lite (Gemini 3.1 Flash Lite Image)",
-            "category": "Multi-modal generative models",
-            "tier": "Free tier",
-            "rpm": "0 /  0",
-            "tpm": "0 /  0",
-            "rpd": "0 /  0",
-            "rpm_limit": 0,
-            "tpm_limit": 0,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 8.9,
-            "is_rest_compatible": false,
-            "is_verified_live": true,
-            "is_vision_capable": false,
-            "fine_category": "image_gen",
-            "fine_category_name_zh": "🎨 圖像與影音生成",
-            "capabilities": [
-                "code_completion",
-                "image_generation",
-                "text_generation",
-                "video_generation",
-                "translation",
-                "reasoning"
-            ],
-            "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
         },
         {
             "api_name": "gemini-2.0-flash",
@@ -1966,15 +1966,15 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
-                "translation",
-                "reasoning",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "text_generation",
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking",
+                "translation",
+                "reasoning"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -2028,11 +2028,11 @@
             "fine_category": "grounding",
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
-                "realtime_fact_checking",
                 "vision_screenshot_ocr",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps",
+                "realtime_fact_checking"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         },
@@ -2059,41 +2059,10 @@
             "fine_category": "image_gen",
             "fine_category_name_zh": "🎨 圖像與影音生成",
             "capabilities": [
-                "image_generation",
-                "video_generation"
+                "video_generation",
+                "image_generation"
             ],
             "usage_description_zh": "文字生成高畫質圖片與短影片 (Imagen / Veo)。⚠️ 需在 GCP 專案繫結信用卡結算帳戶。"
-        },
-        {
-            "api_name": "gemini-omni-1.1-flash",
-            "display_name": "Gemini Omni 1.1 Flash",
-            "category": "Multi-modal generative models",
-            "tier": "Free tier",
-            "rpm": "0 /  0",
-            "tpm": "0 /  0",
-            "rpd": "0 /  0",
-            "rpm_limit": 0,
-            "tpm_limit": 0,
-            "rpd_limit": 0,
-            "rpm_current": 0,
-            "tpm_current": 0,
-            "rpd_current": 0,
-            "is_free_tier": false,
-            "requires_billing_account": true,
-            "model_score": 8.5,
-            "is_rest_compatible": true,
-            "is_verified_live": false,
-            "is_vision_capable": true,
-            "fine_category": "vision",
-            "fine_category_name_zh": "👁️ 視覺與截圖辨識",
-            "capabilities": [
-                "code_completion",
-                "text_generation",
-                "vision_screenshot_ocr",
-                "translation",
-                "reasoning"
-            ],
-            "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
         },
         {
             "api_name": "gemini-omni-1.2-flash",
@@ -2119,8 +2088,39 @@
             "fine_category_name_zh": "👁️ 視覺與截圖辨識",
             "capabilities": [
                 "code_completion",
-                "text_generation",
                 "vision_screenshot_ocr",
+                "text_generation",
+                "translation",
+                "reasoning"
+            ],
+            "usage_description_zh": "原生多模態模型，支援圖片、PDF 報告與螢幕截圖辨識，具備高精度 OCR 與文字創作能力。"
+        },
+        {
+            "api_name": "gemini-omni-1.1-flash",
+            "display_name": "Gemini Omni 1.1 Flash",
+            "category": "Multi-modal generative models",
+            "tier": "Free tier",
+            "rpm": "0 /  0",
+            "tpm": "0 /  0",
+            "rpd": "0 /  0",
+            "rpm_limit": 0,
+            "tpm_limit": 0,
+            "rpd_limit": 0,
+            "rpm_current": 0,
+            "tpm_current": 0,
+            "rpd_current": 0,
+            "is_free_tier": false,
+            "requires_billing_account": true,
+            "model_score": 8.5,
+            "is_rest_compatible": true,
+            "is_verified_live": false,
+            "is_vision_capable": true,
+            "fine_category": "vision",
+            "fine_category_name_zh": "👁️ 視覺與截圖辨識",
+            "capabilities": [
+                "code_completion",
+                "vision_screenshot_ocr",
+                "text_generation",
                 "translation",
                 "reasoning"
             ],
@@ -2150,9 +2150,9 @@
             "fine_category_name_zh": "🌐 實時網路搜尋與地圖引註",
             "capabilities": [
                 "realtime_fact_checking",
-                "google_maps",
                 "chat_dialog",
-                "google_search"
+                "google_search",
+                "google_maps"
             ],
             "usage_description_zh": "完全支援一般日常對話與文字創作，並在此基礎上自動連結 Google 實時 Web 搜尋與 Maps 提供最新出處解答。"
         }
